@@ -27,8 +27,7 @@ public class TablesListLoader extends
         AsyncTask<URL, Integer, ArrayList<Entry>> {
 
     private final String mUrl =
-            "http://picasaweb.google.com/data/feed/api/all?kind=photo&q=" +
-            "sunset%20landscape&alt=json&max-results=20&thumbsize=144c";
+            "http://picasaweb.google.com/data/feed/api/all?kind=photo&q=sunset%20landscape&alt=json&max-results=20&thumbsize=144c";
 
     private final TablesListAdapter mAdapter;
     public TablesListLoader(TablesListAdapter adapter) {
