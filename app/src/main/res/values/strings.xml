@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Comanda</string>
+    <string name="title_activity_tables">TablesActivity</string>
+
+    <string name="loading">Cargando datos...</string>
+    <string name="action_settings">Settings</string>
+</resources>
