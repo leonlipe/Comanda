@@ -10,7 +10,6 @@
         android:id="@+id/listTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@+id/listDescription"
         android:text="A List item title"
         android:textSize="16sp"
         android:textStyle="bold" />
@@ -22,8 +21,9 @@
         android:layout_below="@+id/listTitle"
         android:layout_marginTop="5dp"
         android:maxLines="4"
-        android:layout_toLeftOf="@+id/listTitle"
         android:text="The List item description"
-        android:textSize="14sp" />
+        android:textSize="14sp"
+        android:layout_alignParentLeft="true"
+        />
 
 </RelativeLayout>

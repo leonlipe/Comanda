@@ -18,16 +18,16 @@ import java.util.ArrayList;
 
 
 import redleon.net.comanda.adapters.TablesListAdapter;
-import redleon.net.comanda.model.Entry;
+import redleon.net.comanda.model.TablesResult;
 
 /**
  * Created by leon on 24/04/15.
  */
 public class TablesListLoader extends
-        AsyncTask<URL, Integer, ArrayList<Entry>> {
+        AsyncTask<URL, Integer, ArrayList<TablesResult>> {
 
     private final String mUrl =
-            "http://picasaweb.google.com/data/feed/api/all?kind=photo&q=sunset%20landscape&alt=json&max-results=20&thumbsize=144c";
+            "http://172.31.1.19:3000/tables_for_list.json";
 
     private final TablesListAdapter mAdapter;
     public TablesListLoader(TablesListAdapter adapter) {
@@ -45,26 +45,32 @@ public class TablesListLoader extends
             HttpEntity getResponseEntity = httpResponse.getEntity();
             return getResponseEntity.getContent();
         } catch (IOException e) {
+            e.printStackTrace();
             httpGet.abort();
         }
         return null;
     }
 
     @Override
-    protected ArrayList<Entry> doInBackground(URL... params) {
+    protected ArrayList<TablesResult> doInBackground(URL... params) {
         InputStream source = retrieveStream(mUrl);
         Reader reader = null;
         try {
             reader = new InputStreamReader(source);
         } catch (Exception e) {
+            e.printStackTrace();
             return null;
         }
         Gson gson = new Gson();
-        TablesResult result = gson.fromJson(reader,TablesResult.class);
-        return result.obtenerResultados();
+        TablesResult[] result = gson.fromJson(reader,TablesResult[].class);
+        ArrayList<TablesResult> resultados = new ArrayList<TablesResult>();
+        for(int x=0; x <result.length;x++){
+            resultados.add(result[x]);
+        }
+        return resultados;
     }
 
-    protected void onPostExecute(ArrayList<Entry> entries) {
+    protected void onPostExecute(ArrayList<TablesResult> entries) {
         mAdapter.upDateEntries(entries);
     }
 }
