@@ -1,9 +1,11 @@
 package redleon.net.comanda;
 
+import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 
 public class ServicesActivity extends ActionBarActivity {
@@ -11,7 +13,11 @@ public class ServicesActivity extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Intent intent = getIntent();
+        Integer number = intent.getIntExtra(TablesActivity.EXTRA_MESSAGE,0);
         setContentView(R.layout.activity_service);
+        TextView textView = (TextView) findViewById(R.id.initialMsg);
+        textView.setText(number.toString());
     }
 
 
