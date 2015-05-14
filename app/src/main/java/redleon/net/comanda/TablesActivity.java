@@ -7,10 +7,14 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ListView;
 
+import org.apache.http.Header;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -18,6 +22,9 @@ import java.io.InputStream;
 import redleon.net.comanda.adapters.TablesListAdapter;
 import redleon.net.comanda.loaders.TablesListLoader;
 import redleon.net.comanda.model.TablesResult;
+import redleon.net.comanda.redleon.net.comanda.HttpClient;
+
+import com.loopj.android.http.*;
 
 
 public class TablesActivity extends ListActivity {
@@ -47,7 +54,41 @@ public class TablesActivity extends ListActivity {
     @Override
     protected void onListItemClick(ListView l, View v, int position, long id) {
 
-        String url = "http://172.31.1.19:3000/services/start/"+((TablesResult) l.getItemAtPosition(position)).getId();
+      final TablesActivity mySelf = this;
+
+
+            HttpClient.get("services/start/" + ((TablesResult) l.getItemAtPosition(position)).getId(), null, new JsonHttpResponseHandler() {
+                @Override
+                public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                    // Pull out the first event on the public timeline
+
+                    try {
+
+                        String sResponse = response.getString("status");
+                        // Do something with the response
+                        System.out.println(response.getJSONObject("service").getInt("id"));
+                        if (sResponse.equals("ok")){
+                            Intent intent = new Intent(mySelf, ServicesActivity.class);
+                            intent.putExtra(EXTRA_MESSAGE, response.getJSONObject("service").getInt("id"));
+                            startActivity(intent);
+                        }
+
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                @Override
+                public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
+
+
+
+
+                }
+            });
+
+       /* String url = "http://172.31.1.19:3000/services/start/"+((TablesResult) l.getItemAtPosition(position)).getId();
         // Llamar al WS para generar un nuevo servicio, y que la actividad de servicios consulte la info del mismo.
         DefaultHttpClient client = new DefaultHttpClient();
         HttpGet httpGet = null;
@@ -66,7 +107,7 @@ public class TablesActivity extends ListActivity {
         } catch (Exception e) {
             e.printStackTrace();
             httpGet.abort();
-        }
+        }*/
 
 
 
