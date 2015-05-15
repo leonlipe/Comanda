@@ -17,7 +17,7 @@ import redleon.net.comanda.fragments.InvoicesFragment;
 import redleon.net.comanda.fragments.PaymentsFragment;
 
 
-public class ServicesActivity extends ActionBarActivity implements ActionBar.TabListener, ComandasFragment.OnFragmentInteractionListener, DinersFragment.OnFragmentInteractionListener, InvoicesFragment.OnFragmentInteractionListener, PaymentsFragment.OnFragmentInteractionListener{
+public class ServicesActivity extends ActionBarActivity implements ActionBar.TabListener, ComandasFragment.OnFragmentInteractionListener, DinersFragment.OnFragmentInteractionListener, InvoicesFragment.OnFragmentInteractionListener, PaymentsFragment.OnFragmentInteractionListener, ViewPager.OnPageChangeListener{
 
     Integer idService = 0;
     JSONArray diners = null;
@@ -38,6 +38,12 @@ public class ServicesActivity extends ActionBarActivity implements ActionBar.Tab
         System.out.println(actionBar);
         mAdapter = new ServicesTabsAdapter(getSupportFragmentManager());
         mViewPager.setAdapter(mAdapter);
+
+        /**
+         * on swiping the viewpager make respective tab selected
+         * */
+        mViewPager.setOnPageChangeListener(this);
+
         actionBar.setHomeButtonEnabled(false);
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 
@@ -113,7 +119,7 @@ public class ServicesActivity extends ActionBarActivity implements ActionBar.Tab
 
     @Override
     public void onTabSelected(ActionBar.Tab tab, android.support.v4.app.FragmentTransaction fragmentTransaction) {
-
+        mViewPager.setCurrentItem(tab.getPosition());
     }
 
     @Override
@@ -144,6 +150,21 @@ public class ServicesActivity extends ActionBarActivity implements ActionBar.Tab
 
     @Override
     public void onDinersFragmentInteraction(String string) {
+
+    }
+
+    @Override
+    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+    }
+
+    @Override
+    public void onPageSelected(int position) {
+        actionBar.setSelectedNavigationItem(position);
+    }
+
+    @Override
+    public void onPageScrollStateChanged(int state) {
 
     }
 }
