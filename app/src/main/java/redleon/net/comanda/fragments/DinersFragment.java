@@ -7,6 +7,8 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.TextView;
 
 import redleon.net.comanda.R;
 
@@ -60,13 +62,18 @@ public class DinersFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_diners, container, false);
+        View view = inflater.inflate(R.layout.fragment_diners, container, false);
+        TextView textView = (TextView) view.findViewById(R.id.text_view_diners_msg);
+        textView.setText("Esto es una prueba");
+        return view;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
