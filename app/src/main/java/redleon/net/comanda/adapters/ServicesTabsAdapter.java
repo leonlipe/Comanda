@@ -16,19 +16,23 @@ import redleon.net.comanda.fragments.PaymentsFragment;
 
 public class ServicesTabsAdapter extends FragmentPagerAdapter{
 
+    private Integer serviceId;
+
     public ServicesTabsAdapter(FragmentManager fm) {
         super(fm);
+
     }
 
     @Override
     public Fragment getItem(int position) {
+
         switch (position) {
             case 0:
-                return new DinersFragment();
+                return DinersFragment.newInstance(getServiceId());
             case 1:
-                return new ComandasFragment();
+                return ComandasFragment.newInstance(getServiceId());
             case 2:
-                return new PaymentsFragment();
+                return PaymentsFragment.newInstance(getServiceId());
             case 3:
                 return new InvoicesFragment();
         }
@@ -43,4 +47,11 @@ public class ServicesTabsAdapter extends FragmentPagerAdapter{
     }
 
 
+    public Integer getServiceId() {
+        return serviceId;
+    }
+
+    public void setServiceId(Integer serviceId) {
+        this.serviceId = serviceId;
+    }
 }

@@ -1,9 +1,7 @@
 package redleon.net.comanda;
 
 import android.support.v7.app.ActionBar;
-import android.app.FragmentTransaction;
 import android.content.Intent;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
@@ -19,7 +17,7 @@ import redleon.net.comanda.fragments.PaymentsFragment;
 
 public class ServicesActivity extends ActionBarActivity implements ActionBar.TabListener, ComandasFragment.OnFragmentInteractionListener, DinersFragment.OnFragmentInteractionListener, InvoicesFragment.OnFragmentInteractionListener, PaymentsFragment.OnFragmentInteractionListener, ViewPager.OnPageChangeListener{
 
-    Integer idService = 0;
+    private Integer serviceId = 0;
     JSONArray diners = null;
 
     private ViewPager mViewPager;
@@ -33,10 +31,14 @@ public class ServicesActivity extends ActionBarActivity implements ActionBar.Tab
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_service);
+        Intent intent = getIntent();
+        setServiceId(intent.getIntExtra(TablesActivity.EXTRA_MESSAGE,0));
         mViewPager = (ViewPager)findViewById(R.id.pager);
         actionBar = getSupportActionBar();
         System.out.println(actionBar);
         mAdapter = new ServicesTabsAdapter(getSupportFragmentManager());
+        System.out.println("ServicesActivity:"+getServiceId());
+        mAdapter.setServiceId(getServiceId());
         mViewPager.setAdapter(mAdapter);
 
         /**
@@ -54,8 +56,7 @@ public class ServicesActivity extends ActionBarActivity implements ActionBar.Tab
 
 
 
-        Intent intent = getIntent();
-        idService = intent.getIntExtra(TablesActivity.EXTRA_MESSAGE,0);
+
 
 
         /*HttpClient.get("diners/by_service/"+idService.toString() , null, new JsonHttpResponseHandler() {
@@ -166,5 +167,13 @@ public class ServicesActivity extends ActionBarActivity implements ActionBar.Tab
     @Override
     public void onPageScrollStateChanged(int state) {
 
+    }
+
+    public Integer getServiceId() {
+        return serviceId;
+    }
+
+    public void setServiceId(Integer serviceId) {
+        this.serviceId = serviceId;
     }
 }
