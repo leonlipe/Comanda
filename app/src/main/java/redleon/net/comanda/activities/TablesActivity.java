@@ -1,8 +1,7 @@
-package redleon.net.comanda;
+package redleon.net.comanda.activities;
 
 import android.app.ListActivity;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ListView;
@@ -13,10 +12,11 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 
+import redleon.net.comanda.R;
 import redleon.net.comanda.adapters.TablesListAdapter;
 import redleon.net.comanda.loaders.TablesListLoader;
 import redleon.net.comanda.model.TablesResult;
-import redleon.net.comanda.redleon.net.comanda.HttpClient;
+import redleon.net.comanda.network.HttpClient;
 
 import com.loopj.android.http.*;
 
@@ -61,7 +61,7 @@ public class TablesActivity extends ListActivity {
                         String sResponse = response.getString("status");
                         // Do something with the response
                         System.out.println(response.getJSONObject("service").getInt("id"));
-                        if (sResponse.equals("ok")){
+                        if (sResponse.equals("ok")) {
                             Intent intent = new Intent(mySelf, ServicesActivity.class);
                             intent.putExtra(EXTRA_MESSAGE, response.getJSONObject("service").getInt("id"));
                             startActivity(intent);
@@ -75,8 +75,6 @@ public class TablesActivity extends ListActivity {
 
                 @Override
                 public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
-
-
 
 
                 }

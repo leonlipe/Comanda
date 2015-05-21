@@ -1,4 +1,4 @@
-package redleon.net.comanda;
+package redleon.net.comanda.activities;
 
 import android.support.v7.app.ActionBar;
 import android.content.Intent;
@@ -8,6 +8,8 @@ import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import org.json.JSONArray;
+
+import redleon.net.comanda.R;
 import redleon.net.comanda.adapters.ServicesTabsAdapter;
 import redleon.net.comanda.fragments.ComandasFragment;
 import redleon.net.comanda.fragments.DinersFragment;
@@ -37,7 +39,7 @@ public class ServicesActivity extends ActionBarActivity implements ActionBar.Tab
         actionBar = getSupportActionBar();
         System.out.println(actionBar);
         mAdapter = new ServicesTabsAdapter(getSupportFragmentManager());
-        System.out.println("ServicesActivity:"+getServiceId());
+        System.out.println("ServicesActivity:" + getServiceId());
         mAdapter.setServiceId(getServiceId());
         mViewPager.setAdapter(mAdapter);
 

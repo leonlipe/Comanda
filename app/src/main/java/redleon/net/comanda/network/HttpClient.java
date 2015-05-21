@@ -1,4 +1,4 @@
-package redleon.net.comanda.redleon.net.comanda;
+package redleon.net.comanda.network;
 
 /**
  * Created by leon on 14/05/15.
