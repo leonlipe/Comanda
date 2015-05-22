@@ -1,14 +1,19 @@
 package redleon.net.comanda.fragments;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.ListFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
+import android.widget.Toast;
 
 import redleon.net.comanda.R;
+import redleon.net.comanda.activities.MenuActivity;
+import redleon.net.comanda.activities.ServicesActivity;
 import redleon.net.comanda.adapters.DinersListAdapter;
 import redleon.net.comanda.loaders.DinersListLoader;
 
@@ -114,6 +119,15 @@ public class DinersFragment extends ListFragment {
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         public void onDinersFragmentInteraction(String string);
+    }
+
+    @Override
+    public void onListItemClick(ListView l, View v, int pos, long id) {
+        super.onListItemClick(l, v, pos, id);
+        Intent intent = new Intent(getActivity(), MenuActivity.class);
+        //intent.putExtra(EXTRA_MESSAGE, response.getJSONObject("service").getInt("id"));
+        startActivity(intent);
+        //Toast.makeText(getActivity(), "Item " + pos + " was clicked", Toast.LENGTH_SHORT).show();
     }
 
 }

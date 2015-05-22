@@ -30,6 +30,10 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="redleon.net.comanda.activities.ServicesActivity" />
         </activity>
+        <activity
+            android:name=".activities.DishActivity"
+            android:label="@string/title_activity_dish" >
+        </activity>
     </application>
 
 </manifest>

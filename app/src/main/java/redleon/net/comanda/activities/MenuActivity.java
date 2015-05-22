@@ -1,40 +1,78 @@
 package redleon.net.comanda.activities;
 
-import android.support.v7.app.ActionBarActivity;
+import java.util.ArrayList;
+import java.util.Map;
+
+import android.app.ExpandableListActivity;
+import android.content.Context;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.ExpandableListView;
 
-import redleon.net.comanda.R;
+import redleon.net.comanda.adapters.MenuFragmentListAdapter;
+import redleon.net.comanda.model.Dish;
 
-public class MenuActivity extends ActionBarActivity {
+
+public class MenuActivity extends ExpandableListActivity{
+
+    private ArrayList<String> parentItems = new ArrayList<String>();
+    private ArrayList<ArrayList<Dish>> childItems = new ArrayList<ArrayList<Dish>>();
+
+    private MenuFragmentListAdapter mAdapter;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_menu);
+
+        // this is not really  necessary as ExpandableListActivity contains an ExpandableList
+        //setContentView(R.layout.main);
+
+        ExpandableListView expandableList = getExpandableListView(); // you can use (ExpandableListView) findViewById(R.id.list)
+
+        expandableList.setDividerHeight(2);
+        expandableList.setGroupIndicator(null);
+        expandableList.setClickable(true);
+
+        setGroupParents();
+        setChildData();
+
+        MenuFragmentListAdapter adapter = new MenuFragmentListAdapter(parentItems, childItems);
+        this.mAdapter = adapter;
+        adapter.setInflater((LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE), this);
+        expandableList.setAdapter(adapter);
+        expandableList.setOnChildClickListener(this);
     }
 
+    public void setGroupParents() {
+        parentItems.add("Android");
+        parentItems.add("Core Java");
+
+    }
+
+    public void setChildData() {
+
+        // Android
+        ArrayList<Dish> child = new ArrayList<Dish>();
+        child.add(new Dish(1,"Core"));
+        child.add(new Dish(2,"Games"));
+        childItems.add(child);
+
+        // Core Java
+        child = new ArrayList<Dish>();
+        child.add(new Dish(3,"Apache"));
+        child.add(new Dish(4,"Applet"));
+
+        childItems.add(child);
+
+        // Desktop Java
+    }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_menu, menu);
-        return true;
+    public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id){
+        System.out.println("Click on child");
+      return true;
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
 }
