@@ -1,6 +1,7 @@
 package redleon.net.comanda.activities;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import android.app.ExpandableListActivity;
@@ -10,8 +11,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ExpandableListView;
 
+import redleon.net.comanda.ComandaApp;
 import redleon.net.comanda.adapters.MenuFragmentListAdapter;
 import redleon.net.comanda.model.Dish;
+import redleon.net.comanda.model.Tiime;
 
 
 public class MenuActivity extends ExpandableListActivity{
@@ -46,27 +49,26 @@ public class MenuActivity extends ExpandableListActivity{
     }
 
     public void setGroupParents() {
-        parentItems.add("Android");
-        parentItems.add("Core Java");
+
+        List<Tiime> menu = ((ComandaApp) this.getApplication()).getMenu();
+        for(Tiime tiime: menu){
+            parentItems.add(tiime.getName());
+        }
 
     }
 
     public void setChildData() {
+        List<Tiime> menu = ((ComandaApp) this.getApplication()).getMenu();
 
-        // Android
-        ArrayList<Dish> child = new ArrayList<Dish>();
-        child.add(new Dish(1,"Core"));
-        child.add(new Dish(2,"Games"));
-        childItems.add(child);
+        for(Tiime tiime: menu){
+            ArrayList<Dish> child = new ArrayList<Dish>();
+            for(int x= 0; x < tiime.getItems().length;x++){
+                child.add(new Dish(tiime.getItems()[x].getId(),tiime.getItems()[x].getDescription(),tiime.getItems()[x].getName()));
+            }
+            childItems.add(child);
+        }
 
-        // Core Java
-        child = new ArrayList<Dish>();
-        child.add(new Dish(3,"Apache"));
-        child.add(new Dish(4,"Applet"));
 
-        childItems.add(child);
-
-        // Desktop Java
     }
 
     @Override
