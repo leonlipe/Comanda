@@ -19,6 +19,7 @@ import android.widget.Toast;
 
 import redleon.net.comanda.R;
 import redleon.net.comanda.activities.DishActivity;
+import redleon.net.comanda.activities.MenuActivity;
 import redleon.net.comanda.activities.ServicesActivity;
 import redleon.net.comanda.model.Dish;
 
@@ -58,9 +59,11 @@ public class MenuFragmentListAdapter extends BaseExpandableListAdapter {
 
             @Override
             public void onClick(View view) {
-                Toast.makeText(activity, child.get(childPosition).getId().toString(),
-                        Toast.LENGTH_SHORT).show();
-
+               // Toast.makeText(activity, child.get(childPosition).getId().toString(),
+               //         Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(view.getContext(), DishActivity.class);
+                intent.putExtra(DishActivity.DISH_ID,child.get(childPosition).getId() );
+                view.getContext().startActivity(intent);
              
             }
         });

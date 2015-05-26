@@ -6,7 +6,13 @@
     <string name="action_settings">Settings</string>
     <string name="title_activity_service">ServiceActivity</string>
 
-    <string name="hello_world">Hello world!</string>
+    <string name="dish_notes">Notas</string>
+    <string name="dish_size">Tamaño</string>
+    <string name="dish_time">Tiempo</string>
+    <string name="action_dish_add_extra">Agregar extra</string>
+    <string name="dish_button_add_dish">Agregar</string>
+
+
 
 <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
