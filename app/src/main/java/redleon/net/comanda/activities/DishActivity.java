@@ -1,20 +1,39 @@
 package redleon.net.comanda.activities;
 
 import android.content.Intent;
+import android.support.v4.app.DialogFragment;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
+import com.loopj.android.http.JsonHttpResponseHandler;
+
+import org.apache.http.Header;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import redleon.net.comanda.ComandaApp;
 import redleon.net.comanda.R;
+import redleon.net.comanda.dialogs.ExtraIngredientDialog;
+import redleon.net.comanda.model.Dish;
+import redleon.net.comanda.model.Extra;
+import redleon.net.comanda.model.Tiime;
+import redleon.net.comanda.network.HttpClient;
 
 public class DishActivity extends ActionBarActivity {
 
     public final static String DISH_ID = "net.redleon.DISH_ID";
 
     private Integer dishId;
+    private Extra[] mExtras;
 
 
     @Override
@@ -33,6 +52,40 @@ public class DishActivity extends ActionBarActivity {
 // Apply the adapter to the spinner
         spinner.setAdapter(adapter);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        HttpClient.get("extras_for_select.json", null, new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                // Pull out the first event on the public timeline
+
+                try {
+
+
+
+
+                    String sResponse = response.getString("response");
+                    // Do something with the response
+                    if (sResponse.equals("ok")) {
+                        JSONArray extras = response.getJSONArray("data");
+                        mExtras = new Extra[extras.length()];
+
+                        for (int x=0;x<extras.length();x++){
+                            mExtras[x]=new Extra(extras.getJSONObject(x).getInt("id"), extras.getJSONObject(x).getString("key"), extras.getJSONObject(x).getString("description"));
+                        }
+
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
+
+
+            }
+        });
 
     }
 
@@ -60,8 +113,21 @@ public class DishActivity extends ActionBarActivity {
     }
 
     public void addExtra(){
+        DialogFragment extraIngredient = new ExtraIngredientDialog();
+        CharSequence[] extras = new CharSequence[mExtras.length];
+        for(int x = 0; x<mExtras.length; x++){
+            extras[x]=mExtras[x].getDescription();
+        }
+        ((ExtraIngredientDialog) extraIngredient).setItems(extras);
+        extraIngredient.show(getSupportFragmentManager(),"extraIngredient");
 
     }
+
+    public void addDish(View view) {
+        //TODO: Code for adding a dish to an order
+        this.finish();
+    }
+
 
     public Integer getDishId() {
         return dishId;
