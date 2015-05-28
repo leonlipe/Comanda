@@ -24,6 +24,7 @@ import redleon.net.comanda.ComandaApp;
 import redleon.net.comanda.R;
 import redleon.net.comanda.dialogs.ExtraIngredientDialog;
 import redleon.net.comanda.model.Dish;
+import redleon.net.comanda.model.DishSize;
 import redleon.net.comanda.model.Extra;
 import redleon.net.comanda.model.Tiime;
 import redleon.net.comanda.network.HttpClient;
@@ -59,10 +60,6 @@ public class DishActivity extends ActionBarActivity {
                 // Pull out the first event on the public timeline
 
                 try {
-
-
-
-
                     String sResponse = response.getString("response");
                     // Do something with the response
                     if (sResponse.equals("ok")) {
@@ -74,6 +71,37 @@ public class DishActivity extends ActionBarActivity {
                         }
 
                     }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
+
+
+            }
+        });
+
+        HttpClient.get("dishes/get_sizes/"+getDishId()+".json", null, new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                // Pull out the first event on the public timeline
+
+                try {
+
+                    // Do something with the response
+
+                        JSONArray extras = response.getJSONArray("data");
+                        ArrayList<DishSize> sizes = new ArrayList<DishSize>();
+                        for (int x=0;x<extras.length();x++){
+                            sizes.add(new DishSize(extras.getJSONObject(x).getInt("id"), extras.getJSONObject(x).getString("description")));
+                        }
+                        Spinner spinner = (Spinner) findViewById(R.id.dish_spin_time);
+                      // ArrayAdapter<DishSize> spinnerArrayAdapter = new ArrayAdapter<DishSize>(this, android.R.layout.simple_spinner_item,sizes ); //selected item will look like a spinner set from XML
+
+
 
                 } catch (JSONException e) {
                     e.printStackTrace();
