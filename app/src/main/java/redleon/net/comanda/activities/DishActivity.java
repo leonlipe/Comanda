@@ -1,5 +1,6 @@
 package redleon.net.comanda.activities;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.ActionBarActivity;
@@ -20,13 +21,11 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-import redleon.net.comanda.ComandaApp;
 import redleon.net.comanda.R;
+import redleon.net.comanda.adapters.DishSizeSpinerAdapter;
 import redleon.net.comanda.dialogs.ExtraIngredientDialog;
-import redleon.net.comanda.model.Dish;
 import redleon.net.comanda.model.DishSize;
 import redleon.net.comanda.model.Extra;
-import redleon.net.comanda.model.Tiime;
 import redleon.net.comanda.network.HttpClient;
 
 public class DishActivity extends ActionBarActivity {
@@ -43,14 +42,12 @@ public class DishActivity extends ActionBarActivity {
         setContentView(R.layout.activity_dish);
         Intent intent = getIntent();
         setDishId(intent.getIntExtra(DISH_ID, 0));
+        final Activity me = this;
 
         Spinner spinner = (Spinner) findViewById(R.id.dish_spin_time);
-// Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                 R.array.times_array, android.R.layout.simple_spinner_item);
-// Specify the layout to use when the list of choices appears
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-// Apply the adapter to the spinner
         spinner.setAdapter(adapter);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -94,13 +91,18 @@ public class DishActivity extends ActionBarActivity {
                     // Do something with the response
 
                         JSONArray extras = response.getJSONArray("data");
-                        ArrayList<DishSize> sizes = new ArrayList<DishSize>();
+                        System.out.println(extras.toString());
+                        List<DishSize> sizes = new ArrayList<DishSize>();
                         for (int x=0;x<extras.length();x++){
                             sizes.add(new DishSize(extras.getJSONObject(x).getInt("id"), extras.getJSONObject(x).getString("description")));
                         }
-                        Spinner spinner = (Spinner) findViewById(R.id.dish_spin_time);
-                      // ArrayAdapter<DishSize> spinnerArrayAdapter = new ArrayAdapter<DishSize>(this, android.R.layout.simple_spinner_item,sizes ); //selected item will look like a spinner set from XML
+                    System.out.println(sizes.toString());
+                    Spinner spinner = (Spinner) findViewById(R.id.dish_spin_size);
+                    //DishSizeSpinerAdapter dAdapter = new DishSizeSpinerAdapter(me, sizes);
+                    ArrayAdapter<DishSize> dAdapter = new ArrayAdapter<DishSize>(me,R.layout.dish_size_spinner, sizes);
 
+                    spinner.setAdapter(dAdapter);
+                    //dAdapter.notifyDataSetChanged();
 
 
                 } catch (JSONException e) {
@@ -108,11 +110,7 @@ public class DishActivity extends ActionBarActivity {
                 }
             }
 
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
 
-
-            }
         });
 
     }
@@ -153,6 +151,11 @@ public class DishActivity extends ActionBarActivity {
 
     public void addDish(View view) {
         //TODO: Code for adding a dish to an order
+        Spinner size_spinner = (Spinner)findViewById(R.id.dish_spin_size);
+        Spinner tiime_spinner = (Spinner)findViewById(R.id.dish_spin_time);
+        DishSize size = (DishSize) size_spinner.getSelectedItem();
+        CharSequence tiime = (CharSequence) tiime_spinner.getSelectedItem();
+
         this.finish();
     }
 
