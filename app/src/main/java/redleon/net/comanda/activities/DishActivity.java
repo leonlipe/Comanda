@@ -156,6 +156,8 @@ public class DishActivity extends ActionBarActivity {
         DishSize size = (DishSize) size_spinner.getSelectedItem();
         CharSequence tiime = (CharSequence) tiime_spinner.getSelectedItem();
 
+
+
         this.finish();
     }
 
