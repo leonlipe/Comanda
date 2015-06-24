@@ -1,14 +1,17 @@
 package redleon.net.comanda.activities;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.Spinner;
 
 import com.loopj.android.http.JsonHttpResponseHandler;
@@ -19,6 +22,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import redleon.net.comanda.R;
@@ -43,6 +47,17 @@ public class DishActivity extends ActionBarActivity {
         Intent intent = getIntent();
         setDishId(intent.getIntExtra(DISH_ID, 0));
         final Activity me = this;
+        final ListView listview = (ListView) findViewById(R.id.extras_list);
+        String[] values = new String[] { "Android", "iPhone", "WindowsMobile" };
+        final ArrayList<String> list = new ArrayList<String>();
+        for (int i = 0; i < values.length; ++i) {
+            list.add(values[i]);
+        }
+        final StableArrayAdapter adapterS = new StableArrayAdapter(this,
+                android.R.layout.simple_list_item_1, list);
+        listview.setAdapter(adapterS);
+
+
 
         Spinner spinner = (Spinner) findViewById(R.id.dish_spin_time);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
@@ -169,4 +184,37 @@ public class DishActivity extends ActionBarActivity {
     public void setDishId(Integer dishId) {
         this.dishId = dishId;
     }
+
+    public void onSelectExtra(ArrayList<Extra> selectedValues) {
+        System.out.println("Vals: "+ selectedValues.size());
+
+    }
+
+
+    private class StableArrayAdapter extends ArrayAdapter<String> {
+
+        HashMap<String, Integer> mIdMap = new HashMap<String, Integer>();
+
+        public StableArrayAdapter(Context context, int textViewResourceId,
+                                  List<String> objects) {
+            super(context, textViewResourceId, objects);
+            for (int i = 0; i < objects.size(); ++i) {
+                mIdMap.put(objects.get(i), i);
+            }
+        }
+
+        @Override
+        public long getItemId(int position) {
+            String item = getItem(position);
+            return mIdMap.get(item);
+        }
+
+        @Override
+        public boolean hasStableIds() {
+            return true;
+        }
+
+    }
+
+
 }
