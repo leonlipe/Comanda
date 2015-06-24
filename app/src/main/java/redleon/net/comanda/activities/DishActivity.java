@@ -11,6 +11,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Spinner;
 
@@ -27,6 +29,7 @@ import java.util.List;
 
 import redleon.net.comanda.R;
 import redleon.net.comanda.adapters.DishSizeSpinerAdapter;
+import redleon.net.comanda.adapters.ExtraArrayAdapter;
 import redleon.net.comanda.dialogs.ExtraIngredientDialog;
 import redleon.net.comanda.model.DishSize;
 import redleon.net.comanda.model.Extra;
@@ -37,8 +40,9 @@ public class DishActivity extends ActionBarActivity {
     public final static String DISH_ID = "net.redleon.DISH_ID";
 
     private Integer dishId;
-    private Extra[] mExtras;
-
+    private ArrayList<Extra> mExtras = new ArrayList<Extra>();
+    private ArrayList<Extra> extrasForDish = new ArrayList<Extra>();
+    private BaseAdapter extrasForDishAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,14 +52,10 @@ public class DishActivity extends ActionBarActivity {
         setDishId(intent.getIntExtra(DISH_ID, 0));
         final Activity me = this;
         final ListView listview = (ListView) findViewById(R.id.extras_list);
-        String[] values = new String[] { "Android", "iPhone", "WindowsMobile" };
-        final ArrayList<String> list = new ArrayList<String>();
-        for (int i = 0; i < values.length; ++i) {
-            list.add(values[i]);
-        }
-        final StableArrayAdapter adapterS = new StableArrayAdapter(this,
-                android.R.layout.simple_list_item_1, list);
-        listview.setAdapter(adapterS);
+
+        extrasForDishAdapter = new ExtraArrayAdapter(
+                getApplicationContext(), extrasForDish);
+        listview.setAdapter(extrasForDishAdapter);
 
 
 
@@ -76,10 +76,10 @@ public class DishActivity extends ActionBarActivity {
                     // Do something with the response
                     if (sResponse.equals("ok")) {
                         JSONArray extras = response.getJSONArray("data");
-                        mExtras = new Extra[extras.length()];
+                       // mExtras = new Extra[extras.length()];
 
                         for (int x=0;x<extras.length();x++){
-                            mExtras[x]=new Extra(extras.getJSONObject(x).getInt("id"), extras.getJSONObject(x).getString("key"), extras.getJSONObject(x).getString("description"));
+                            mExtras.add(new Extra(extras.getJSONObject(x).getInt("id"), extras.getJSONObject(x).getString("key"), extras.getJSONObject(x).getString("description")));
                         }
 
                     }
@@ -155,11 +155,13 @@ public class DishActivity extends ActionBarActivity {
 
     public void addExtra(){
         DialogFragment extraIngredient = new ExtraIngredientDialog();
-        CharSequence[] extras = new CharSequence[mExtras.length];
+     /*   CharSequence[] extras = new CharSequence[mExtras.length];
         for(int x = 0; x<mExtras.length; x++){
             extras[x]=mExtras[x].getDescription();
-        }
-        ((ExtraIngredientDialog) extraIngredient).setItems(extras);
+        }*/
+        System.out.println("ZZZZZ:");
+        System.out.println(mExtras);
+        ((ExtraIngredientDialog) extraIngredient).setItems(mExtras);
         extraIngredient.show(getSupportFragmentManager(),"extraIngredient");
 
     }
@@ -185,8 +187,12 @@ public class DishActivity extends ActionBarActivity {
         this.dishId = dishId;
     }
 
-    public void onSelectExtra(ArrayList<Extra> selectedValues) {
-        System.out.println("Vals: "+ selectedValues.size());
+    public void onSelectExtra(Extra selectedValue) {
+        if (!extrasForDish.contains(selectedValue)) {
+            extrasForDish.add(selectedValue);
+            extrasForDishAdapter.notifyDataSetChanged();
+        }
+        System.out.println("Vals: "+ selectedValue.toString());
 
     }
 
