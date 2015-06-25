@@ -59,10 +59,14 @@ public class MenuFragmentListAdapter extends BaseExpandableListAdapter {
 
             @Override
             public void onClick(View view) {
+
                // Toast.makeText(activity, child.get(childPosition).getId().toString(),
                //         Toast.LENGTH_SHORT).show();
+                MenuActivity ma = (MenuActivity) activity;
                 Intent intent = new Intent(view.getContext(), DishActivity.class);
                 intent.putExtra(DishActivity.DISH_ID,child.get(childPosition).getId() );
+                intent.putExtra(DishActivity.SERVICE_ID,ma.getServiceId() );
+                intent.putExtra(DishActivity.DINER_ID,ma.getDinerId() );
                 view.getContext().startActivity(intent);
              
             }

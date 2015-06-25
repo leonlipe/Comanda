@@ -15,8 +15,12 @@ import android.widget.BaseAdapter;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.gson.Gson;
 import com.loopj.android.http.JsonHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
 
 import org.apache.http.Header;
 import org.json.JSONArray;
@@ -32,14 +36,19 @@ import redleon.net.comanda.adapters.DishSizeSpinerAdapter;
 import redleon.net.comanda.adapters.ExtraArrayAdapter;
 import redleon.net.comanda.dialogs.ExtraIngredientDialog;
 import redleon.net.comanda.model.DishSize;
+import redleon.net.comanda.model.DishToOrder;
 import redleon.net.comanda.model.Extra;
 import redleon.net.comanda.network.HttpClient;
 
 public class DishActivity extends ActionBarActivity {
 
     public final static String DISH_ID = "net.redleon.DISH_ID";
+    public final static String DINER_ID = "net.redleon.DINER_ID";
+    public final static String SERVICE_ID = "net.redleon.SERVICE_ID";
 
     private Integer dishId;
+    private Integer dinerId;
+    private Integer serviceId;
     private ArrayList<Extra> mExtras = new ArrayList<Extra>();
     private ArrayList<Extra> extrasForDish = new ArrayList<Extra>();
     private BaseAdapter extrasForDishAdapter;
@@ -50,6 +59,8 @@ public class DishActivity extends ActionBarActivity {
         setContentView(R.layout.activity_dish);
         Intent intent = getIntent();
         setDishId(intent.getIntExtra(DISH_ID, 0));
+        setDinerId(intent.getIntExtra(DINER_ID, 0));
+        setServiceId(intent.getIntExtra(SERVICE_ID, 0));
         final Activity me = this;
         final ListView listview = (ListView) findViewById(R.id.extras_list);
 
@@ -168,11 +179,62 @@ public class DishActivity extends ActionBarActivity {
 
     public void addDish(View view) {
         //TODO: Code for adding a dish to an order
+        final Activity me = this;
         Spinner size_spinner = (Spinner)findViewById(R.id.dish_spin_size);
         Spinner tiime_spinner = (Spinner)findViewById(R.id.dish_spin_time);
+        TextView notes = (TextView)findViewById(R.id.dish_edit_notes);
         DishSize size = (DishSize) size_spinner.getSelectedItem();
         CharSequence tiime = (CharSequence) tiime_spinner.getSelectedItem();
 
+        DishToOrder dishToOrder = new DishToOrder();
+        dishToOrder.setServiceId(getServiceId());
+        dishToOrder.setDinerId(getDinerId());
+        dishToOrder.setNotes(notes.getText().toString());
+        dishToOrder.setDishtiime(Integer.valueOf((String) tiime_spinner.getSelectedItem()));
+
+        dishToOrder.setDishsize( ((DishSize)size_spinner.getSelectedItem()).getId() );
+
+
+        ListView extras_list = (ListView) findViewById(R.id.extras_list);
+        String[] picker = new String[extras_list.getCount()];
+        for(int x = 0; x<extras_list.getCount();x++){
+            Extra ex = (Extra) extras_list.getAdapter().getItem(x);
+            picker[x]=ex.getId().toString();
+        }
+
+        dishToOrder.setPicker(picker);
+
+        String data = new Gson().toJson(dishToOrder);
+
+        RequestParams params = new RequestParams();
+        params.put("data", data);
+
+        HttpClient.post("add_dish_to_order/"+getDishId().toString(), params, new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                // Pull out the first event on the public timeline
+
+                try {
+                    /*
+                    {serviceId:
+                     dinerId:
+                     notes:
+                     dishtiime:
+                     dishsize:
+                     picker:
+                    }
+                    */
+                    // Do something with the response
+
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                Toast.makeText(me, "El platillo se agregó correctamente.",Toast.LENGTH_SHORT).show();
+            }
+
+
+        });
 
 
         this.finish();
@@ -194,6 +256,22 @@ public class DishActivity extends ActionBarActivity {
         }
         System.out.println("Vals: "+ selectedValue.toString());
 
+    }
+
+    public Integer getDinerId() {
+        return dinerId;
+    }
+
+    public void setDinerId(Integer dinerId) {
+        this.dinerId = dinerId;
+    }
+
+    public Integer getServiceId() {
+        return serviceId;
+    }
+
+    public void setServiceId(Integer serviceId) {
+        this.serviceId = serviceId;
     }
 
 

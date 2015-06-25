@@ -16,6 +16,7 @@ import redleon.net.comanda.activities.MenuActivity;
 import redleon.net.comanda.activities.ServicesActivity;
 import redleon.net.comanda.adapters.DinersListAdapter;
 import redleon.net.comanda.loaders.DinersListLoader;
+import redleon.net.comanda.model.DinersResult;
 
 
 /**
@@ -124,8 +125,11 @@ public class DinersFragment extends ListFragment {
     @Override
     public void onListItemClick(ListView l, View v, int pos, long id) {
         super.onListItemClick(l, v, pos, id);
+        DinersResult dr = (DinersResult) getListAdapter().getItem(pos);
+        ServicesActivity sa = (ServicesActivity) getActivity();
         Intent intent = new Intent(getActivity(), MenuActivity.class);
-        //intent.putExtra(EXTRA_MESSAGE, response.getJSONObject("service").getInt("id"));
+        intent.putExtra(MenuActivity.SERVICE_ID, sa.getServiceId());
+        intent.putExtra(MenuActivity.DINER_ID, dr.getId());
         startActivity(intent);
         //Toast.makeText(getActivity(), "Item " + pos + " was clicked", Toast.LENGTH_SHORT).show();
     }

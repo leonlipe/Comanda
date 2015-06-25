@@ -6,6 +6,7 @@ import java.util.Map;
 
 import android.app.ExpandableListActivity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,6 +20,12 @@ import redleon.net.comanda.model.Tiime;
 
 public class MenuActivity extends ExpandableListActivity{
 
+
+    public final static String SERVICE_ID = "net.redleon.SERVICE_ID";
+    public final static String DINER_ID = "net.redleon.DINER_ID";
+
+    private Integer serviceId;
+    private Integer dinerId;
     private ArrayList<String> parentItems = new ArrayList<String>();
     private ArrayList<ArrayList<Dish>> childItems = new ArrayList<ArrayList<Dish>>();
 
@@ -28,7 +35,9 @@ public class MenuActivity extends ExpandableListActivity{
     public void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-
+        Intent intent = getIntent();
+        setServiceId(intent.getIntExtra(SERVICE_ID, 0));
+        setDinerId(intent.getIntExtra(DINER_ID, 0));
         // this is not really  necessary as ExpandableListActivity contains an ExpandableList
         //setContentView(R.layout.main);
 
@@ -77,4 +86,19 @@ public class MenuActivity extends ExpandableListActivity{
       return true;
     }
 
+    public Integer getServiceId() {
+        return serviceId;
+    }
+
+    public void setServiceId(Integer serviceId) {
+        this.serviceId = serviceId;
+    }
+
+    public Integer getDinerId() {
+        return dinerId;
+    }
+
+    public void setDinerId(Integer dinerId) {
+        this.dinerId = dinerId;
+    }
 }
