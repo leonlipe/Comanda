@@ -38,6 +38,10 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activities.MenuActivity" />
         </activity>
+        <activity
+            android:name=".activities.ComandHistoryActivity"
+            android:label="@string/title_activity_comand_history" >
+        </activity>
     </application>
 
 </manifest>

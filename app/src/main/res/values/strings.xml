@@ -24,4 +24,7 @@
     <string name="diners_fragment">Diners fragment</string>
     <string name="title_activity_menu">MenuActivity</string>
     <string name="title_activity_dish">DishActivity</string>
+    <string name="title_activity_comand_history">ComandHistoryActivity</string>
+
+    <string name="hello_world">Hello world!</string>
 </resources>

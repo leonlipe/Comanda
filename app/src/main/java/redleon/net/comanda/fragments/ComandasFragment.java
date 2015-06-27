@@ -1,16 +1,30 @@
 package redleon.net.comanda.fragments;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.ListFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
+
+import com.loopj.android.http.JsonHttpResponseHandler;
+
+import org.apache.http.Header;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import redleon.net.comanda.R;
+import redleon.net.comanda.activities.ComandHistoryActivity;
+import redleon.net.comanda.activities.MenuActivity;
+import redleon.net.comanda.activities.ServicesActivity;
 import redleon.net.comanda.adapters.ComandasListAdapter;
 import redleon.net.comanda.loaders.ComandasListLoader;
+import redleon.net.comanda.model.DinersResult;
+import redleon.net.comanda.network.HttpClient;
 
 
 /**
@@ -114,6 +128,47 @@ public class ComandasFragment extends ListFragment {
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         public void onComandasFragmentInteraction(String string);
+    }
+
+    @Override
+    public void onListItemClick(ListView l, View v, int pos, long id) {
+        super.onListItemClick(l, v, pos, id);
+
+        final DinersResult dr = (DinersResult) getListAdapter().getItem(pos);
+
+        HttpClient.get("services/get_history/" + dr.getId(), null, new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                // Pull out the first event on the public timeline
+
+                try {
+
+                    String sResponse = response.getString("status");
+                    // Do something with the response
+                    //System.out.println(response.getJSONObject("service").getInt("id"));
+                    if (sResponse.equals("ok")) {
+                        ServicesActivity sa = (ServicesActivity) getActivity();
+                        Intent intent = new Intent(getActivity(), ComandHistoryActivity.class);
+                        intent.putExtra(MenuActivity.SERVICE_ID, sa.getServiceId());
+                        intent.putExtra(MenuActivity.DINER_ID, dr.getId());
+                        startActivity(intent);
+                    }
+
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
+
+
+            }
+        });
+
+
+        //Toast.makeText(getActivity(), "Item " + pos + " was clicked", Toast.LENGTH_SHORT).show();
     }
 
 }
