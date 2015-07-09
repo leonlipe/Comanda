@@ -62,7 +62,7 @@ public class ComandasListAdapter extends BaseAdapter {
         TextView descriptionText = (TextView) itemView.findViewById(R.id.comanda_desc);
         TextView info = (TextView) itemView.findViewById(R.id.comanda_info);
 
-        String title = mEntries.get(position).getDiner_number().toString();
+        String title = "Persona no "+mEntries.get(position).getDiner_number().toString();
         String comandaInfo = "Pendientes: "+mEntries.get(position).getPending().toString()+" Enviadas: "+mEntries.get(position).getSended().toString()+" Terminadas: "+mEntries.get(position).getFinished().toString();
         titleText.setText(title);
         String description = "Servicio: "+

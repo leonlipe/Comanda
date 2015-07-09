@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -60,16 +61,18 @@ public class ComandsHistoryAdapter extends BaseAdapter {
 
         TextView titleText = (TextView) itemView.findViewById(R.id.listTitle);
         TextView descriptionText = (TextView) itemView.findViewById(R.id.listDescription);
+        TextView infoText = (TextView) itemView.findViewById(R.id.listInfo);
 
         String title = mEntries.get(position).getDish_name();
         titleText.setText(title);
         String description =
                 mEntries.get(position).getDish_desc();
+        String sInfoText = mEntries.get(position).getStatus() + " en " + mEntries.get(position).getPlace_name();
         if (description.trim().length() == 0) {
             description = "Sorry, no description for this image.";
         }
         descriptionText.setText(description);
-
+        infoText.setText(sInfoText);
         return itemView;
     }
 

@@ -3,8 +3,10 @@ package redleon.net.comanda.fragments;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.ListFragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +25,7 @@ import redleon.net.comanda.activities.MenuActivity;
 import redleon.net.comanda.activities.ServicesActivity;
 import redleon.net.comanda.adapters.ComandasListAdapter;
 import redleon.net.comanda.loaders.ComandasListLoader;
+import redleon.net.comanda.model.ComandasResult;
 import redleon.net.comanda.model.DinersResult;
 import redleon.net.comanda.network.HttpClient;
 
@@ -35,11 +38,11 @@ import redleon.net.comanda.network.HttpClient;
  * Use the {@link ComandasFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ComandasFragment extends ListFragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+public class ComandasFragment extends ListFragment implements SwipeRefreshLayout.OnRefreshListener {
     private static final String ARG_SERVICE_ID = "serviceid";
+    private SwipeRefreshLayout swipeLayout;
 
+    private ComandasListAdapter adapter;
     private Integer serviceId;
 
     private OnFragmentInteractionListener mListener;
@@ -72,13 +75,13 @@ public class ComandasFragment extends ListFragment {
         }
         System.out.println("ComandasFragment:"+serviceId);
 
-        ComandasListAdapter adapter = new ComandasListAdapter(getActivity());
+        adapter = new ComandasListAdapter(getActivity());
         setListAdapter(adapter);
 
-        ComandasListLoader ComandasListLoader = new ComandasListLoader(adapter);
+        ComandasListLoader comandasListLoader = new ComandasListLoader(adapter);
 
-        ComandasListLoader.setServiceId(serviceId);
-        ComandasListLoader.execute();
+        comandasListLoader.setServiceId(serviceId);
+        comandasListLoader.execute();
 
     }
 
@@ -87,9 +90,27 @@ public class ComandasFragment extends ListFragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_comandas, container, false);
-
+        swipeLayout = (SwipeRefreshLayout) view.findViewById(R.id.fragment_comandas_swipe_container);
+        swipeLayout.setOnRefreshListener(this);
+        swipeLayout.setColorScheme(android.R.color.holo_blue_bright,
+                android.R.color.holo_green_light,
+                android.R.color.holo_orange_light,
+                android.R.color.holo_red_light);
         return view;
     }
+
+    @Override public void onRefresh() {
+        new Handler().postDelayed(new Runnable() {
+            @Override public void run() {
+                ComandasListLoader comandasListLoader = new ComandasListLoader(adapter);
+
+                comandasListLoader.setServiceId(serviceId);
+                comandasListLoader.execute();
+                swipeLayout.setRefreshing(false);
+            }
+        }, 1000);
+    }
+
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(String string) {
@@ -134,7 +155,7 @@ public class ComandasFragment extends ListFragment {
     public void onListItemClick(ListView l, View v, int pos, long id) {
         super.onListItemClick(l, v, pos, id);
 
-        final DinersResult dr = (DinersResult) getListAdapter().getItem(pos);
+        final ComandasResult dr = (ComandasResult) getListAdapter().getItem(pos);
 
         HttpClient.get("services/get_history/" + dr.getId(), null, new JsonHttpResponseHandler() {
             @Override
@@ -149,8 +170,8 @@ public class ComandasFragment extends ListFragment {
                     if (sResponse.equals("ok")) {
                         ServicesActivity sa = (ServicesActivity) getActivity();
                         Intent intent = new Intent(getActivity(), ComandHistoryActivity.class);
-                        intent.putExtra(MenuActivity.SERVICE_ID, sa.getServiceId());
-                        intent.putExtra(MenuActivity.DINER_ID, dr.getId());
+                        intent.putExtra(ComandHistoryActivity.SERVICE_ID, sa.getServiceId());
+                        intent.putExtra(ComandHistoryActivity.DINER_ID, dr.getId());
                         startActivity(intent);
                     }
 
