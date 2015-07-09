@@ -98,7 +98,7 @@ public class ServicesActivity extends ActionBarActivity implements ActionBar.Tab
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_, menu);
+        getMenuInflater().inflate(R.menu.menu_services, menu);
         return true;
     }
 
@@ -111,6 +111,10 @@ public class ServicesActivity extends ActionBarActivity implements ActionBar.Tab
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            return true;
+        }
+
+        if (id == R.id.action_send_all) {
             return true;
         }
 

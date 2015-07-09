@@ -18,14 +18,16 @@ import java.util.ArrayList;
 
 import redleon.net.comanda.adapters.ComandasListAdapter;
 import redleon.net.comanda.adapters.DinersListAdapter;
+import redleon.net.comanda.model.ComandasResult;
 import redleon.net.comanda.model.DinersResult;
+import redleon.net.comanda.model.JsonComandasResult;
 import redleon.net.comanda.model.JsonDinersResult;
 
 /**
  * Created by leon on 19/05/15.
  */
 public class ComandasListLoader extends
-        AsyncTask<URL, Integer, ArrayList<DinersResult>> {
+        AsyncTask<URL, Integer, ArrayList<ComandasResult>> {
 
     private Integer serviceId;
     private final String mUrl =
@@ -55,7 +57,7 @@ public class ComandasListLoader extends
     }
 
     @Override
-    protected ArrayList<DinersResult> doInBackground(URL... params) {
+    protected ArrayList<ComandasResult> doInBackground(URL... params) {
         InputStream source = retrieveStream(mUrl);
         Reader reader = null;
         try {
@@ -65,18 +67,18 @@ public class ComandasListLoader extends
             return null;
         }
         Gson gson = new Gson();
-        JsonDinersResult jsonResult = gson.fromJson(reader,JsonDinersResult.class);
+        JsonComandasResult jsonResult = gson.fromJson(reader,JsonComandasResult.class);
         if (!jsonResult.getStatus().equals("ok"))
             new RuntimeException("Error al llamar al backend");
-        DinersResult[] result = jsonResult.getDiners();
-        ArrayList<DinersResult> resultados = new ArrayList<DinersResult>();
+        ComandasResult[] result = jsonResult.getDiners();
+        ArrayList<ComandasResult> resultados = new ArrayList<ComandasResult>();
         for(int x=0; x <result.length;x++){
             resultados.add(result[x]);
         }
         return resultados;
     }
 
-    protected void onPostExecute(ArrayList<DinersResult> entries) {
+    protected void onPostExecute(ArrayList<ComandasResult> entries) {
         mAdapter.upDateEntries(entries);
     }
 

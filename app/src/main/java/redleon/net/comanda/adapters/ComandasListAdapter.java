@@ -11,6 +11,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import redleon.net.comanda.R;
+import redleon.net.comanda.model.ComandasResult;
 import redleon.net.comanda.model.DinersResult;
 
 /**
@@ -19,7 +20,7 @@ import redleon.net.comanda.model.DinersResult;
 public class ComandasListAdapter extends BaseAdapter {
     private Context mContext;
     private LayoutInflater mLayoutInflater;
-    private ArrayList<DinersResult> mEntries = new ArrayList<DinersResult>();
+    private ArrayList<ComandasResult> mEntries = new ArrayList<ComandasResult>();
 
     public ComandasListAdapter(Context context) {
         mContext = context;
@@ -51,28 +52,30 @@ public class ComandasListAdapter extends BaseAdapter {
         LinearLayout itemView;
         if (convertView == null) {
             itemView = (LinearLayout) mLayoutInflater.inflate(
-                    R.layout.fragment_diners_list, parent, false);
+                    R.layout.fragment_comandas_list, parent, false);
 
         } else {
             itemView = (LinearLayout) convertView;
         }
 
-        TextView titleText = (TextView) itemView.findViewById(R.id.diner_title);
-        TextView descriptionText = (TextView) itemView.findViewById(R.id.diner_desc);
+        TextView titleText = (TextView) itemView.findViewById(R.id.comanda_title);
+        TextView descriptionText = (TextView) itemView.findViewById(R.id.comanda_desc);
+        TextView info = (TextView) itemView.findViewById(R.id.comanda_info);
 
         String title = mEntries.get(position).getDiner_number().toString();
+        String comandaInfo = "Pendientes: "+mEntries.get(position).getPending().toString()+" Enviadas: "+mEntries.get(position).getSended().toString()+" Terminadas: "+mEntries.get(position).getFinished().toString();
         titleText.setText(title);
-        String description =
+        String description = "Servicio: "+
                 mEntries.get(position).getStatus_desc();
         if (description.trim().length() == 0) {
             description = "Sorry, no description for this image.";
         }
         descriptionText.setText(description);
-
+        info.setText(comandaInfo);
         return itemView;
     }
 
-    public void upDateEntries(ArrayList<DinersResult> entries) {
+    public void upDateEntries(ArrayList<ComandasResult> entries) {
         mEntries = entries;
         notifyDataSetChanged();
     }
