@@ -1,5 +1,6 @@
 package redleon.net.comanda.activities;
 
+import android.app.Activity;
 import android.support.v7.app.ActionBar;
 import android.content.Intent;
 import android.support.v4.view.ViewPager;
@@ -7,7 +8,14 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
+
+import com.loopj.android.http.JsonHttpResponseHandler;
+
+import org.apache.http.Header;
 import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import redleon.net.comanda.R;
 import redleon.net.comanda.adapters.ServicesTabsAdapter;
@@ -15,6 +23,7 @@ import redleon.net.comanda.fragments.ComandasFragment;
 import redleon.net.comanda.fragments.DinersFragment;
 import redleon.net.comanda.fragments.InvoicesFragment;
 import redleon.net.comanda.fragments.PaymentsFragment;
+import redleon.net.comanda.network.HttpClient;
 
 
 public class ServicesActivity extends ActionBarActivity implements ActionBar.TabListener, ComandasFragment.OnFragmentInteractionListener, DinersFragment.OnFragmentInteractionListener, InvoicesFragment.OnFragmentInteractionListener, PaymentsFragment.OnFragmentInteractionListener, ViewPager.OnPageChangeListener{
@@ -107,6 +116,7 @@ public class ServicesActivity extends ActionBarActivity implements ActionBar.Tab
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
+        final Activity me = this;
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
@@ -115,6 +125,35 @@ public class ServicesActivity extends ActionBarActivity implements ActionBar.Tab
         }
 
         if (id == R.id.action_send_all) {
+            HttpClient.post("commands/sendthem/" + getServiceId(), null, new JsonHttpResponseHandler() {
+                @Override
+                public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                    // Pull out the first event on the public timeline
+
+                    try {
+
+                        String sResponse = response.getString("status");
+                        // Do something with the response
+                        //System.out.println(response.getJSONObject("service").getInt("id"));
+                        if (sResponse.equals("ok")) {
+                            Toast.makeText(me,
+                                    "Las comandas se enviaron correctamente.",
+                                    Toast.LENGTH_SHORT).show();
+                        }else{
+                            Toast.makeText(me,
+                                    "Ocurrió un error: "+sResponse,
+                                    Toast.LENGTH_SHORT).show();
+                        }
+
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+
+            });
+
             return true;
         }
 

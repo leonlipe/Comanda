@@ -1,7 +1,10 @@
 package redleon.net.comanda.activities;
 
+import android.app.Activity;
 import android.app.ListActivity;
 import android.content.Intent;
+import android.os.Handler;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
@@ -24,14 +27,16 @@ import org.json.JSONObject;
 import redleon.net.comanda.R;
 import redleon.net.comanda.adapters.ComandsHistoryAdapter;
 import redleon.net.comanda.loaders.ComandasHistoryLoader;
+import redleon.net.comanda.loaders.ComandasListLoader;
 import redleon.net.comanda.model.Extra;
 import redleon.net.comanda.model.OrderDishesData;
 import redleon.net.comanda.network.HttpClient;
 import redleon.net.comanda.utils.SwipeListViewActivity;
 
-public class ComandHistoryActivity extends SwipeListViewActivity {
+public class ComandHistoryActivity extends SwipeListViewActivity implements SwipeRefreshLayout.OnRefreshListener{
     private ListView mListView;
-
+    private SwipeRefreshLayout swipeLayout;
+    private ComandsHistoryAdapter comandsHistoryAdapter;
     public final static String SERVICE_ID = "net.redleon.SERVICE_ID";
     public final static String DINER_ID = "net.redleon.DINER_ID";
 
@@ -42,10 +47,17 @@ public class ComandHistoryActivity extends SwipeListViewActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_comand_history);
         mListView = (ListView) findViewById(android.R.id.list);
+        swipeLayout = (SwipeRefreshLayout) this.findViewById(R.id.commands_history_swipe_container);
+        swipeLayout.setOnRefreshListener(this);
+        swipeLayout.setColorScheme(android.R.color.holo_blue_bright,
+                android.R.color.holo_green_light,
+                android.R.color.holo_orange_light,
+                android.R.color.holo_red_light);
+
         Intent intent = getIntent();
         setServiceId(intent.getIntExtra(SERVICE_ID, 0));
         setDinerId(intent.getIntExtra(DINER_ID, 0));
-        ComandsHistoryAdapter comandsHistoryAdapter = new ComandsHistoryAdapter(this);
+        comandsHistoryAdapter = new ComandsHistoryAdapter(this);
         setListAdapter(comandsHistoryAdapter);
         ComandasHistoryLoader comandasHistoryLoader = new ComandasHistoryLoader(comandsHistoryAdapter);
         comandasHistoryLoader.setDinerId(getDinerId());
@@ -104,24 +116,24 @@ public class ComandHistoryActivity extends SwipeListViewActivity {
         //Toast.makeText(this,
         //        "Swipe to " + (isRight ? "right" : "left") + " direction",
         //        Toast.LENGTH_SHORT).show();
-
+        final Activity me = this;
         OrderDishesData dish = (OrderDishesData) mListView.getItemAtPosition(position);
-        HttpClient.get("/diners/remove_dish/", null, new JsonHttpResponseHandler() {
+        HttpClient.post("/diners/remove_dish/" + dish.getId().toString(), null, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 // Pull out the first event on the public timeline
 
                 try {
-                    String sResponse = response.getString("response");
+                    String sResponse = response.getString("status");
                     // Do something with the response
                     if (sResponse.equals("ok")) {
-                        JSONArray extras = response.getJSONArray("data");
-                        // mExtras = new Extra[extras.length()];
-
-                        for (int x = 0; x < extras.length(); x++) {
-                            mExtras.add(new Extra(extras.getJSONObject(x).getInt("id"), extras.getJSONObject(x).getString("key"), extras.getJSONObject(x).getString("description")));
-                        }
-
+                        Toast.makeText(me,
+                                "El platillo se quitó de la orden",
+                                Toast.LENGTH_SHORT).show();
+                    }else{
+                        Toast.makeText(me,
+                                "Ocurrió un error: "+response.getString("reason"),
+                                Toast.LENGTH_SHORT).show();
                     }
 
                 } catch (JSONException e) {
@@ -129,11 +141,7 @@ public class ComandHistoryActivity extends SwipeListViewActivity {
                 }
             }
 
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
 
-
-            }
         });
     }
 
@@ -141,6 +149,15 @@ public class ComandHistoryActivity extends SwipeListViewActivity {
     public void onItemClickListener(ListAdapter adapter, int position) {
         Toast.makeText(this, "Single tap on item position " + position,
                 Toast.LENGTH_SHORT).show();
+    }
+
+    @Override public void onRefresh() {
+
+                ComandasHistoryLoader comandasHistoryLoader = new ComandasHistoryLoader(comandsHistoryAdapter);
+                comandasHistoryLoader.setDinerId(getDinerId());
+                comandasHistoryLoader.execute();
+                swipeLayout.setRefreshing(false);
+
     }
 
 }

@@ -100,15 +100,15 @@ public class ComandasFragment extends ListFragment implements SwipeRefreshLayout
     }
 
     @Override public void onRefresh() {
-        new Handler().postDelayed(new Runnable() {
-            @Override public void run() {
+      //  new Handler().postDelayed(new Runnable() {
+         //   @Override public void run() {
                 ComandasListLoader comandasListLoader = new ComandasListLoader(adapter);
 
                 comandasListLoader.setServiceId(serviceId);
                 comandasListLoader.execute();
                 swipeLayout.setRefreshing(false);
-            }
-        }, 1000);
+         //   }
+        //}, 1000);
     }
 
 
@@ -181,11 +181,7 @@ public class ComandasFragment extends ListFragment implements SwipeRefreshLayout
                 }
             }
 
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
 
-
-            }
         });
 
 
