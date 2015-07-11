@@ -89,6 +89,8 @@
     <orderEntry type="library" exported="" name="gson-2.2.4" level="project" />
     <orderEntry type="library" exported="" name="support-annotations-21.0.3" level="project" />
     <orderEntry type="library" exported="" name="support-v4-21.0.3" level="project" />
+    <orderEntry type="library" exported="" name="multichoiceadapter-abc-3.0.0" level="project" />
+    <orderEntry type="library" exported="" name="multichoiceadapter-3.0.0" level="project" />
     <orderEntry type="library" exported="" name="android-async-http-1.4.5" level="project" />
   </component>
 </module>

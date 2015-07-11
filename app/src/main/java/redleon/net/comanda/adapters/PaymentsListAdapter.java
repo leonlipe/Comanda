@@ -1,14 +1,23 @@
 package redleon.net.comanda.adapters;
 
 import android.content.Context;
+import android.os.Bundle;
+import android.support.v7.view.ActionMode;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.manuelpeinado.multichoiceadapter.extras.actionbarcompat.MultiChoiceBaseAdapter;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import redleon.net.comanda.R;
 import redleon.net.comanda.model.DinersResult;
@@ -17,16 +26,31 @@ import redleon.net.comanda.model.PaymentsResult;
 /**
  * Created by leon on 19/05/15.
  */
-public class PaymentsListAdapter extends BaseAdapter {
+public class PaymentsListAdapter extends MultiChoiceBaseAdapter {
     private Context mContext;
     private LayoutInflater mLayoutInflater;
-    private ArrayList<PaymentsResult> mEntries = new ArrayList<PaymentsResult>();
+    private List<PaymentsResult> mEntries = new ArrayList<PaymentsResult>();
 
-    public PaymentsListAdapter(Context context) {
-        mContext = context;
-        mLayoutInflater = (LayoutInflater) mContext
-                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+    public PaymentsListAdapter(Bundle savedInstanceState) {
+        super(savedInstanceState);
     }
+
+    @Override
+    public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+        MenuInflater inflater = mode.getMenuInflater();
+        inflater.inflate(R.menu.menu_payments, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+       /* if (item.getItemId() == R.id.menu_share) {
+            Toast.makeText(getContext(), "Share", Toast.LENGTH_SHORT).show();
+            return true;
+        }*/
+        return false;
+    }
+
 
     @Override
     public int getCount() {
@@ -35,7 +59,7 @@ public class PaymentsListAdapter extends BaseAdapter {
     }
 
     @Override
-    public Object getItem(int position) {
+    public PaymentsResult getItem(int position) {
 
         return mEntries.get(position);
     }
@@ -47,29 +71,36 @@ public class PaymentsListAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View convertView,
+    public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+        return false;
+    }
+
+    @Override
+    public View getViewImpl(int position, View convertView,
                         ViewGroup parent) {
         LinearLayout itemView;
         if (convertView == null) {
             itemView = (LinearLayout) mLayoutInflater.inflate(
-                    R.layout.fragment_diners_list, parent, false);
+                    R.layout.fragment_payments_list, parent, false);
 
         } else {
             itemView = (LinearLayout) convertView;
         }
 
-        TextView titleText = (TextView) itemView.findViewById(R.id.diner_title);
-        TextView descriptionText = (TextView) itemView.findViewById(R.id.diner_desc);
+        TextView titleText = (TextView) itemView.findViewById(R.id.payment_title);
+        TextView descriptionText = (TextView) itemView.findViewById(R.id.payment_desc);
+        TextView totalText = (TextView) itemView.findViewById(R.id.payment_total);
 
-        String title = mEntries.get(position).getDiner_number().toString();
+        String title = "Persona no: " + mEntries.get(position).getDiner_number().toString() + " " +mEntries.get(position).getStatus_desc();
         titleText.setText(title);
-        String description =
-                mEntries.get(position).getDiner_desc();
-        if (description.trim().length() == 0) {
-            description = "Sorry, no description for this image.";
-        }
+        String description = "Total de pedidos: "+
+                mEntries.get(position).getOrder_dishes().length;
+
         descriptionText.setText(description);
 
+        String total = "Total de la persona: $ "+mEntries.get(position).getTotal();
+
+        totalText.setText(total);
         return itemView;
     }
 

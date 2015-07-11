@@ -14,7 +14,7 @@ public class PaymentsResult {
     private String total_desc;
     private String checkbox_name;
     private Integer status;
-    private String satus_desc;
+    private String status_desc;
 
     public Integer getId() {
         return id;
@@ -80,11 +80,11 @@ public class PaymentsResult {
         this.status = status;
     }
 
-    public String getSatus_desc() {
-        return satus_desc;
+    public String getStatus_desc() {
+        return status_desc;
     }
 
-    public void setSatus_desc(String satus_desc) {
-        this.satus_desc = satus_desc;
+    public void setStatus_desc(String status_desc) {
+        this.status_desc = status_desc;
     }
 }

@@ -8,6 +8,7 @@ import android.support.v4.app.ListFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 
 import redleon.net.comanda.R;
 import redleon.net.comanda.adapters.PaymentsListAdapter;
@@ -58,7 +59,7 @@ public class PaymentsFragment extends ListFragment {
         }
         System.out.println("PaymentsFragment:"+serviceId);
 
-        PaymentsListAdapter adapter = new PaymentsListAdapter(getActivity());
+        PaymentsListAdapter adapter = new PaymentsListAdapter(savedInstanceState);
         setListAdapter(adapter);
 
         PaymentsListLoader PaymentsListLoader = new PaymentsListLoader(adapter);
@@ -73,7 +74,9 @@ public class PaymentsFragment extends ListFragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_payments, container, false);
-
+        ListView listView = (ListView) view.findViewById(android.R.id.list);
+        listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE_MODAL);
+        //listView.setItemsCanFocus(false);
         return view;
     }
 
