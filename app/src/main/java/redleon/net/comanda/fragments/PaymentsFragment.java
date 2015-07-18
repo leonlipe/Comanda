@@ -59,7 +59,7 @@ public class PaymentsFragment extends ListFragment {
         }
         System.out.println("PaymentsFragment:"+serviceId);
 
-        PaymentsListAdapter adapter = new PaymentsListAdapter(savedInstanceState);
+        PaymentsListAdapter adapter = new PaymentsListAdapter(getActivity());
         setListAdapter(adapter);
 
         PaymentsListLoader PaymentsListLoader = new PaymentsListLoader(adapter);

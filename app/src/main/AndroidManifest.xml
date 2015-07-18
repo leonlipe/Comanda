@@ -42,6 +42,10 @@
             android:name=".activities.ComandHistoryActivity"
             android:label="@string/title_activity_comand_history" >
         </activity>
+        <activity
+            android:name=".activities.MakersActivity"
+            android:label="@string/title_activity_makers" >
+        </activity>
     </application>
 
 </manifest>

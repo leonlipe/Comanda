@@ -14,7 +14,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.manuelpeinado.multichoiceadapter.extras.actionbarcompat.MultiChoiceBaseAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,30 +25,18 @@ import redleon.net.comanda.model.PaymentsResult;
 /**
  * Created by leon on 19/05/15.
  */
-public class PaymentsListAdapter extends MultiChoiceBaseAdapter {
+public class PaymentsListAdapter extends BaseAdapter {
     private Context mContext;
     private LayoutInflater mLayoutInflater;
     private List<PaymentsResult> mEntries = new ArrayList<PaymentsResult>();
 
-    public PaymentsListAdapter(Bundle savedInstanceState) {
-        super(savedInstanceState);
+    public PaymentsListAdapter(Context context) {
+        mContext = context;
+        mLayoutInflater = (LayoutInflater) mContext
+                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
-    @Override
-    public boolean onCreateActionMode(ActionMode mode, Menu menu) {
-        MenuInflater inflater = mode.getMenuInflater();
-        inflater.inflate(R.menu.menu_payments, menu);
-        return true;
-    }
 
-    @Override
-    public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
-       /* if (item.getItemId() == R.id.menu_share) {
-            Toast.makeText(getContext(), "Share", Toast.LENGTH_SHORT).show();
-            return true;
-        }*/
-        return false;
-    }
 
 
     @Override
@@ -70,13 +57,9 @@ public class PaymentsListAdapter extends MultiChoiceBaseAdapter {
         return position;
     }
 
-    @Override
-    public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
-        return false;
-    }
 
     @Override
-    public View getViewImpl(int position, View convertView,
+    public View getView(int position, View convertView,
                         ViewGroup parent) {
         LinearLayout itemView;
         if (convertView == null) {
