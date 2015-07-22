@@ -46,6 +46,10 @@
             android:name=".activities.MakersActivity"
             android:label="@string/title_activity_makers" >
         </activity>
+        <activity
+            android:name=".activities.MakersDetailActivity"
+            android:label="@string/title_activity_makers_detail" >
+        </activity>
     </application>
 
 </manifest>

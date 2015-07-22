@@ -26,7 +26,10 @@
     <string name="title_activity_menu">MenuActivity</string>
     <string name="title_activity_dish">DishActivity</string>
     <string name="title_activity_comand_history">ComandHistoryActivity</string>
-
     <string name="hello_world">Hello world!</string>
+    <string name="action_dispatch_command">Despachar comanda</string>
+
+    <string name="action_show_makers">Mostrar makers</string>
     <string name="title_activity_makers">MakersActivity</string>
+    <string name="title_activity_makers_detail">MakersDetailActivity</string>
 </resources>

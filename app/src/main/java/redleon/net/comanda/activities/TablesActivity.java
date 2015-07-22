@@ -1,9 +1,14 @@
 package redleon.net.comanda.activities;
 
+import android.app.ActionBar;
 import android.app.ListActivity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import org.apache.http.Header;
@@ -28,8 +33,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class TablesActivity extends ListActivity {
+public class TablesActivity extends ActionBarActivity implements AdapterView.OnItemClickListener {
     public final static String EXTRA_MESSAGE = "com.mycompany.myfirstapp.MESSAGE";
+    ListView listView;
 
 
     @Override
@@ -41,7 +47,12 @@ public class TablesActivity extends ListActivity {
             setContentView(R.layout.activity_tables);
 
             TablesListAdapter adapter = new TablesListAdapter(this);
-            setListAdapter(adapter);
+            listView = (ListView) findViewById(android.R.id.list);
+
+            listView.setAdapter(adapter);
+            listView.setOnItemClickListener(this);
+
+
 
             TablesListLoader loadData = new TablesListLoader(adapter);
             loadData.execute();
@@ -60,24 +71,24 @@ public class TablesActivity extends ListActivity {
                             intent.putExtra(EXTRA_MESSAGE, response.getJSONObject("service").getInt("id"));
                             startActivity(intent);*/
                             List<Tiime> menu = ((ComandaApp) mySelf.getApplication()).getMenu();
-                            if (menu ==null) {
+                            if (menu == null) {
                                 ((ComandaApp) mySelf.getApplication()).setMenu(new ArrayList<Tiime>());
                                 menu = ((ComandaApp) mySelf.getApplication()).getMenu();
                             }
                             System.out.println(menu.toString());
                             JSONArray tiimes = response.getJSONArray("items");
-                            for(int x=0; x< tiimes.length();x++ ){
+                            for (int x = 0; x < tiimes.length(); x++) {
                                 JSONObject tiime = tiimes.getJSONObject(x);
                                 JSONArray dishes = tiime.getJSONArray("items");
                                 Dish[] timmesDishes = new Dish[dishes.length()];
-                                for(int y=0; y< dishes.length();y++ ){
+                                for (int y = 0; y < dishes.length(); y++) {
                                     JSONObject dish = dishes.getJSONObject(y);
-                                    timmesDishes[y]=new Dish(dish.getInt("id"), dish.getString("description"), dish.getString("name"));
+                                    timmesDishes[y] = new Dish(dish.getInt("id"), dish.getString("description"), dish.getString("name"));
                                 }
                                 menu.add(new Tiime(tiime.getInt("id"), tiime.getString("name"), tiime.getString("description"), timmesDishes));
                             }
                             System.out.println("menu");
-                            for(Tiime time: menu){
+                            for (Tiime time : menu) {
                                 System.out.println(time.getName());
                             }
 
@@ -105,7 +116,7 @@ public class TablesActivity extends ListActivity {
     }
 
 
-    @Override
+    //@Override
     protected void onListItemClick(ListView l, View v, int position, long id) {
 
       final TablesActivity mySelf = this;
@@ -170,4 +181,63 @@ public class TablesActivity extends ListActivity {
     }
 
 
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_tables, menu);
+        return  super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        switch (item.getItemId()) {
+            case R.id.action_show_makers:
+                Intent intent = new Intent(this, MakersActivity.class);
+                intent.putExtra(MakersActivity.PLACE_KEY, "COC");
+                startActivity(intent);
+                return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        final TablesActivity mySelf = this;
+
+
+        HttpClient.get("services/start/" + ((TablesResult) parent.getItemAtPosition(position)).getId(), null, new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                // Pull out the first event on the public timeline
+
+                try {
+
+                    String sResponse = response.getString("status");
+                    // Do something with the response
+                    System.out.println(response.getJSONObject("service").getInt("id"));
+                    if (sResponse.equals("ok")) {
+                        Intent intent = new Intent(mySelf, ServicesActivity.class);
+                        intent.putExtra(EXTRA_MESSAGE, response.getJSONObject("service").getInt("id"));
+                        startActivity(intent);
+                    }
+
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
+
+
+            }
+        });
+    }
 }

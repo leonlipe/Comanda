@@ -8,6 +8,18 @@ public class Dish {
     private Integer id;
     private String description;
     private String name;
+    private Integer status;
+    private Integer order_dishes_id;
+    private String place_name;
+    private Integer place_id;
+    private String status_desc;
+    private String notes;
+    private Extra[] extras;
+    private Integer dishtiime;
+    private String size_descl;
+
+
+
 
     public Dish(){
 
@@ -44,5 +56,77 @@ public class Dish {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
+
+    public Integer getOrder_dishes_id() {
+        return order_dishes_id;
+    }
+
+    public void setOrder_dishes_id(Integer order_dishes_id) {
+        this.order_dishes_id = order_dishes_id;
+    }
+
+    public String getPlace_name() {
+        return place_name;
+    }
+
+    public void setPlace_name(String place_name) {
+        this.place_name = place_name;
+    }
+
+    public Integer getPlace_id() {
+        return place_id;
+    }
+
+    public void setPlace_id(Integer place_id) {
+        this.place_id = place_id;
+    }
+
+    public String getStatus_desc() {
+        return status_desc;
+    }
+
+    public void setStatus_desc(String status_desc) {
+        this.status_desc = status_desc;
+    }
+
+    public String getNotes() {
+        return notes;
+    }
+
+    public void setNotes(String notes) {
+        this.notes = notes;
+    }
+
+    public Extra[] getExtras() {
+        return extras;
+    }
+
+    public void setExtras(Extra[] extras) {
+        this.extras = extras;
+    }
+
+    public Integer getDishtiime() {
+        return dishtiime;
+    }
+
+    public void setDishtiime(Integer dishtiime) {
+        this.dishtiime = dishtiime;
+    }
+
+    public String getSize_descl() {
+        return size_descl;
+    }
+
+    public void setSize_descl(String size_descl) {
+        this.size_descl = size_descl;
     }
 }
