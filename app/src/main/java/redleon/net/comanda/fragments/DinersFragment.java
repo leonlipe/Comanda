@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.ListFragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,7 +15,9 @@ import android.widget.Toast;
 import redleon.net.comanda.R;
 import redleon.net.comanda.activities.MenuActivity;
 import redleon.net.comanda.activities.ServicesActivity;
+import redleon.net.comanda.adapters.ComandasListAdapter;
 import redleon.net.comanda.adapters.DinersListAdapter;
+import redleon.net.comanda.loaders.ComandasListLoader;
 import redleon.net.comanda.loaders.DinersListLoader;
 import redleon.net.comanda.model.DinersResult;
 
@@ -27,13 +30,15 @@ import redleon.net.comanda.model.DinersResult;
  * Use the {@link DinersFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class DinersFragment extends ListFragment {
+public class DinersFragment extends ListFragment  implements SwipeRefreshLayout.OnRefreshListener  {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_SERVICE_ID = "serviceid";
 
     private Integer serviceId;
+    private SwipeRefreshLayout swipeLayout;
 
+    private DinersListAdapter adapter;
     private OnFragmentInteractionListener mListener;
 
     /**
@@ -64,7 +69,7 @@ public class DinersFragment extends ListFragment {
         }
         System.out.println("DinersFragment:"+serviceId);
 
-        DinersListAdapter adapter = new DinersListAdapter(getActivity());
+         adapter = new DinersListAdapter(getActivity());
         setListAdapter(adapter);
 
         DinersListLoader dinersListLoader = new DinersListLoader(adapter);
@@ -79,7 +84,12 @@ public class DinersFragment extends ListFragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_diners, container, false);
-
+        swipeLayout = (SwipeRefreshLayout) view.findViewById(R.id.fragment_diners_swipe_container);
+        swipeLayout.setOnRefreshListener(this);
+        swipeLayout.setColorScheme(android.R.color.holo_blue_bright,
+                android.R.color.holo_green_light,
+                android.R.color.holo_orange_light,
+                android.R.color.holo_red_light);
         return view;
     }
 
@@ -105,6 +115,15 @@ public class DinersFragment extends ListFragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+    @Override
+    public void onRefresh() {
+        DinersListLoader dinersListLoader = new DinersListLoader(adapter);
+
+        dinersListLoader.setServiceId(serviceId);
+        dinersListLoader.execute();
+        swipeLayout.setRefreshing(false);
     }
 
     /**

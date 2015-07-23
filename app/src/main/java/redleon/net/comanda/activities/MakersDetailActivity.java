@@ -1,6 +1,7 @@
 package redleon.net.comanda.activities;
 
 import android.content.Intent;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -21,10 +22,12 @@ import redleon.net.comanda.loaders.MakersDetailLoader;
 import redleon.net.comanda.model.Dish;
 import redleon.net.comanda.network.HttpClient;
 
-public class MakersDetailActivity extends ActionBarActivity implements AdapterView.OnItemClickListener{
+public class MakersDetailActivity extends ActionBarActivity implements AdapterView.OnItemClickListener,  SwipeRefreshLayout.OnRefreshListener{
     private Integer commandId;
     public static final String COMMAND_ID = "net.redleon.COMMAND_ID";
     ListView listView;
+    private SwipeRefreshLayout swipeLayout;
+    MakersDetailListAdapter makersDetailListAdapter;
 
 
     @Override
@@ -35,12 +38,17 @@ public class MakersDetailActivity extends ActionBarActivity implements AdapterVi
         Intent intent = getIntent();
 
         setCommandId(intent.getIntExtra(COMMAND_ID, 0));
-        MakersDetailListAdapter makersDetailListAdapter = new MakersDetailListAdapter(this);
+        makersDetailListAdapter = new MakersDetailListAdapter(this);
         listView = (ListView) findViewById(android.R.id.list);
 
         listView.setAdapter(makersDetailListAdapter);
         listView.setOnItemClickListener(this);
-
+        swipeLayout = (SwipeRefreshLayout) findViewById(R.id.fragment_makers_detail_swipe_container);
+        swipeLayout.setOnRefreshListener(this);
+        swipeLayout.setColorScheme(android.R.color.holo_blue_bright,
+                android.R.color.holo_green_light,
+                android.R.color.holo_orange_light,
+                android.R.color.holo_red_light);
         MakersDetailLoader loadData = new MakersDetailLoader(makersDetailListAdapter);
         loadData.setDishId(getCommandId());
         loadData.execute();
@@ -74,7 +82,7 @@ public class MakersDetailActivity extends ActionBarActivity implements AdapterVi
                 @Override
                 public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                     // Pull out the first event on the public timeline
-
+                    me.onRefresh();
                     Toast.makeText(me, "Se ha despachado la comanda", Toast.LENGTH_SHORT).show();
                 }
 
@@ -101,7 +109,7 @@ public class MakersDetailActivity extends ActionBarActivity implements AdapterVi
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 // Pull out the first event on the public timeline
-
+                me.onRefresh();
                 Toast.makeText(me, "Se ha despachado el platillo", Toast.LENGTH_SHORT).show();
             }
 
@@ -113,4 +121,12 @@ public class MakersDetailActivity extends ActionBarActivity implements AdapterVi
     }
 
 
+    @Override
+    public void onRefresh() {
+        MakersDetailLoader makersDetailLoader = new MakersDetailLoader(makersDetailListAdapter);
+        makersDetailLoader.setDishId(getCommandId());
+        makersDetailLoader.execute();
+        swipeLayout.setRefreshing(false);
+
+    }
 }

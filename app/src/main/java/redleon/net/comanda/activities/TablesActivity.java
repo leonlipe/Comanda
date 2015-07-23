@@ -4,6 +4,7 @@ import android.app.ActionBar;
 import android.app.ListActivity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -33,10 +34,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class TablesActivity extends ActionBarActivity implements AdapterView.OnItemClickListener {
+public class TablesActivity extends ActionBarActivity implements AdapterView.OnItemClickListener, SwipeRefreshLayout.OnRefreshListener  {
     public final static String EXTRA_MESSAGE = "com.mycompany.myfirstapp.MESSAGE";
     ListView listView;
-
+    TablesListAdapter adapter;
+    private SwipeRefreshLayout swipeLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,13 +48,18 @@ public class TablesActivity extends ActionBarActivity implements AdapterView.OnI
         try {
             setContentView(R.layout.activity_tables);
 
-            TablesListAdapter adapter = new TablesListAdapter(this);
+            adapter = new TablesListAdapter(this);
             listView = (ListView) findViewById(android.R.id.list);
 
             listView.setAdapter(adapter);
             listView.setOnItemClickListener(this);
 
-
+            swipeLayout = (SwipeRefreshLayout) findViewById(R.id.fragment_tables_swipe_container);
+            swipeLayout.setOnRefreshListener(this);
+            swipeLayout.setColorScheme(android.R.color.holo_blue_bright,
+                    android.R.color.holo_green_light,
+                    android.R.color.holo_orange_light,
+                    android.R.color.holo_red_light);
 
             TablesListLoader loadData = new TablesListLoader(adapter);
             loadData.execute();
@@ -239,5 +246,13 @@ public class TablesActivity extends ActionBarActivity implements AdapterView.OnI
 
             }
         });
+    }
+
+    @Override
+    public void onRefresh() {
+        TablesListLoader tablesListLoader = new TablesListLoader(adapter);
+        tablesListLoader.execute();
+        swipeLayout.setRefreshing(false);
+
     }
 }

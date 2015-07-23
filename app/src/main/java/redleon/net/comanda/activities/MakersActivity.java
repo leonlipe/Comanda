@@ -1,6 +1,7 @@
 package redleon.net.comanda.activities;
 
 import android.content.Intent;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -23,9 +24,12 @@ import redleon.net.comanda.model.MakersCommandItem;
 import redleon.net.comanda.model.TablesResult;
 import redleon.net.comanda.network.HttpClient;
 
-public class MakersActivity extends ActionBarActivity implements AdapterView.OnItemClickListener {
+public class MakersActivity extends ActionBarActivity implements AdapterView.OnItemClickListener,  SwipeRefreshLayout.OnRefreshListener  {
     ListView listView;
     private String placeKey;
+    MakersListAdapter makersListAdapter;
+    private SwipeRefreshLayout swipeLayout;
+
 
     public static final String PLACE_KEY = "net.redleon.PLACE_KEY";
 
@@ -36,11 +40,18 @@ public class MakersActivity extends ActionBarActivity implements AdapterView.OnI
         Intent intent = getIntent();
 
         setPlaceKey(intent.getStringExtra(PLACE_KEY));
-        MakersListAdapter makersListAdapter = new MakersListAdapter(this);
+        makersListAdapter = new MakersListAdapter(this);
         listView = (ListView) findViewById(android.R.id.list);
 
         listView.setAdapter(makersListAdapter);
         listView.setOnItemClickListener(this);
+        swipeLayout = (SwipeRefreshLayout) findViewById(R.id.fragment_makers_swipe_container);
+        swipeLayout.setOnRefreshListener(this);
+        swipeLayout.setColorScheme(android.R.color.holo_blue_bright,
+                android.R.color.holo_green_light,
+                android.R.color.holo_orange_light,
+                android.R.color.holo_red_light);
+
 
         MakersViewLoaders loadData = new MakersViewLoaders(makersListAdapter);
         loadData.setPlaceKey(getPlaceKey());
@@ -86,5 +97,14 @@ public class MakersActivity extends ActionBarActivity implements AdapterView.OnI
 
     public void setPlaceKey(String placeKey) {
         this.placeKey = placeKey;
+    }
+
+    @Override
+    public void onRefresh() {
+        MakersViewLoaders makersViewLoaders = new MakersViewLoaders(makersListAdapter);
+        makersViewLoaders.setPlaceKey(getPlaceKey());
+        makersViewLoaders.execute();
+        swipeLayout.setRefreshing(false);
+
     }
 }
