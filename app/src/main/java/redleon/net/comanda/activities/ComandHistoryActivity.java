@@ -116,7 +116,7 @@ public class ComandHistoryActivity extends SwipeListViewActivity implements Swip
         //Toast.makeText(this,
         //        "Swipe to " + (isRight ? "right" : "left") + " direction",
         //        Toast.LENGTH_SHORT).show();
-        final Activity me = this;
+        final ComandHistoryActivity me = this;
         OrderDishesData dish = (OrderDishesData) mListView.getItemAtPosition(position);
         HttpClient.post("/diners/remove_dish/" + dish.getId().toString(), null, new JsonHttpResponseHandler() {
             @Override
@@ -130,6 +130,7 @@ public class ComandHistoryActivity extends SwipeListViewActivity implements Swip
                         Toast.makeText(me,
                                 "El platillo se quitó de la orden",
                                 Toast.LENGTH_SHORT).show();
+                        me.onRefresh();
                     }else{
                         Toast.makeText(me,
                                 "Ocurrió un error: "+response.getString("reason"),
@@ -151,7 +152,8 @@ public class ComandHistoryActivity extends SwipeListViewActivity implements Swip
                 Toast.LENGTH_SHORT).show();
     }
 
-    @Override public void onRefresh() {
+    @Override
+    public void onRefresh() {
 
                 ComandasHistoryLoader comandasHistoryLoader = new ComandasHistoryLoader(comandsHistoryAdapter);
                 comandasHistoryLoader.setDinerId(getDinerId());
