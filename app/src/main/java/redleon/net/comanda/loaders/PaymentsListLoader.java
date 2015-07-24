@@ -1,6 +1,7 @@
 package redleon.net.comanda.loaders;
 
 import android.os.AsyncTask;
+import android.widget.TextView;
 
 import com.google.gson.Gson;
 
@@ -16,8 +17,10 @@ import java.io.Reader;
 import java.net.URL;
 import java.util.ArrayList;
 
+import redleon.net.comanda.R;
 import redleon.net.comanda.adapters.DinersListAdapter;
 import redleon.net.comanda.adapters.PaymentsListAdapter;
+import redleon.net.comanda.fragments.PaymentsFragment;
 import redleon.net.comanda.model.DinersResult;
 import redleon.net.comanda.model.JsonDinersResult;
 import redleon.net.comanda.model.JsonPaymentsResult;
@@ -30,12 +33,14 @@ public class PaymentsListLoader extends
         AsyncTask<URL, Integer, ArrayList<PaymentsResult>> {
 
     private Integer serviceId;
+    private PaymentsFragment paymentsFragment;
     private final String mUrl =
             "http://172.31.1.19:3000/services/payment_resume_diners/";
 
     private final PaymentsListAdapter mAdapter;
     public PaymentsListLoader(PaymentsListAdapter adapter) {
         mAdapter = adapter;
+        this.paymentsFragment = paymentsFragment;
     }
 
     private InputStream retrieveStream(String url) {
@@ -70,6 +75,8 @@ public class PaymentsListLoader extends
         JsonPaymentsResult jsonResult = gson.fromJson(reader,JsonPaymentsResult.class);
         if (!jsonResult.getStatus().equals("ok"))
             new RuntimeException("Error al llamar al backend");
+        //TextView total = (TextView) paymentsFragment.getView().findViewById(R.id.payment_list_total);
+        //total.setText(jsonResult.getGran_total());
         PaymentsResult[] result = jsonResult.getDiners();
         ArrayList<PaymentsResult> resultados = new ArrayList<PaymentsResult>();
         for(int x=0; x <result.length;x++){
