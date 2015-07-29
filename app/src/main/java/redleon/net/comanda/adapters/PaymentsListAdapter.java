@@ -1,25 +1,18 @@
 package redleon.net.comanda.adapters;
 
 import android.content.Context;
-import android.os.Bundle;
-import android.support.v7.view.ActionMode;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 
 import java.util.ArrayList;
 import java.util.List;
 
 import redleon.net.comanda.R;
-import redleon.net.comanda.model.DinersResult;
 import redleon.net.comanda.model.PaymentsResult;
 
 /**
@@ -31,8 +24,8 @@ public class PaymentsListAdapter extends BaseAdapter {
     private List<PaymentsResult> mEntries = new ArrayList<PaymentsResult>();
 
     public PaymentsListAdapter(Context context) {
-        mContext = context;
-        mLayoutInflater = (LayoutInflater) mContext
+        setmContext(context);
+        mLayoutInflater = (LayoutInflater) getmContext()
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
@@ -90,5 +83,13 @@ public class PaymentsListAdapter extends BaseAdapter {
     public void upDateEntries(ArrayList<PaymentsResult> entries) {
         mEntries = entries;
         notifyDataSetChanged();
+    }
+
+    public Context getmContext() {
+        return mContext;
+    }
+
+    public void setmContext(Context mContext) {
+        this.mContext = mContext;
     }
 }

@@ -23,8 +23,8 @@ public class TablesListAdapter extends BaseAdapter {
     //private final ImageDownloader mImageDownloader;                      #3
 
     public TablesListAdapter(Context context) {
-        mContext = context;
-        mLayoutInflater = (LayoutInflater) mContext
+        setmContext(context);
+        mLayoutInflater = (LayoutInflater) getmContext()
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
@@ -76,5 +76,13 @@ public class TablesListAdapter extends BaseAdapter {
     public void upDateEntries(ArrayList<TablesResult> entries) {
         mEntries = entries;
         notifyDataSetChanged();
+    }
+
+    public Context getmContext() {
+        return mContext;
+    }
+
+    public void setmContext(Context mContext) {
+        this.mContext = mContext;
     }
 }

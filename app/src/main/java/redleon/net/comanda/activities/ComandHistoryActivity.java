@@ -142,14 +142,20 @@ public class ComandHistoryActivity extends SwipeListViewActivity implements Swip
                 }
             }
 
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject jsonObject){
+                Toast.makeText(me, "Ocurrio un error inesperado:"+throwable.getMessage(), Toast.LENGTH_LONG).show();
 
-        });
+            }
+
+
+        },getBaseContext());
     }
 
     @Override
     public void onItemClickListener(ListAdapter adapter, int position) {
-        Toast.makeText(this, "Single tap on item position " + position,
-                Toast.LENGTH_SHORT).show();
+       // Toast.makeText(this, "Single tap on item position " + position,
+        //        Toast.LENGTH_SHORT).show();
     }
 
     @Override

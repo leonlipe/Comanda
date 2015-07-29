@@ -23,6 +23,7 @@
             android:name=".activities.ServicesActivity"
             android:label="@string/title_activity_service" >
         </activity>
+        <activity android:name=".activities.AppPreferences" android:label="PreferencesActivity"></activity>
         <activity
             android:name=".activities.MenuActivity"
             android:label="@string/title_activity_menu"

@@ -12,7 +12,6 @@ import java.util.ArrayList;
 
 import redleon.net.comanda.R;
 import redleon.net.comanda.model.Dish;
-import redleon.net.comanda.model.MakersCommandItem;
 
 /**
  * Created by leon on 22/07/15.
@@ -23,8 +22,8 @@ public class MakersDetailListAdapter extends BaseAdapter {
     private ArrayList<Dish> mEntries = new ArrayList<Dish>();
 
     public MakersDetailListAdapter(Context context) {
-        mContext = context;
-        mLayoutInflater = (LayoutInflater) mContext
+        setmContext(context);
+        mLayoutInflater = (LayoutInflater) getmContext()
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
@@ -78,5 +77,13 @@ public class MakersDetailListAdapter extends BaseAdapter {
     public void upDateEntries(ArrayList<Dish> entries) {
         mEntries = entries;
         notifyDataSetChanged();
+    }
+
+    public Context getmContext() {
+        return mContext;
+    }
+
+    public void setmContext(Context mContext) {
+        this.mContext = mContext;
     }
 }

@@ -125,7 +125,7 @@ public class ServicesActivity extends ActionBarActivity implements ActionBar.Tab
         }
 
         if (id == R.id.action_send_all) {
-            HttpClient.post("commands/sendthem/" + getServiceId(), null, new JsonHttpResponseHandler() {
+            HttpClient.post("/commands/sendthem/" + getServiceId(), null, new JsonHttpResponseHandler() {
                 @Override
                 public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                     // Pull out the first event on the public timeline
@@ -150,9 +150,14 @@ public class ServicesActivity extends ActionBarActivity implements ActionBar.Tab
                         e.printStackTrace();
                     }
                 }
+                @Override
+                public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject jsonObject){
+                    Toast.makeText(me, "Ocurrio un error inesperado:"+throwable.getMessage(), Toast.LENGTH_LONG).show();
+
+                }
 
 
-            });
+            },getBaseContext());
 
             return true;
         }

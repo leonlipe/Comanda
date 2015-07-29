@@ -6,11 +6,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import org.apache.http.Header;
 import org.json.JSONArray;
@@ -64,7 +66,7 @@ public class TablesActivity extends ActionBarActivity implements AdapterView.OnI
             TablesListLoader loadData = new TablesListLoader(adapter);
             loadData.execute();
             System.out.println("http call");
-            HttpClient.get("tiimes_for_menu.json", null, new JsonHttpResponseHandler() {
+            HttpClient.get("/tiimes_for_menu.json", null, new JsonHttpResponseHandler() {
                 @Override
                 public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                     // Pull out the first event on the public timeline
@@ -105,14 +107,23 @@ public class TablesActivity extends ActionBarActivity implements AdapterView.OnI
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-                }
+                    catch (Exception e){
+                        e.printStackTrace();
+                        Toast.makeText(mySelf, "Ocurrio un error inesperado", Toast.LENGTH_LONG).show();
 
+
+                    }
+                }
                 @Override
-                public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
-
+                public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable){
+                    Toast.makeText(mySelf, "Ocurrio un error inesperado: "+throwable.getMessage(), Toast.LENGTH_LONG).show();
 
                 }
-            });
+
+
+
+
+            },getBaseContext());
 
         }catch(Exception e){
             e.printStackTrace();
@@ -129,7 +140,7 @@ public class TablesActivity extends ActionBarActivity implements AdapterView.OnI
       final TablesActivity mySelf = this;
 
 
-            HttpClient.get("services/start/" + ((TablesResult) l.getItemAtPosition(position)).getId(), null, new JsonHttpResponseHandler() {
+            HttpClient.get("/services/start/" + ((TablesResult) l.getItemAtPosition(position)).getId(), null, new JsonHttpResponseHandler() {
                 @Override
                 public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                     // Pull out the first event on the public timeline
@@ -149,14 +160,20 @@ public class TablesActivity extends ActionBarActivity implements AdapterView.OnI
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
+                    catch (Exception e){
+                        Toast.makeText(mySelf, "Ocurrio un error inesperado", Toast.LENGTH_LONG).show();
+                    }
+
                 }
 
                 @Override
-                public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
-
+                public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject jsonObject){
+                    Toast.makeText(mySelf, "Ocurrio un error inesperado:"+throwable.getMessage(), Toast.LENGTH_LONG).show();
 
                 }
-            });
+
+
+            },getBaseContext());
 
        /* String url = "http://172.31.1.19:3000/services/start/"+((TablesResult) l.getItemAtPosition(position)).getId();
         // Llamar al WS para generar un nuevo servicio, y que la actividad de servicios consulte la info del mismo.
@@ -201,13 +218,18 @@ public class TablesActivity extends ActionBarActivity implements AdapterView.OnI
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
+        Intent intent;
         switch (item.getItemId()) {
+
             case R.id.action_show_makers:
-                Intent intent = new Intent(this, MakersActivity.class);
+                intent = new Intent(this, MakersActivity.class);
                 intent.putExtra(MakersActivity.PLACE_KEY, "COC");
                 startActivity(intent);
                 return true;
-
+            case R.id.action_settings:
+                 intent = new Intent(this, AppPreferences.class);
+                startActivity(intent);
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -216,9 +238,9 @@ public class TablesActivity extends ActionBarActivity implements AdapterView.OnI
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         final TablesActivity mySelf = this;
+        Log.v("ItemClick","Entro");
 
-
-        HttpClient.get("services/start/" + ((TablesResult) parent.getItemAtPosition(position)).getId(), null, new JsonHttpResponseHandler() {
+        HttpClient.get("/services/start/" + ((TablesResult) parent.getItemAtPosition(position)).getId(), null, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 // Pull out the first event on the public timeline
@@ -238,14 +260,20 @@ public class TablesActivity extends ActionBarActivity implements AdapterView.OnI
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
+                catch (Exception e){
+                    Toast.makeText(mySelf, "Ocurrio un error inesperado", Toast.LENGTH_LONG).show();
+                }
             }
+
 
             @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
-
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject jsonObject){
+                Toast.makeText(mySelf, "Ocurrio un error inesperado:"+throwable.getMessage(), Toast.LENGTH_LONG).show();
 
             }
-        });
+
+
+        },getBaseContext());
     }
 
     @Override

@@ -1,6 +1,8 @@
 package redleon.net.comanda.loaders;
 
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
+import android.preference.PreferenceManager;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
@@ -35,7 +37,7 @@ public class PaymentsListLoader extends
     private Integer serviceId;
     private PaymentsFragment paymentsFragment;
     private final String mUrl =
-            "http://172.31.1.19:3000/services/payment_resume_diners/";
+            "/services/payment_resume_diners/";
 
     private final PaymentsListAdapter mAdapter;
     public PaymentsListLoader(PaymentsListAdapter adapter) {
@@ -63,7 +65,9 @@ public class PaymentsListLoader extends
 
     @Override
     protected ArrayList<PaymentsResult> doInBackground(URL... params) {
-        InputStream source = retrieveStream(mUrl);
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(mAdapter.getmContext());
+        String ip_server = sp.getString("ip_server", "NA");
+        InputStream source = retrieveStream("http://"+ip_server+mUrl);
         Reader reader = null;
         try {
             reader = new InputStreamReader(source);

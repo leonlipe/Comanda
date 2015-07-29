@@ -1,13 +1,13 @@
 <resources>
     <string name="app_name">Comanda</string>
-    <string name="title_activity_tables">TablesActivity</string>
+    <string name="title_activity_tables">Mesas</string>
 
     <string name="loading">Cargando datos...</string>
     <string name="nodate">Sin datos</string>
     <string name="noextras">Ningun ingrediente extra</string>
     <string name="action_settings">Settings</string>
     <string name="action_send_all">Enviar todas las comandas</string>
-    <string name="title_activity_service">ServiceActivity</string>
+    <string name="title_activity_service">Servicios</string>
 
     <string name="dish_notes">Notas</string>
     <string name="dish_size">Tamaño</string>
@@ -21,15 +21,15 @@
     <string name="cancel">Cancelar</string>
 
 <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="hello_blank_fragment"></string>
     <string name="diners_fragment">Diners fragment</string>
-    <string name="title_activity_menu">MenuActivity</string>
-    <string name="title_activity_dish">DishActivity</string>
-    <string name="title_activity_comand_history">ComandHistoryActivity</string>
+    <string name="title_activity_menu">Menu</string>
+    <string name="title_activity_dish">Platillos</string>
+    <string name="title_activity_comand_history">Historial de comandas</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_dispatch_command">Despachar comanda</string>
 
     <string name="action_show_makers">Mostrar makers</string>
-    <string name="title_activity_makers">MakersActivity</string>
-    <string name="title_activity_makers_detail">MakersDetailActivity</string>
+    <string name="title_activity_makers">Lugares</string>
+    <string name="title_activity_makers_detail">Detalles</string>
 </resources>

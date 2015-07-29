@@ -6,14 +6,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 
 import redleon.net.comanda.R;
 import redleon.net.comanda.model.DinersResult;
-import redleon.net.comanda.model.TablesResult;
 
 /**
  * Created by leon on 19/05/15.
@@ -24,8 +22,8 @@ public class DinersListAdapter extends BaseAdapter {
     private ArrayList<DinersResult> mEntries = new ArrayList<DinersResult>();
 
     public DinersListAdapter(Context context) {
-        mContext = context;
-        mLayoutInflater = (LayoutInflater) mContext
+        setmContext(context);
+        mLayoutInflater = (LayoutInflater) getmContext()
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
@@ -77,5 +75,13 @@ public class DinersListAdapter extends BaseAdapter {
     public void upDateEntries(ArrayList<DinersResult> entries) {
         mEntries = entries;
         notifyDataSetChanged();
+    }
+
+    public Context getmContext() {
+        return mContext;
+    }
+
+    public void setmContext(Context mContext) {
+        this.mContext = mContext;
     }
 }

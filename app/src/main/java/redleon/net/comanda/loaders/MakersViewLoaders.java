@@ -1,6 +1,8 @@
 package redleon.net.comanda.loaders;
 
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
+import android.preference.PreferenceManager;
 
 import com.google.gson.Gson;
 
@@ -30,7 +32,7 @@ public class MakersViewLoaders  extends
 
     private String placeKey;
     private final String mUrl =
-            "http://172.31.1.19:3000/commands/list_by_place/";
+            "/commands/list_by_place/";
 
     private final MakersListAdapter mAdapter;
 
@@ -58,7 +60,9 @@ public class MakersViewLoaders  extends
 
     @Override
     protected ArrayList<MakersCommandItem> doInBackground(URL... params) {
-        InputStream source = retrieveStream(mUrl);
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(mAdapter.getmContext());
+        String ip_server = sp.getString("ip_server", "NA");
+        InputStream source = retrieveStream("http://"+ip_server+mUrl);
         Reader reader = null;
         try {
             reader = new InputStreamReader(source);

@@ -78,16 +78,21 @@ public class MakersDetailActivity extends ActionBarActivity implements AdapterVi
 
         if (id == R.id.action_dispatch_command) {
 
-            HttpClient.post("commands/completed/" + getCommandId(), null, new JsonHttpResponseHandler() {
+            HttpClient.post("/commands/completed/" + getCommandId(), null, new JsonHttpResponseHandler() {
                 @Override
                 public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                     // Pull out the first event on the public timeline
                     me.onRefresh();
                     Toast.makeText(me, "Se ha despachado la comanda", Toast.LENGTH_SHORT).show();
                 }
+                @Override
+                public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject jsonObject){
+                    Toast.makeText(me, "Ocurrio un error inesperado:"+throwable.getMessage(), Toast.LENGTH_LONG).show();
+
+                }
 
 
-            });
+            },getBaseContext());
             return true;
         }
 
@@ -105,16 +110,21 @@ public class MakersDetailActivity extends ActionBarActivity implements AdapterVi
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         final MakersDetailActivity me = this;
-        HttpClient.post("order_dishes/setready/" + ((Dish) parent.getItemAtPosition(position)).getOrder_dishes_id(), null, new JsonHttpResponseHandler() {
+        HttpClient.post("/order_dishes/setready/" + ((Dish) parent.getItemAtPosition(position)).getOrder_dishes_id(), null, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 // Pull out the first event on the public timeline
                 me.onRefresh();
                 Toast.makeText(me, "Se ha despachado el platillo", Toast.LENGTH_SHORT).show();
             }
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject jsonObject){
+                Toast.makeText(me, "Ocurrio un error inesperado:"+throwable.getMessage(), Toast.LENGTH_LONG).show();
+
+            }
 
 
-        });
+        },getBaseContext());
 
 
 

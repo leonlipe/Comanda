@@ -81,4 +81,12 @@ public class ComandsHistoryAdapter extends BaseAdapter {
         notifyDataSetChanged();
     }
 
+    public Context getmContext() {
+        return mContext;
+    }
+
+    public void setmContext(Context mContext) {
+        this.mContext = mContext;
+    }
+
 }

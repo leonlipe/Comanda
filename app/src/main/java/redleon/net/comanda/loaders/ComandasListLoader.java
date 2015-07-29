@@ -1,6 +1,8 @@
 package redleon.net.comanda.loaders;
 
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
+import android.preference.PreferenceManager;
 
 import com.google.gson.Gson;
 
@@ -31,7 +33,7 @@ public class ComandasListLoader extends
 
     private Integer serviceId;
     private final String mUrl =
-            "http://172.31.1.19:3000/services/get_commands_status/";
+            "/services/get_commands_status/";
 
     private final ComandasListAdapter mAdapter;
     public ComandasListLoader(ComandasListAdapter adapter) {
@@ -58,8 +60,9 @@ public class ComandasListLoader extends
 
     @Override
     protected ArrayList<ComandasResult> doInBackground(URL... params) {
-        InputStream source = retrieveStream(mUrl);
-        Reader reader = null;
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(mAdapter.getmContext());
+        String ip_server = sp.getString("ip_server", "NA");
+        InputStream source = retrieveStream("http://"+ip_server+mUrl);        Reader reader = null;
         try {
             reader = new InputStreamReader(source);
         } catch (Exception e) {

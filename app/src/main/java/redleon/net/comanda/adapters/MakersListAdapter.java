@@ -11,7 +11,6 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import redleon.net.comanda.R;
-import redleon.net.comanda.model.ComandasResult;
 import redleon.net.comanda.model.MakersCommandItem;
 
 /**
@@ -23,8 +22,8 @@ public class MakersListAdapter extends BaseAdapter {
     private ArrayList<MakersCommandItem> mEntries = new ArrayList<MakersCommandItem>();
 
     public MakersListAdapter(Context context) {
-        mContext = context;
-        mLayoutInflater = (LayoutInflater) mContext
+        setmContext(context);
+        mLayoutInflater = (LayoutInflater) getmContext()
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
@@ -78,5 +77,13 @@ public class MakersListAdapter extends BaseAdapter {
     public void upDateEntries(ArrayList<MakersCommandItem> entries) {
         mEntries = entries;
         notifyDataSetChanged();
+    }
+
+    public Context getmContext() {
+        return mContext;
+    }
+
+    public void setmContext(Context mContext) {
+        this.mContext = mContext;
     }
 }

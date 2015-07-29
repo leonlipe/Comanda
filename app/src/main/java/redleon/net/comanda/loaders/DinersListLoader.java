@@ -1,6 +1,8 @@
 package redleon.net.comanda.loaders;
 
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
+import android.preference.PreferenceManager;
 
 import com.google.gson.Gson;
 
@@ -30,7 +32,7 @@ public class DinersListLoader  extends
 
     private Integer serviceId;
     private final String mUrl =
-            "http://172.31.1.19:3000/diners/by_service/";
+            "/diners/by_service/";
 
     private final DinersListAdapter mAdapter;
     public DinersListLoader(DinersListAdapter adapter) {
@@ -58,8 +60,9 @@ public class DinersListLoader  extends
 
     @Override
     protected ArrayList<DinersResult> doInBackground(URL... params) {
-        InputStream source = retrieveStream(mUrl);
-        Reader reader = null;
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(mAdapter.getmContext());
+        String ip_server = sp.getString("ip_server", "NA");
+        InputStream source = retrieveStream("http://"+ip_server+mUrl);        Reader reader = null;
         try {
             reader = new InputStreamReader(source);
         } catch (Exception e) {

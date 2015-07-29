@@ -1,6 +1,8 @@
 package redleon.net.comanda.loaders;
 
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
+import android.preference.PreferenceManager;
 
 import com.google.gson.Gson;
 
@@ -34,7 +36,7 @@ public class ComandasHistoryLoader extends
     private Integer serviceId;
     private Integer dinerId;
     private final String mUrl =
-            "http://172.31.1.19:3000/services/get_history/";
+            "/services/get_history/";
 
     private final ComandsHistoryAdapter mAdapter;
     public ComandasHistoryLoader(ComandsHistoryAdapter adapter) {
@@ -61,7 +63,9 @@ public class ComandasHistoryLoader extends
 
     @Override
     protected ArrayList<OrderDishesData> doInBackground(URL... params) {
-        InputStream source = retrieveStream(mUrl);
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(mAdapter.getmContext());
+        String ip_server = sp.getString("ip_server", "NA");
+        InputStream source = retrieveStream("http://"+ip_server+mUrl);
         Reader reader = null;
         try {
             reader = new InputStreamReader(source);

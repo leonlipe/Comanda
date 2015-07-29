@@ -12,7 +12,6 @@ import java.util.ArrayList;
 
 import redleon.net.comanda.R;
 import redleon.net.comanda.model.ComandasResult;
-import redleon.net.comanda.model.DinersResult;
 
 /**
  * Created by leon on 19/05/15.
@@ -23,8 +22,8 @@ public class ComandasListAdapter extends BaseAdapter {
     private ArrayList<ComandasResult> mEntries = new ArrayList<ComandasResult>();
 
     public ComandasListAdapter(Context context) {
-        mContext = context;
-        mLayoutInflater = (LayoutInflater) mContext
+        setmContext(context);
+        mLayoutInflater = (LayoutInflater) getmContext()
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
@@ -78,5 +77,13 @@ public class ComandasListAdapter extends BaseAdapter {
     public void upDateEntries(ArrayList<ComandasResult> entries) {
         mEntries = entries;
         notifyDataSetChanged();
+    }
+
+    public Context getmContext() {
+        return mContext;
+    }
+
+    public void setmContext(Context mContext) {
+        this.mContext = mContext;
     }
 }

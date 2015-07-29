@@ -77,7 +77,7 @@ public class DishActivity extends ActionBarActivity {
         spinner.setAdapter(adapter);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        HttpClient.get("extras_for_select.json", null, new JsonHttpResponseHandler() {
+        HttpClient.get("/extras_for_select.json", null, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 // Pull out the first event on the public timeline
@@ -99,15 +99,16 @@ public class DishActivity extends ActionBarActivity {
                     e.printStackTrace();
                 }
             }
-
             @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
-
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject jsonObject){
+                Toast.makeText(me, "Ocurrio un error inesperado:"+throwable.getMessage(), Toast.LENGTH_LONG).show();
 
             }
-        });
 
-        HttpClient.get("dishes/get_sizes/"+getDishId()+".json", null, new JsonHttpResponseHandler() {
+
+        },getBaseContext());
+
+        HttpClient.get("/dishes/get_sizes/"+getDishId()+".json", null, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 // Pull out the first event on the public timeline
@@ -135,9 +136,14 @@ public class DishActivity extends ActionBarActivity {
                     e.printStackTrace();
                 }
             }
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject jsonObject){
+                Toast.makeText(me, "Ocurrio un error inesperado:"+throwable.getMessage(), Toast.LENGTH_LONG).show();
+
+            }
 
 
-        });
+        },getBaseContext());
 
     }
 
@@ -209,7 +215,7 @@ public class DishActivity extends ActionBarActivity {
         RequestParams params = new RequestParams();
         params.put("data", data);
 
-        HttpClient.post("add_dish_to_order/"+getDishId().toString(), params, new JsonHttpResponseHandler() {
+        HttpClient.post("/add_dish_to_order/"+getDishId().toString(), params, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 // Pull out the first event on the public timeline
@@ -232,9 +238,14 @@ public class DishActivity extends ActionBarActivity {
                 }
                 Toast.makeText(me, "El platillo se agregó correctamente.",Toast.LENGTH_SHORT).show();
             }
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject jsonObject){
+                Toast.makeText(me, "Ocurrio un error inesperado:"+throwable.getMessage(), Toast.LENGTH_LONG).show();
+
+            }
 
 
-        });
+        },getBaseContext());
 
 
         this.finish();

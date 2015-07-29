@@ -1,6 +1,9 @@
 package redleon.net.comanda.loaders;
 
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
+import android.preference.PreferenceManager;
+import android.util.Log;
 
 import com.google.gson.Gson;
 
@@ -27,7 +30,7 @@ public class TablesListLoader extends
         AsyncTask<URL, Integer, ArrayList<TablesResult>> {
 
     private final String mUrl =
-            "http://172.31.1.19:3000/tables_for_list.json";
+            "/tables_for_list.json";
 
     private final TablesListAdapter mAdapter;
     public TablesListLoader(TablesListAdapter adapter) {
@@ -53,13 +56,16 @@ public class TablesListLoader extends
 
     @Override
     protected ArrayList<TablesResult> doInBackground(URL... params) {
-        InputStream source = retrieveStream(mUrl);
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(mAdapter.getmContext());
+        String ip_server = sp.getString("ip_server", "NA");
+        Log.v("Loader", "http://" + ip_server + mUrl);
+        InputStream source = retrieveStream("http://"+ip_server+mUrl);
         Reader reader = null;
         try {
             reader = new InputStreamReader(source);
         } catch (Exception e) {
             e.printStackTrace();
-            return null;
+            return new ArrayList<TablesResult>();
         }
         Gson gson = new Gson();
         TablesResult[] result = gson.fromJson(reader,TablesResult[].class);

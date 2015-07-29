@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.loopj.android.http.JsonHttpResponseHandler;
 
@@ -155,9 +156,11 @@ public class ComandasFragment extends ListFragment implements SwipeRefreshLayout
     public void onListItemClick(ListView l, View v, int pos, long id) {
         super.onListItemClick(l, v, pos, id);
 
+        final ComandasFragment me = this;
+
         final ComandasResult dr = (ComandasResult) getListAdapter().getItem(pos);
 
-        HttpClient.get("services/get_history/" + dr.getId(), null, new JsonHttpResponseHandler() {
+        HttpClient.get("/services/get_history/" + dr.getId(), null, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 // Pull out the first event on the public timeline
@@ -180,9 +183,14 @@ public class ComandasFragment extends ListFragment implements SwipeRefreshLayout
                     e.printStackTrace();
                 }
             }
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject jsonObject){
+                Toast.makeText(me.getActivity(), "Ocurrio un error inesperado:" + throwable.getMessage(), Toast.LENGTH_LONG).show();
+
+            }
 
 
-        });
+        },getActivity().getBaseContext());
 
 
         //Toast.makeText(getActivity(), "Item " + pos + " was clicked", Toast.LENGTH_SHORT).show();
