@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.loopj.android.http.JsonHttpResponseHandler;
@@ -48,7 +49,6 @@ import redleon.net.comanda.network.HttpClient;
  * create an instance of this fragment.
  */
 public class PaymentsFragment extends ListFragment implements SwipeRefreshLayout.OnRefreshListener, View.OnClickListener {
-    // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_SERVICE_ID = "serviceid";
 
@@ -150,24 +150,28 @@ public class PaymentsFragment extends ListFragment implements SwipeRefreshLayout
         paymentsListLoader.execute();
         selectedItems.clear();
         totalText.setText("0");
+        total = new BigDecimal(0);
         swipeLayout.setRefreshing(false);
 
     }
 
     @Override
     public void onClick(View v) {
-        Integer[] idsArray = new Integer[selectedItems.size()];
-        int x = 0;
-        for(PaymentsResult paymentsResult:selectedItems){
-            idsArray[x++] = paymentsResult.getId();
+        if (selectedItems.size() == 0){
+            Toast.makeText(getView().getContext(), "Debes de seleccionar al menos una persona.", Toast.LENGTH_LONG).show();
+        }else {
+            ArrayList<Integer> idsArray = new ArrayList<Integer>();
+            for (PaymentsResult paymentsResult : selectedItems) {
+                idsArray.add(paymentsResult.getId());
+            }
+
+            Log.v("Pay:", new Gson().toJson(idsArray));
+            Intent intent = new Intent(v.getContext(), PaymentActivity.class);
+            intent.putIntegerArrayListExtra(PaymentActivity.DINERS_ARRAY, idsArray);
+            intent.putExtra(PaymentActivity.GRAN_TOTAL, totalText.getText());
+            intent.putExtra(PaymentActivity.SERVICE_ID, serviceId);
+            startActivity(intent);
         }
-        RequestParams params = new RequestParams();
-        params.put("data", "");
-        params.put("ids", new Gson().toJson(idsArray));
-        Log.v("Pay:", new Gson().toJson(idsArray));
-        Intent intent = new Intent(v.getContext(), PaymentActivity.class);
-       // intent.putExtra(MakersDetailActivity.COMMAND_ID, ((MakersCommandItem) parent.getItemAtPosition(position)).getId());
-        startActivity(intent);
     }
 
     /**

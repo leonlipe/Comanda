@@ -65,42 +65,6 @@ public class ServicesActivity extends ActionBarActivity implements ActionBar.Tab
         }
 
 
-
-
-
-
-
-        /*HttpClient.get("diners/by_service/"+idService.toString() , null, new JsonHttpResponseHandler() {
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                // Pull out the first event on the public timeline
-
-                try {
-
-                    String sResponse = response.getString("status");
-                    // Do something with the response
-                    if (sResponse.equals("ok")) {
-                        diners = response.getJSONArray("diners");
-
-                        for(int x  = 0;x<diners.length(); x++){
-                            System.out.println( ((JSONObject)diners.get(x)).getString("diner_desc"));
-                        }
-                    }
-
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
-
-
-            }
-        });*/
-
-
     }
 
 
@@ -123,7 +87,43 @@ public class ServicesActivity extends ActionBarActivity implements ActionBar.Tab
         if (id == R.id.action_settings) {
             return true;
         }
+        if (id == R.id.action_add_person) {
+            HttpClient.post("/services/add_diner/" + getServiceId(), null, new JsonHttpResponseHandler() {
+                @Override
+                public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                    // Pull out the first event on the public timeline
 
+                    try {
+
+                        String sResponse = response.getString("status");
+                        // Do something with the response
+                        //System.out.println(response.getJSONObject("service").getInt("id"));
+                        if (sResponse.equals("ok")) {
+
+                            Toast.makeText(me,
+                                    "Se agregó una persona al servicio",
+                                    Toast.LENGTH_SHORT).show();
+                        }else{
+                            Toast.makeText(me,
+                                    "Ocurrió un error: "+sResponse,
+                                    Toast.LENGTH_SHORT).show();
+                        }
+
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+                @Override
+                public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject jsonObject){
+                    Toast.makeText(me, "Ocurrio un error inesperado:"+throwable.getMessage(), Toast.LENGTH_LONG).show();
+
+                }
+
+
+            },getBaseContext());
+            return true;
+        }
         if (id == R.id.action_send_all) {
             HttpClient.post("/commands/sendthem/" + getServiceId(), null, new JsonHttpResponseHandler() {
                 @Override
@@ -141,7 +141,7 @@ public class ServicesActivity extends ActionBarActivity implements ActionBar.Tab
                                     Toast.LENGTH_SHORT).show();
                         }else{
                             Toast.makeText(me,
-                                    "Ocurrió un error: "+sResponse,
+                                    sResponse,
                                     Toast.LENGTH_SHORT).show();
                         }
 

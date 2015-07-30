@@ -221,18 +221,14 @@ public class DishActivity extends ActionBarActivity {
                 // Pull out the first event on the public timeline
 
                 try {
-                    /*
-                    {serviceId:
-                     dinerId:
-                     notes:
-                     dishtiime:
-                     dishsize:
-                     picker:
+                    String sResponse = response.getString("status");
+
+                    if (sResponse.equals("ok")) {
+
+                    }else{
+                        Toast.makeText(me, response.getString("status"), Toast.LENGTH_SHORT).show();
+                        return;
                     }
-                    */
-                    // Do something with the response
-
-
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

@@ -8,26 +8,28 @@ import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
+import java.util.List;
 
 import redleon.net.comanda.R;
-import redleon.net.comanda.model.DinersResult;
+import redleon.net.comanda.model.Invoice;
 
 /**
  * Created by leon on 19/05/15.
  */
-public class DinersListAdapter extends BaseAdapter {
+public class InvoicesListAdapter extends BaseAdapter {
     private Context mContext;
     private LayoutInflater mLayoutInflater;
-    private ArrayList<DinersResult> mEntries = new ArrayList<DinersResult>();
+    private List<Invoice> mEntries = new ArrayList<Invoice>();
 
-    public DinersListAdapter(Context context) {
+    public InvoicesListAdapter(Context context) {
         setmContext(context);
         mLayoutInflater = (LayoutInflater) getmContext()
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
+
+
+
 
     @Override
     public int getCount() {
@@ -36,7 +38,7 @@ public class DinersListAdapter extends BaseAdapter {
     }
 
     @Override
-    public Object getItem(int position) {
+    public Invoice getItem(int position) {
 
         return mEntries.get(position);
     }
@@ -47,33 +49,32 @@ public class DinersListAdapter extends BaseAdapter {
         return position;
     }
 
+
     @Override
     public View getView(int position, View convertView,
                         ViewGroup parent) {
         LinearLayout itemView;
         if (convertView == null) {
             itemView = (LinearLayout) mLayoutInflater.inflate(
-                    R.layout.fragment_diners_list, parent, false);
+                    R.layout.fragment_invoices_list, parent, false);
 
         } else {
             itemView = (LinearLayout) convertView;
         }
 
-        TextView titleText = (TextView) itemView.findViewById(R.id.diner_title);
-        TextView descriptionText = (TextView) itemView.findViewById(R.id.diner_desc);
-        TextView dinerStatusText = (TextView) itemView.findViewById(R.id.diner_status);
+        TextView idText = (TextView) itemView.findViewById(R.id.invoice_id);
+        TextView dateText = (TextView) itemView.findViewById(R.id.invoice_date);
+        TextView nameText = (TextView) itemView.findViewById(R.id.invoice_name);
+        TextView rfcText = (TextView) itemView.findViewById(R.id.invoice_rfc);
 
-        String title = mEntries.get(position).getDiner_number().toString();
-        titleText.setText(title);
-        String description =
-                mEntries.get(position).getDiner_desc();
-
-        descriptionText.setText(description);
-        dinerStatusText.setText(mEntries.get(position).getStatus_desc());
+        idText.setText("Ticket no: "+mEntries.get(position).getId().toString());
+        dateText.setText(mEntries.get(position).getDate_made());
+        nameText.setText(mEntries.get(position).getName());
+        rfcText.setText(mEntries.get(position).getRfc());
         return itemView;
     }
 
-    public void upDateEntries(ArrayList<DinersResult> entries) {
+    public void upDateEntries(ArrayList<Invoice> entries) {
         mEntries = entries;
         notifyDataSetChanged();
     }

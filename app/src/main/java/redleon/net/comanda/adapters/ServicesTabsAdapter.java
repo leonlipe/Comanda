@@ -34,7 +34,7 @@ public class ServicesTabsAdapter extends FragmentPagerAdapter{
             case 2:
                 return PaymentsFragment.newInstance(getServiceId());
             case 3:
-                return new InvoicesFragment();
+                return InvoicesFragment.newInstance(getServiceId());
         }
 
 

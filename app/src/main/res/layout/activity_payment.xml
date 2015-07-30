@@ -8,17 +8,23 @@
 
 
 
-
-    <TextView android:text="@string/porcentaje_cobro" android:layout_width="wrap_content"
+    <TextView android:text="Porcentaje de cobro" android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/porcentaje_conbro" />
+       />
+    <EditText android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/porcentaje_cobro" />
 
     <Spinner
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/dish_spin_size" />
+        android:id="@+id/payment_method_spin" />
 
 
+    <TextView android:text="Gran total" android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/gran_total_text"
+        />
 
     <Button
         android:layout_width="fill_parent"

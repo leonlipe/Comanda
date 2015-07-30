@@ -60,14 +60,13 @@ public class TablesListAdapter extends BaseAdapter {
 
         TextView titleText = (TextView) itemView.findViewById(R.id.listTitle);
         TextView descriptionText = (TextView) itemView.findViewById(R.id.listDescription);
+        TextView statusText = (TextView) itemView.findViewById(R.id.tableStatus);
 
         String title = mEntries.get(position).getKey();
         titleText.setText(title);
         String description =
                 mEntries.get(position).getDescription();
-        if (description.trim().length() == 0) {
-            description = "Sorry, no description for this image.";
-        }
+        statusText.setText(mEntries.get(position).getStatus_desc());
         descriptionText.setText(description);
 
         return itemView;
