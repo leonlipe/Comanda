@@ -3,6 +3,7 @@ package redleon.net.comanda.loaders;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.preference.PreferenceManager;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 
@@ -29,7 +30,8 @@ import redleon.net.comanda.model.TablesResult;
  */
 public class DinersListLoader  extends
         AsyncTask<URL, Integer, ArrayList<DinersResult>> {
-
+    private boolean hadError = false;
+    private String errorMsg = "";
     private Integer serviceId;
     private final String mUrl =
             "/diners/by_service/";
@@ -67,6 +69,8 @@ public class DinersListLoader  extends
             reader = new InputStreamReader(source);
         } catch (Exception e) {
             e.printStackTrace();
+            hadError = true;
+            errorMsg = e.getMessage();
             return null;
         }
         Gson gson = new Gson();
@@ -82,7 +86,11 @@ public class DinersListLoader  extends
     }
 
     protected void onPostExecute(ArrayList<DinersResult> entries) {
-        mAdapter.upDateEntries(entries);
+        if (hadError){
+            Toast.makeText(mAdapter.getmContext(), "Ocurrio un error inesperado, tal vez no hay conexion con el servidor. ", Toast.LENGTH_LONG).show();
+        }else {
+            mAdapter.upDateEntries(entries);
+        }
     }
 
     public Integer getServiceId() {

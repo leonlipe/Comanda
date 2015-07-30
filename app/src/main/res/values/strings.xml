@@ -29,7 +29,12 @@
     <string name="hello_world">Hello world!</string>
     <string name="action_dispatch_command">Despachar comanda</string>
 
-    <string name="action_show_makers">Mostrar makers</string>
+    <string name="action_show_cocina">Mostrar cocina</string>
+    <string name="action_show_barra">Mostrar barra</string>
+    <string name="action_show_horno">Mostrar pizzeria</string>
     <string name="title_activity_makers">Lugares</string>
     <string name="title_activity_makers_detail">Detalles</string>
+    <string name="title_activity_payment">PaymentActivity</string>
+    <string name="porcentaje_cobro">Porcentaje de cobro</string>
+    <string name="payment_do_payment">Realizar pago</string>
 </resources>

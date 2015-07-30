@@ -3,6 +3,7 @@ package redleon.net.comanda.loaders;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.preference.PreferenceManager;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 
@@ -29,7 +30,8 @@ import redleon.net.comanda.model.MakersCommandItem;
  */
 public class MakersViewLoaders  extends
         AsyncTask<URL, Integer, ArrayList<MakersCommandItem>> {
-
+    private boolean hadError = false;
+    private String errorMsg = "";
     private String placeKey;
     private final String mUrl =
             "/commands/list_by_place/";
@@ -68,6 +70,8 @@ public class MakersViewLoaders  extends
             reader = new InputStreamReader(source);
         } catch (Exception e) {
             e.printStackTrace();
+            hadError = true;
+            errorMsg = e.getMessage();
             return null;
         }
         Gson gson = new Gson();
@@ -83,7 +87,11 @@ public class MakersViewLoaders  extends
     }
 
     protected void onPostExecute(ArrayList<MakersCommandItem> entries) {
-        mAdapter.upDateEntries(entries);
+        if (hadError){
+            Toast.makeText(mAdapter.getmContext(), "Ocurrio un error inesperado, tal vez no hay conexion con el servidor. ", Toast.LENGTH_LONG).show();
+        }else {
+            mAdapter.upDateEntries(entries);
+        }
     }
 
     public String getPlaceKey() {

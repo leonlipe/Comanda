@@ -221,9 +221,19 @@ public class TablesActivity extends ActionBarActivity implements AdapterView.OnI
         Intent intent;
         switch (item.getItemId()) {
 
-            case R.id.action_show_makers:
+            case R.id.action_show_cocina:
                 intent = new Intent(this, MakersActivity.class);
                 intent.putExtra(MakersActivity.PLACE_KEY, "COC");
+                startActivity(intent);
+                return true;
+            case R.id.action_show_barra:
+                intent = new Intent(this, MakersActivity.class);
+                intent.putExtra(MakersActivity.PLACE_KEY, "BAA");
+                startActivity(intent);
+                return true;
+            case R.id.action_show_horno:
+                intent = new Intent(this, MakersActivity.class);
+                intent.putExtra(MakersActivity.PLACE_KEY, "PIZ");
                 startActivity(intent);
                 return true;
             case R.id.action_settings:

@@ -23,7 +23,9 @@
             android:name=".activities.ServicesActivity"
             android:label="@string/title_activity_service" >
         </activity>
-        <activity android:name=".activities.AppPreferences" android:label="PreferencesActivity"></activity>
+        <activity
+            android:name=".activities.AppPreferences"
+            android:label="PreferencesActivity" />
         <activity
             android:name=".activities.MenuActivity"
             android:label="@string/title_activity_menu"
@@ -50,6 +52,10 @@
         <activity
             android:name=".activities.MakersDetailActivity"
             android:label="@string/title_activity_makers_detail" >
+        </activity>
+        <activity
+            android:name=".activities.PaymentActivity"
+            android:label="@string/title_activity_payment" >
         </activity>
     </application>
 

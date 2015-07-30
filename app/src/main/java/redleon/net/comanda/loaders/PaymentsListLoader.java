@@ -4,6 +4,7 @@ import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.preference.PreferenceManager;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 
@@ -33,7 +34,8 @@ import redleon.net.comanda.model.PaymentsResult;
  */
 public class PaymentsListLoader extends
         AsyncTask<URL, Integer, ArrayList<PaymentsResult>> {
-
+    private boolean hadError = false;
+    private String errorMsg = "";
     private Integer serviceId;
     private PaymentsFragment paymentsFragment;
     private final String mUrl =
@@ -73,6 +75,8 @@ public class PaymentsListLoader extends
             reader = new InputStreamReader(source);
         } catch (Exception e) {
             e.printStackTrace();
+            hadError = true;
+            errorMsg = e.getMessage();
             return null;
         }
         Gson gson = new Gson();
@@ -90,7 +94,11 @@ public class PaymentsListLoader extends
     }
 
     protected void onPostExecute(ArrayList<PaymentsResult> entries) {
-        mAdapter.upDateEntries(entries);
+        if (hadError){
+            Toast.makeText(mAdapter.getmContext(), "Ocurrio un error inesperado, tal vez no hay conexion con el servidor. ", Toast.LENGTH_LONG).show();
+        }else {
+            mAdapter.upDateEntries(entries);
+        }
     }
 
     public Integer getServiceId() {

@@ -3,6 +3,7 @@ package redleon.net.comanda.loaders;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.preference.PreferenceManager;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 
@@ -30,7 +31,8 @@ import redleon.net.comanda.model.JsonDinersResult;
  */
 public class ComandasListLoader extends
         AsyncTask<URL, Integer, ArrayList<ComandasResult>> {
-
+    private boolean hadError = false;
+    private String errorMsg = "";
     private Integer serviceId;
     private final String mUrl =
             "/services/get_commands_status/";
@@ -67,6 +69,8 @@ public class ComandasListLoader extends
             reader = new InputStreamReader(source);
         } catch (Exception e) {
             e.printStackTrace();
+            hadError = true;
+            errorMsg = e.getMessage();
             return null;
         }
         Gson gson = new Gson();
@@ -82,7 +86,11 @@ public class ComandasListLoader extends
     }
 
     protected void onPostExecute(ArrayList<ComandasResult> entries) {
-        mAdapter.upDateEntries(entries);
+        if (hadError){
+            Toast.makeText(mAdapter.getmContext(), "Ocurrio un error inesperado, tal vez no hay conexion con el servidor. ", Toast.LENGTH_LONG).show();
+        }else {
+            mAdapter.upDateEntries(entries);
+        }
     }
 
     public Integer getServiceId() {

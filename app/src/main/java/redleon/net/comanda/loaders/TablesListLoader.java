@@ -4,6 +4,7 @@ import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.preference.PreferenceManager;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 
@@ -31,6 +32,9 @@ public class TablesListLoader extends
 
     private final String mUrl =
             "/tables_for_list.json";
+
+    private boolean hadError = false;
+    private String errorMsg = "";
 
     private final TablesListAdapter mAdapter;
     public TablesListLoader(TablesListAdapter adapter) {
@@ -65,7 +69,10 @@ public class TablesListLoader extends
             reader = new InputStreamReader(source);
         } catch (Exception e) {
             e.printStackTrace();
-            return new ArrayList<TablesResult>();
+            //return new ArrayList<TablesResult>();
+            hadError = true;
+            errorMsg = e.getMessage();
+            return null;
         }
         Gson gson = new Gson();
         TablesResult[] result = gson.fromJson(reader,TablesResult[].class);
@@ -77,6 +84,10 @@ public class TablesListLoader extends
     }
 
     protected void onPostExecute(ArrayList<TablesResult> entries) {
-        mAdapter.upDateEntries(entries);
+        if (hadError){
+            Toast.makeText(mAdapter.getmContext(), "Ocurrio un error inesperado, tal vez no hay conexion con el servidor. ", Toast.LENGTH_LONG).show();
+        }else {
+            mAdapter.upDateEntries(entries);
+        }
     }
 }

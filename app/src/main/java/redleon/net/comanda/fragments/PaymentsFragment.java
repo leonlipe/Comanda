@@ -7,13 +7,17 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.ListFragment;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
 import com.loopj.android.http.JsonHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
 
 import org.apache.http.Header;
 import org.json.JSONException;
@@ -25,10 +29,13 @@ import java.util.List;
 
 import redleon.net.comanda.R;
 import redleon.net.comanda.activities.ComandHistoryActivity;
+import redleon.net.comanda.activities.MakersDetailActivity;
+import redleon.net.comanda.activities.PaymentActivity;
 import redleon.net.comanda.activities.ServicesActivity;
 import redleon.net.comanda.adapters.PaymentsListAdapter;
 import redleon.net.comanda.loaders.PaymentsListLoader;
 import redleon.net.comanda.model.ComandasResult;
+import redleon.net.comanda.model.MakersCommandItem;
 import redleon.net.comanda.model.PaymentsResult;
 import redleon.net.comanda.network.HttpClient;
 
@@ -40,7 +47,7 @@ import redleon.net.comanda.network.HttpClient;
  * Use the {@link PaymentsFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class PaymentsFragment extends ListFragment implements SwipeRefreshLayout.OnRefreshListener {
+public class PaymentsFragment extends ListFragment implements SwipeRefreshLayout.OnRefreshListener, View.OnClickListener {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_SERVICE_ID = "serviceid";
@@ -101,7 +108,8 @@ public class PaymentsFragment extends ListFragment implements SwipeRefreshLayout
         ListView listView = (ListView) view.findViewById(android.R.id.list);
         listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE_MODAL);
         totalText = (TextView) view.findViewById(R.id.payment_list_total);
-
+        Button btnPagar = (Button) view.findViewById(R.id.btn_pay);
+        btnPagar.setOnClickListener(this);
         swipeLayout = (SwipeRefreshLayout) view.findViewById(R.id.fragment_comandas_swipe_container);
         swipeLayout.setOnRefreshListener(this);
         swipeLayout.setColorScheme(android.R.color.holo_blue_bright,
@@ -140,8 +148,26 @@ public class PaymentsFragment extends ListFragment implements SwipeRefreshLayout
         PaymentsListLoader paymentsListLoader = new PaymentsListLoader(adapter);
         paymentsListLoader.setServiceId(serviceId);
         paymentsListLoader.execute();
+        selectedItems.clear();
+        totalText.setText("0");
         swipeLayout.setRefreshing(false);
 
+    }
+
+    @Override
+    public void onClick(View v) {
+        Integer[] idsArray = new Integer[selectedItems.size()];
+        int x = 0;
+        for(PaymentsResult paymentsResult:selectedItems){
+            idsArray[x++] = paymentsResult.getId();
+        }
+        RequestParams params = new RequestParams();
+        params.put("data", "");
+        params.put("ids", new Gson().toJson(idsArray));
+        Log.v("Pay:", new Gson().toJson(idsArray));
+        Intent intent = new Intent(v.getContext(), PaymentActivity.class);
+       // intent.putExtra(MakersDetailActivity.COMMAND_ID, ((MakersCommandItem) parent.getItemAtPosition(position)).getId());
+        startActivity(intent);
     }
 
     /**

@@ -52,6 +52,16 @@ public class MakersActivity extends ActionBarActivity implements AdapterView.OnI
                 android.R.color.holo_orange_light,
                 android.R.color.holo_red_light);
 
+        if (getPlaceKey().equals("COC")) {
+            setTitle("Cocina");
+        }else
+        if (getPlaceKey().equals("PIZ")) {
+            setTitle("Pizzeria");
+        }else
+        if (getPlaceKey().equals("BAA")) {
+            setTitle("Barra");
+        }
+
 
         MakersViewLoaders loadData = new MakersViewLoaders(makersListAdapter);
         loadData.setPlaceKey(getPlaceKey());
