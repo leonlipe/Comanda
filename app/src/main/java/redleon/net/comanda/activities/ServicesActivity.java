@@ -27,6 +27,7 @@ import redleon.net.comanda.network.HttpClient;
 
 
 public class ServicesActivity extends ActionBarActivity implements ActionBar.TabListener, ComandasFragment.OnFragmentInteractionListener, DinersFragment.OnFragmentInteractionListener, InvoicesFragment.OnFragmentInteractionListener, PaymentsFragment.OnFragmentInteractionListener, ViewPager.OnPageChangeListener{
+    public final static String TITLE = "net.redleon.TITLE";
 
     private Integer serviceId = 0;
     JSONArray diners = null;
@@ -34,7 +35,8 @@ public class ServicesActivity extends ActionBarActivity implements ActionBar.Tab
     private ViewPager mViewPager;
     private ServicesTabsAdapter mAdapter;
     private ActionBar actionBar;
-    // Tab titles
+    private String barTitle;
+    // Tab title
     private String [] tabs = { "Menu", "Comandas", "Pagos", "Facturas" };
 
 
@@ -43,7 +45,8 @@ public class ServicesActivity extends ActionBarActivity implements ActionBar.Tab
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_service);
         Intent intent = getIntent();
-        setServiceId(intent.getIntExtra(TablesActivity.EXTRA_MESSAGE,0));
+        setServiceId(intent.getIntExtra(TablesActivity.EXTRA_MESSAGE, 0));
+        setBarTitle(intent.getStringExtra(TITLE));
         mViewPager = (ViewPager)findViewById(R.id.pager);
         actionBar = getSupportActionBar();
         System.out.println(actionBar);
@@ -51,6 +54,7 @@ public class ServicesActivity extends ActionBarActivity implements ActionBar.Tab
         System.out.println("ServicesActivity:" + getServiceId());
         mAdapter.setServiceId(getServiceId());
         mViewPager.setAdapter(mAdapter);
+        setTitle(getBarTitle());
 
         /**
          * on swiping the viewpager make respective tab selected
@@ -87,6 +91,48 @@ public class ServicesActivity extends ActionBarActivity implements ActionBar.Tab
         if (id == R.id.action_settings) {
             return true;
         }
+
+        if (id == R.id.action_close_service) {
+            HttpClient.post("/services/close/" + getServiceId(), null, new JsonHttpResponseHandler() {
+                @Override
+                public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                    // Pull out the first event on the public timeline
+
+                    try {
+
+                        String sResponse = response.getString("status");
+                        // Do something with the response
+                        //System.out.println(response.getJSONObject("service").getInt("id"));
+                        if (sResponse.equals("ok")) {
+
+                            Toast.makeText(me,
+                                    "Se cerró el servicio.",
+                                    Toast.LENGTH_SHORT).show();
+                            me.finish();
+                            return;
+                        }else{
+                            Toast.makeText(me,
+                                    "Ocurrió un error: "+sResponse,
+                                    Toast.LENGTH_SHORT).show();
+                        }
+
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+                @Override
+                public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject jsonObject){
+                    Toast.makeText(me, "Ocurrio un error inesperado:"+throwable.getMessage(), Toast.LENGTH_LONG).show();
+
+                }
+
+
+            },getBaseContext());
+            return true;
+        }
+
+
         if (id == R.id.action_add_person) {
             HttpClient.post("/services/add_diner/" + getServiceId(), null, new JsonHttpResponseHandler() {
                 @Override
@@ -225,5 +271,13 @@ public class ServicesActivity extends ActionBarActivity implements ActionBar.Tab
 
     public void setServiceId(Integer serviceId) {
         this.serviceId = serviceId;
+    }
+
+    public String getBarTitle() {
+        return barTitle;
+    }
+
+    public void setBarTitle(String barTitle) {
+        this.barTitle = barTitle;
     }
 }

@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="redleon.net.comanda.activities.MakersDetailActivity">
     <item android:id="@+id/action_dispatch_command"
-        android:icon="@drawable/ic_action_new"
+        android:icon="@drawable/ic_action_accept"
         android:title="@string/action_dispatch_command"
         app:showAsAction="ifRoom" />
 

@@ -248,9 +248,9 @@ public class TablesActivity extends ActionBarActivity implements AdapterView.OnI
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         final TablesActivity mySelf = this;
-        Log.v("ItemClick","Entro");
+        final TablesResult tablesResult = (TablesResult) parent.getItemAtPosition(position);
 
-        HttpClient.get("/services/start/" + ((TablesResult) parent.getItemAtPosition(position)).getId(), null, new JsonHttpResponseHandler() {
+        HttpClient.get("/services/start/" + tablesResult.getId(), null, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 // Pull out the first event on the public timeline
@@ -263,6 +263,7 @@ public class TablesActivity extends ActionBarActivity implements AdapterView.OnI
                     if (sResponse.equals("ok")) {
                         Intent intent = new Intent(mySelf, ServicesActivity.class);
                         intent.putExtra(EXTRA_MESSAGE, response.getJSONObject("service").getInt("id"));
+                        intent.putExtra(ServicesActivity.TITLE, tablesResult.getDescription());
                         startActivity(intent);
                     }
 

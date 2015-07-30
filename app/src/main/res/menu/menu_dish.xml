@@ -4,7 +4,7 @@
     tools:context="redleon.net.comanda.activities.DishActivity">
 
     <item android:id="@+id/action_add_extra"
-        android:icon="@drawable/ic_action_new"
+        android:icon="@drawable/ic_fa_plus_circle"
         android:title="@string/action_dish_add_extra"
         app:showAsAction="ifRoom" />
 
