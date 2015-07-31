@@ -10,14 +10,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import redleon.net.comanda.R;
 import redleon.net.comanda.activities.MenuActivity;
 import redleon.net.comanda.activities.ServicesActivity;
-import redleon.net.comanda.adapters.ComandasListAdapter;
 import redleon.net.comanda.adapters.DinersListAdapter;
-import redleon.net.comanda.loaders.ComandasListLoader;
 import redleon.net.comanda.loaders.DinersListLoader;
 import redleon.net.comanda.model.DinersResult;
 
@@ -65,16 +62,16 @@ public class DinersFragment extends ListFragment  implements SwipeRefreshLayout.
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            serviceId = getArguments().getInt(ARG_SERVICE_ID);
+            setServiceId(getArguments().getInt(ARG_SERVICE_ID));
         }
-        System.out.println("DinersFragment:"+serviceId);
+        System.out.println("DinersFragment:"+ getServiceId());
 
          adapter = new DinersListAdapter(getActivity());
         setListAdapter(adapter);
 
         DinersListLoader dinersListLoader = new DinersListLoader(adapter);
 
-        dinersListLoader.setServiceId(serviceId);
+        dinersListLoader.setServiceId(getServiceId());
         dinersListLoader.execute();
 
     }
@@ -121,9 +118,17 @@ public class DinersFragment extends ListFragment  implements SwipeRefreshLayout.
     public void onRefresh() {
         DinersListLoader dinersListLoader = new DinersListLoader(adapter);
 
-        dinersListLoader.setServiceId(serviceId);
+        dinersListLoader.setServiceId(getServiceId());
         dinersListLoader.execute();
         swipeLayout.setRefreshing(false);
+    }
+
+    public Integer getServiceId() {
+        return serviceId;
+    }
+
+    public void setServiceId(Integer serviceId) {
+        this.serviceId = serviceId;
     }
 
     /**
@@ -145,9 +150,8 @@ public class DinersFragment extends ListFragment  implements SwipeRefreshLayout.
     public void onListItemClick(ListView l, View v, int pos, long id) {
         super.onListItemClick(l, v, pos, id);
         DinersResult dr = (DinersResult) getListAdapter().getItem(pos);
-        ServicesActivity sa = (ServicesActivity) getActivity();
         Intent intent = new Intent(getActivity(), MenuActivity.class);
-        intent.putExtra(MenuActivity.SERVICE_ID, sa.getServiceId());
+        intent.putExtra(MenuActivity.SERVICE_ID, getServiceId());
         intent.putExtra(MenuActivity.DINER_ID, dr.getId());
         startActivity(intent);
         //Toast.makeText(getActivity(), "Item " + pos + " was clicked", Toast.LENGTH_SHORT).show();

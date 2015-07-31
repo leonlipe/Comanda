@@ -38,7 +38,7 @@ import java.util.List;
 
 public class TablesActivity extends ActionBarActivity implements AdapterView.OnItemClickListener, SwipeRefreshLayout.OnRefreshListener  {
     public final static String EXTRA_MESSAGE = "com.mycompany.myfirstapp.MESSAGE";
-    ListView listView;
+    private ListView listView;
     TablesListAdapter adapter;
     private SwipeRefreshLayout swipeLayout;
 

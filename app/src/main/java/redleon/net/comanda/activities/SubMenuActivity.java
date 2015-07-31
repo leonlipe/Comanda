@@ -1,57 +1,60 @@
 package redleon.net.comanda.activities;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.content.Intent;
-import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.os.Bundle;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ExpandableListView;
 import android.widget.ListView;
 
-import redleon.net.comanda.ComandaApp;
 import redleon.net.comanda.R;
 import redleon.net.comanda.adapters.MenuListAdapter;
-import redleon.net.comanda.loaders.MenuListLoader;
-import redleon.net.comanda.model.Dish;
-import redleon.net.comanda.model.MakersCommandItem;
-import redleon.net.comanda.model.Tiime;
+import redleon.net.comanda.adapters.SubMenuListAdapter;
+import redleon.net.comanda.loaders.SubMenuListLoader;
 
-
-public class MenuActivity extends ActionBarActivity implements AdapterView.OnItemClickListener {
-
+public class SubMenuActivity extends ActionBarActivity implements AdapterView.OnItemClickListener{
 
     public final static String SERVICE_ID = "net.redleon.SERVICE_ID";
     public final static String DINER_ID = "net.redleon.DINER_ID";
+    public final static String MENU_ID = "net.redleon.MENU_ID";
 
     private Integer serviceId;
     private Integer dinerId;
+    private Integer menuId;
 
     private ListView listView;
-    private MenuListAdapter menuListAdapter;
+    private SubMenuListAdapter subMenuListAdapter;
+
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_sub_menu);
         Intent intent = getIntent();
         setServiceId(intent.getIntExtra(SERVICE_ID, 0));
         setDinerId(intent.getIntExtra(DINER_ID, 0));
+        setMenuId(intent.getIntExtra(MENU_ID, 0));
 
-        setContentView(R.layout.activity_menu);
-        menuListAdapter = new MenuListAdapter(this);
+        subMenuListAdapter = new SubMenuListAdapter(this);
         listView = (ListView) findViewById(android.R.id.list);
-        listView.setAdapter(menuListAdapter);
+        listView.setAdapter(subMenuListAdapter);
         listView.setOnItemClickListener(this);
 
-        MenuListLoader menuListLoader = new MenuListLoader(menuListAdapter);
-        menuListLoader.execute();
+        SubMenuListLoader subMenuListLoader = new SubMenuListLoader(subMenuListAdapter);
+        subMenuListLoader.setMenuId(getMenuId());
+        subMenuListLoader.execute();
+
 
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_sub_menu, menu);
+        return true;
+    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -71,15 +74,16 @@ public class MenuActivity extends ActionBarActivity implements AdapterView.OnIte
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         redleon.net.comanda.model.MenuItem menuItem =(redleon.net.comanda.model.MenuItem) parent.getItemAtPosition(position);
-        Intent intent = new Intent(this, SubMenuActivity.class);
-        intent.putExtra(SubMenuActivity.SERVICE_ID, getServiceId());
-        intent.putExtra(SubMenuActivity.DINER_ID,getDinerId());
-        intent.putExtra(SubMenuActivity.MENU_ID, menuItem.getId() );
+
+        Intent intent = new Intent(this, DishActivity.class);
+        intent.putExtra(DishActivity.DISH_ID,menuItem.getId());
+        intent.putExtra(DishActivity.DINER_ID,getDinerId());
+        intent.putExtra(DishActivity.SERVICE_ID,getServiceId());
+
         startActivity(intent);
 
 
     }
-
 
     public Integer getServiceId() {
         return serviceId;
@@ -95,5 +99,13 @@ public class MenuActivity extends ActionBarActivity implements AdapterView.OnIte
 
     public void setDinerId(Integer dinerId) {
         this.dinerId = dinerId;
+    }
+
+    public Integer getMenuId() {
+        return menuId;
+    }
+
+    public void setMenuId(Integer menuId) {
+        this.menuId = menuId;
     }
 }

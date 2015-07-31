@@ -28,11 +28,11 @@
             android:label="PreferencesActivity" />
         <activity
             android:name=".activities.MenuActivity"
-            android:label="@string/title_activity_menu"
-            android:parentActivityName=".activities.ServicesActivity" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activities.ServicesActivity" />
+            android:label="@string/title_activity_menu">
+            <!--android:parentActivityName=".activities.ServicesActivity" >-->
+            <!--<meta-data-->
+                <!--android:name="android.support.PARENT_ACTIVITY"-->
+                <!--android:value=".activities.ServicesActivity" />-->
         </activity>
         <activity
             android:name=".activities.DishActivity"
@@ -55,7 +55,11 @@
         </activity>
         <activity
             android:name=".activities.PaymentActivity"
-            android:label="@string/title_activity_payment" >
+            android:label="Pagos" >
+        </activity>
+        <activity
+            android:name=".activities.SubMenuActivity"
+            android:label="Platillos" >
         </activity>
     </application>
 

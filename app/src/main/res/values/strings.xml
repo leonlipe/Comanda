@@ -43,4 +43,5 @@
         <item>Transferencia electronica</item>
 
     </string-array>
+    <string name="title_activity_sub_menu">SubMenuActivity</string>
 </resources>
