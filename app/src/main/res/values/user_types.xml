@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="userTypelistArray">
+        <item>Mesas</item>
+        <item>Cocina</item>
+        <item>Pizzeria</item>
+        <item>Barra</item>
+    </string-array>
+    <string-array name="userTypelistValues">
+        <item>MES</item>
+        <item>COC</item>
+        <item>PIZ</item>
+        <item>BAA</item>
+    </string-array>
+</resources>

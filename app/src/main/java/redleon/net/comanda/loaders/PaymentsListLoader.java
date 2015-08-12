@@ -28,6 +28,7 @@ import redleon.net.comanda.model.DinersResult;
 import redleon.net.comanda.model.JsonDinersResult;
 import redleon.net.comanda.model.JsonPaymentsResult;
 import redleon.net.comanda.model.PaymentsResult;
+import redleon.net.comanda.utils.Network;
 
 /**
  * Created by leon on 19/05/15.
@@ -69,27 +70,34 @@ public class PaymentsListLoader extends
     protected ArrayList<PaymentsResult> doInBackground(URL... params) {
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(mAdapter.getmContext());
         String ip_server = sp.getString("ip_server", "NA");
-        InputStream source = retrieveStream("http://"+ip_server+mUrl);
+        String myUrl = "http://"+ip_server+mUrl;
+        myUrl = Network.addAuthParams(myUrl, mAdapter.getmContext());
+        InputStream source = retrieveStream(myUrl);
         Reader reader = null;
+        ArrayList<PaymentsResult> resultados = new ArrayList<PaymentsResult>();
         try {
+            if (source == null){
+                throw new Exception("Error en la comunicacion al servidor");
+            }
             reader = new InputStreamReader(source);
+            Gson gson = new Gson();
+            JsonPaymentsResult jsonResult = gson.fromJson(reader,JsonPaymentsResult.class);
+            if (!jsonResult.getStatus().equals("ok"))
+                new RuntimeException("Error al llamar al backend");
+            //TextView total = (TextView) paymentsFragment.getView().findViewById(R.id.payment_list_total);
+            //total.setText(jsonResult.getGran_total());
+            PaymentsResult[] result = jsonResult.getDiners();
+
+            for(int x=0; x <result.length;x++){
+                resultados.add(result[x]);
+            }
         } catch (Exception e) {
             e.printStackTrace();
             hadError = true;
             errorMsg = e.getMessage();
             return null;
         }
-        Gson gson = new Gson();
-        JsonPaymentsResult jsonResult = gson.fromJson(reader,JsonPaymentsResult.class);
-        if (!jsonResult.getStatus().equals("ok"))
-            new RuntimeException("Error al llamar al backend");
-        //TextView total = (TextView) paymentsFragment.getView().findViewById(R.id.payment_list_total);
-        //total.setText(jsonResult.getGran_total());
-        PaymentsResult[] result = jsonResult.getDiners();
-        ArrayList<PaymentsResult> resultados = new ArrayList<PaymentsResult>();
-        for(int x=0; x <result.length;x++){
-            resultados.add(result[x]);
-        }
+
         return resultados;
     }
 

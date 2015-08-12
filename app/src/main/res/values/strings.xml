@@ -15,6 +15,7 @@
     <string name="dish_time">Tiempo</string>
     <string name="action_dish_add_extra">Agregar extra</string>
     <string name="dish_button_add_dish">Agregar</string>
+    <string name="button_login">Ingresar</string>
     <string name="dialog_add_ingredient">Agregar ingrediente</string>
     <string name="dialog_extra_ingredient_select">Extras</string>
     <string name="ok">Aceptar</string>
@@ -25,6 +26,7 @@
     <string name="title_activity_dish">Platillos</string>
     <string name="title_activity_comand_history">Historial de comandas</string>
     <string name="hello_world">Hello world!</string>
+    <string name="initial_act_text">Comandera, presione el boton ingresar para empezar.</string>
     <string name="action_dispatch_command">Despachar comanda</string>
     <string name="action_show_cocina">Mostrar cocina</string>
     <string name="action_show_barra">Mostrar barra</string>
@@ -44,4 +46,5 @@
 
     </string-array>
     <string name="title_activity_sub_menu">SubMenuActivity</string>
+    <string name="title_activity_initial">Comandera</string>
 </resources>

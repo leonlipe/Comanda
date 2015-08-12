@@ -23,6 +23,7 @@ import redleon.net.comanda.model.Invoice;
 import redleon.net.comanda.adapters.InvoicesListAdapter;
 import redleon.net.comanda.fragments.InvoicesFragment;
 import redleon.net.comanda.model.JsonInvoicesResult;
+import redleon.net.comanda.utils.Network;
 
 /**
  * Created by leon on 19/05/15.
@@ -64,27 +65,34 @@ public class InvoicesListLoader extends
     protected ArrayList<Invoice> doInBackground(URL... params) {
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(mAdapter.getmContext());
         String ip_server = sp.getString("ip_server", "NA");
-        InputStream source = retrieveStream("http://"+ip_server+mUrl);
+        String myUrl = "http://"+ip_server+mUrl;
+        myUrl = Network.addAuthParams(myUrl, mAdapter.getmContext());
+        InputStream source = retrieveStream(myUrl);
         Reader reader = null;
+        ArrayList<Invoice> resultados = new ArrayList<Invoice>();
         try {
+            if (source == null){
+                throw new Exception("Error en la comunicacion al servidor");
+            }
             reader = new InputStreamReader(source);
+            Gson gson = new Gson();
+            JsonInvoicesResult jsonResult = gson.fromJson(reader,JsonInvoicesResult.class);
+            if (!jsonResult.getStatus().equals("ok"))
+                new RuntimeException("Error al llamar al backend");
+            //TextView total = (TextView) paymentsFragment.getView().findViewById(R.id.payment_list_total);
+            //total.setText(jsonResult.getGran_total());
+            Invoice[] result = jsonResult.getInvoices();
+
+            for(int x=0; x <result.length;x++){
+                resultados.add(result[x]);
+            }
         } catch (Exception e) {
             e.printStackTrace();
             hadError = true;
             errorMsg = e.getMessage();
             return null;
         }
-        Gson gson = new Gson();
-        JsonInvoicesResult jsonResult = gson.fromJson(reader,JsonInvoicesResult.class);
-        if (!jsonResult.getStatus().equals("ok"))
-            new RuntimeException("Error al llamar al backend");
-        //TextView total = (TextView) paymentsFragment.getView().findViewById(R.id.payment_list_total);
-        //total.setText(jsonResult.getGran_total());
-        Invoice[] result = jsonResult.getInvoices();
-        ArrayList<Invoice> resultados = new ArrayList<Invoice>();
-        for(int x=0; x <result.length;x++){
-            resultados.add(result[x]);
-        }
+
         return resultados;
     }
 

@@ -3,19 +3,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="redleon.net.comanda.activities.DishActivity">
 
-    <item android:id="@+id/action_show_cocina"
-        android:icon="@drawable/ic_action_new"
-        android:title="@string/action_show_cocina"
-        app:showAsAction="ifRoom" />
-    <item android:id="@+id/action_show_barra"
-        android:icon="@drawable/ic_action_new"
-        android:title="@string/action_show_barra"
-        app:showAsAction="ifRoom" />
-    <item android:id="@+id/action_show_horno"
-        android:icon="@drawable/ic_action_new"
-        android:title="@string/action_show_horno"
-        app:showAsAction="ifRoom" />
+    <!--<item android:id="@+id/action_show_cocina"-->
+        <!--android:icon="@drawable/ic_action_new"-->
+        <!--android:title="@string/action_show_cocina"-->
+        <!--app:showAsAction="ifRoom" />-->
+    <!--<item android:id="@+id/action_show_barra"-->
+        <!--android:icon="@drawable/ic_action_new"-->
+        <!--android:title="@string/action_show_barra"-->
+        <!--app:showAsAction="ifRoom" />-->
+    <!--<item android:id="@+id/action_show_horno"-->
+        <!--android:icon="@drawable/ic_action_new"-->
+        <!--android:title="@string/action_show_horno"-->
+        <!--app:showAsAction="ifRoom" />-->
 
-    <item android:id="@+id/action_settings" android:title="@string/action_settings"
-        android:orderInCategory="100" app:showAsAction="never" />
+    <!--<item android:id="@+id/action_settings" android:title="@string/action_settings"-->
+        <!--android:orderInCategory="100" app:showAsAction="never" />-->
 </menu>

@@ -25,6 +25,7 @@ import redleon.net.comanda.model.ComandasResult;
 import redleon.net.comanda.model.DinersResult;
 import redleon.net.comanda.model.JsonComandasResult;
 import redleon.net.comanda.model.JsonDinersResult;
+import redleon.net.comanda.utils.Network;
 
 /**
  * Created by leon on 19/05/15.
@@ -64,24 +65,32 @@ public class ComandasListLoader extends
     protected ArrayList<ComandasResult> doInBackground(URL... params) {
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(mAdapter.getmContext());
         String ip_server = sp.getString("ip_server", "NA");
-        InputStream source = retrieveStream("http://"+ip_server+mUrl);        Reader reader = null;
+        String myUrl = "http://"+ip_server+mUrl;
+        myUrl = Network.addAuthParams(myUrl, mAdapter.getmContext());
+        InputStream source = retrieveStream(myUrl);
+        Reader reader = null;
+        ArrayList<ComandasResult> resultados = new ArrayList<ComandasResult>();
         try {
+            if (source == null){
+                throw new Exception("Error en la comunicacion al servidor");
+            }
             reader = new InputStreamReader(source);
+            Gson gson = new Gson();
+            JsonComandasResult jsonResult = gson.fromJson(reader, JsonComandasResult.class);
+            if (!jsonResult.getStatus().equals("ok"))
+                new RuntimeException("Error al llamar al backend");
+            ComandasResult[] result = jsonResult.getDiners();
+
+            for(int x=0; x <result.length;x++){
+                resultados.add(result[x]);
+            }
         } catch (Exception e) {
             e.printStackTrace();
             hadError = true;
             errorMsg = e.getMessage();
             return null;
         }
-        Gson gson = new Gson();
-        JsonComandasResult jsonResult = gson.fromJson(reader,JsonComandasResult.class);
-        if (!jsonResult.getStatus().equals("ok"))
-            new RuntimeException("Error al llamar al backend");
-        ComandasResult[] result = jsonResult.getDiners();
-        ArrayList<ComandasResult> resultados = new ArrayList<ComandasResult>();
-        for(int x=0; x <result.length;x++){
-            resultados.add(result[x]);
-        }
+
         return resultados;
     }
 

@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import redleon.net.comanda.adapters.MenuListAdapter;
 import redleon.net.comanda.adapters.SubMenuListAdapter;
 import redleon.net.comanda.model.MenuItem;
+import redleon.net.comanda.utils.Network;
 
 /**
  * Created by leon on 24/04/15.
@@ -65,10 +66,22 @@ public class SubMenuListLoader extends
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(mAdapter.getmContext());
         String ip_server = sp.getString("ip_server", "NA");
         Log.v("Loader", "http://" + ip_server + mUrl);
-        InputStream source = retrieveStream("http://"+ip_server+mUrl+getMenuId()+".json");
+        String myUrl = "http://"+ip_server+mUrl+getMenuId()+".json";
+        myUrl = Network.addAuthParams(myUrl, mAdapter.getmContext());
+        InputStream source = retrieveStream(myUrl);
         Reader reader = null;
+        ArrayList<MenuItem> resultados = new ArrayList<MenuItem>();
+
         try {
+            if (source == null){
+                throw new Exception("Error en la comunicacion al servidor");
+            }
             reader = new InputStreamReader(source);
+            Gson gson = new Gson();
+            MenuItem[] result = gson.fromJson(reader,MenuItem[].class);
+            for(int x=0; x <result.length;x++){
+                resultados.add(result[x]);
+            }
         } catch (Exception e) {
             e.printStackTrace();
             //return new ArrayList<TablesResult>();
@@ -76,12 +89,7 @@ public class SubMenuListLoader extends
             errorMsg = e.getMessage();
             return null;
         }
-        Gson gson = new Gson();
-        MenuItem[] result = gson.fromJson(reader,MenuItem[].class);
-        ArrayList<MenuItem> resultados = new ArrayList<MenuItem>();
-        for(int x=0; x <result.length;x++){
-            resultados.add(result[x]);
-        }
+
         return resultados;
     }
 

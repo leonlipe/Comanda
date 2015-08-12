@@ -23,6 +23,7 @@ import java.util.ArrayList;
 
 import redleon.net.comanda.adapters.TablesListAdapter;
 import redleon.net.comanda.model.TablesResult;
+import redleon.net.comanda.utils.Network;
 
 /**
  * Created by leon on 24/04/15.
@@ -51,7 +52,7 @@ public class TablesListLoader extends
             httpResponse = client.execute(httpGet);
             HttpEntity getResponseEntity = httpResponse.getEntity();
             return getResponseEntity.getContent();
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
             httpGet.abort();
         }
@@ -63,10 +64,24 @@ public class TablesListLoader extends
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(mAdapter.getmContext());
         String ip_server = sp.getString("ip_server", "NA");
         Log.v("Loader", "http://" + ip_server + mUrl);
-        InputStream source = retrieveStream("http://"+ip_server+mUrl);
+        String myUrl = "http://"+ip_server+mUrl;
+        myUrl = Network.addAuthParams(myUrl,mAdapter.getmContext());
+        Log.v("Loader", myUrl);
+        InputStream source = retrieveStream(myUrl);
+
         Reader reader = null;
+        ArrayList<TablesResult> resultados = new ArrayList<TablesResult>();
         try {
+            if (source == null){
+                throw new Exception("Error en la comunicacion al servidor");
+            }
             reader = new InputStreamReader(source);
+            Gson gson = new Gson();
+            TablesResult[] result = gson.fromJson(reader,TablesResult[].class);
+
+            for(int x=0; x <result.length;x++){
+                resultados.add(result[x]);
+            }
         } catch (Exception e) {
             e.printStackTrace();
             //return new ArrayList<TablesResult>();
@@ -74,18 +89,13 @@ public class TablesListLoader extends
             errorMsg = e.getMessage();
             return null;
         }
-        Gson gson = new Gson();
-        TablesResult[] result = gson.fromJson(reader,TablesResult[].class);
-        ArrayList<TablesResult> resultados = new ArrayList<TablesResult>();
-        for(int x=0; x <result.length;x++){
-            resultados.add(result[x]);
-        }
+
         return resultados;
     }
 
     protected void onPostExecute(ArrayList<TablesResult> entries) {
         if (hadError){
-            Toast.makeText(mAdapter.getmContext(), "Ocurrio un error inesperado, tal vez no hay conexion con el servidor. ", Toast.LENGTH_LONG).show();
+            Toast.makeText(mAdapter.getmContext(), "Ocurrio un error inesperado, tal vez no hay conexion con el servidor o la autenticacion no se puede realizar. "+errorMsg, Toast.LENGTH_LONG).show();
         }else {
             mAdapter.upDateEntries(entries);
         }

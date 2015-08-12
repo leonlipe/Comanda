@@ -3,4 +3,17 @@
     <EditTextPreference android:title="Servidor"
         android:key="ip_server"
         android:summary="Escriba la ip del servidor"></EditTextPreference>
+    <EditTextPreference android:title="Token de acceso"
+        android:key="access_token"
+        android:summary="Token de acceso a la aplicacion"></EditTextPreference>
+    <EditTextPreference android:title="Usuario"
+        android:key="user_login"
+        android:summary="Usuario del sistema"></EditTextPreference>
+    <ListPreference
+        android:title="Tipo de usuario"
+        android:summary="Seleccione el tipo de usuario"
+        android:key="user_type"
+        android:defaultValue="1"
+        android:entries="@array/userTypelistArray"
+        android:entryValues="@array/userTypelistValues" />
 </PreferenceScreen>

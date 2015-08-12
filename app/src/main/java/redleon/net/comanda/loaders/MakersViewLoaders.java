@@ -24,6 +24,7 @@ import redleon.net.comanda.adapters.MakersListAdapter;
 import redleon.net.comanda.model.JsonMakersCommandItemResult;
 import redleon.net.comanda.model.JsonOrderDishesResult;
 import redleon.net.comanda.model.MakersCommandItem;
+import redleon.net.comanda.utils.Network;
 
 /**
  * Created by leon on 17/07/15.
@@ -64,25 +65,32 @@ public class MakersViewLoaders  extends
     protected ArrayList<MakersCommandItem> doInBackground(URL... params) {
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(mAdapter.getmContext());
         String ip_server = sp.getString("ip_server", "NA");
-        InputStream source = retrieveStream("http://"+ip_server+mUrl);
+        String myUrl = "http://"+ip_server+mUrl;
+        myUrl = Network.addAuthParams(myUrl, mAdapter.getmContext());
+        InputStream source = retrieveStream(myUrl);
         Reader reader = null;
+        ArrayList<MakersCommandItem> resultados = new ArrayList<MakersCommandItem>();
+
         try {
+            if (source == null){
+                throw new Exception("Error en la comunicacion al servidor");
+            }
             reader = new InputStreamReader(source);
+            Gson gson = new Gson();
+            JsonMakersCommandItemResult jsonResult = gson.fromJson(reader, JsonMakersCommandItemResult.class);
+            if (!jsonResult.getStatus().equals("ok"))
+                new RuntimeException("Error al llamar al backend");
+            MakersCommandItem[] result = jsonResult.getComandas();
+            for (int x = 0; x < result.length; x++) {
+                resultados.add(result[x]);
+            }
         } catch (Exception e) {
             e.printStackTrace();
             hadError = true;
             errorMsg = e.getMessage();
             return null;
         }
-        Gson gson = new Gson();
-        JsonMakersCommandItemResult jsonResult = gson.fromJson(reader, JsonMakersCommandItemResult.class);
-        if (!jsonResult.getStatus().equals("ok"))
-            new RuntimeException("Error al llamar al backend");
-        MakersCommandItem[] result = jsonResult.getComandas();
-        ArrayList<MakersCommandItem> resultados = new ArrayList<MakersCommandItem>();
-        for (int x = 0; x < result.length; x++) {
-            resultados.add(result[x]);
-        }
+
         return resultados;
     }
 

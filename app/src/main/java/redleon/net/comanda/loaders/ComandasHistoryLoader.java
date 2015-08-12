@@ -27,6 +27,7 @@ import redleon.net.comanda.model.JsonComandasResult;
 import redleon.net.comanda.model.JsonDinersResult;
 import redleon.net.comanda.model.JsonOrderDishesResult;
 import redleon.net.comanda.model.OrderDishesData;
+import redleon.net.comanda.utils.Network;
 
 /**
  * Created by leon on 08/07/15.
@@ -67,25 +68,32 @@ public class ComandasHistoryLoader extends
     protected ArrayList<OrderDishesData> doInBackground(URL... params) {
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(mAdapter.getmContext());
         String ip_server = sp.getString("ip_server", "NA");
-        InputStream source = retrieveStream("http://"+ip_server+mUrl);
+        String myUrl = "http://"+ip_server+mUrl;
+        myUrl = Network.addAuthParams(myUrl, mAdapter.getmContext());
+        InputStream source = retrieveStream(myUrl);
         Reader reader = null;
+        ArrayList<OrderDishesData> resultados = new ArrayList<OrderDishesData>();
         try {
+            if (source == null){
+                throw new Exception("Error en la comunicacion al servidor");
+            }
             reader = new InputStreamReader(source);
+            Gson gson = new Gson();
+            JsonOrderDishesResult jsonResult = gson.fromJson(reader, JsonOrderDishesResult.class);
+            if (!jsonResult.getStatus().equals("ok"))
+                new RuntimeException("Error al llamar al backend");
+            OrderDishesData[] result = jsonResult.getOrder_dishes_data();
+
+            for(int x=0; x <result.length;x++){
+                resultados.add(result[x]);
+            }
         } catch (Exception e) {
             e.printStackTrace();
             hadError = true;
             errorMsg = e.getMessage();
             return null;
         }
-        Gson gson = new Gson();
-        JsonOrderDishesResult jsonResult = gson.fromJson(reader,JsonOrderDishesResult.class);
-        if (!jsonResult.getStatus().equals("ok"))
-            new RuntimeException("Error al llamar al backend");
-        OrderDishesData[] result = jsonResult.getOrder_dishes_data();
-        ArrayList<OrderDishesData> resultados = new ArrayList<OrderDishesData>();
-        for(int x=0; x <result.length;x++){
-            resultados.add(result[x]);
-        }
+
         return resultados;
     }
 
