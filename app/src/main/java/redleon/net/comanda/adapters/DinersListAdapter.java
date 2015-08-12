@@ -5,15 +5,24 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.loopj.android.http.JsonHttpResponseHandler;
+
+import org.apache.http.Header;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
 import redleon.net.comanda.R;
+import redleon.net.comanda.fragments.DinersFragment;
 import redleon.net.comanda.model.DinersResult;
+import redleon.net.comanda.network.HttpClient;
 
 /**
  * Created by leon on 19/05/15.
@@ -22,9 +31,11 @@ public class DinersListAdapter extends BaseAdapter {
     private Context mContext;
     private LayoutInflater mLayoutInflater;
     private ArrayList<DinersResult> mEntries = new ArrayList<DinersResult>();
+    private DinersFragment dinersFragment;
 
-    public DinersListAdapter(Context context) {
+    public DinersListAdapter(Context context, DinersFragment dinersFragment) {
         setmContext(context);
+        this.dinersFragment = dinersFragment;
         mLayoutInflater = (LayoutInflater) getmContext()
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
@@ -48,9 +59,9 @@ public class DinersListAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View convertView,
+    public View getView(int position, final View convertView,
                         ViewGroup parent) {
-        LinearLayout itemView;
+        final LinearLayout itemView;
         if (convertView == null) {
             itemView = (LinearLayout) mLayoutInflater.inflate(
                     R.layout.fragment_diners_list, parent, false);
@@ -70,6 +81,53 @@ public class DinersListAdapter extends BaseAdapter {
 
         descriptionText.setText(description);
         dinerStatusText.setText(mEntries.get(position).getStatus_desc());
+
+        Button btnDelete = (Button) itemView.findViewById(R.id.btn_pay);
+        final DinersResult dinersResult = mEntries.get(position);
+        btnDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                HttpClient.post("/diners/remove/"+ dinersResult.getId().toString(), null, new JsonHttpResponseHandler() {
+                    @Override
+                    public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                        // Pull out the first event on the public timeline
+
+                        try {
+                            String sResponse = response.getString("status");
+                            // Do something with the response
+                            if (sResponse.equals("ok")) {
+                                Toast.makeText(itemView.getContext(),
+                                        "La persona se eliminó del servicio",
+                                        Toast.LENGTH_SHORT).show();
+                                dinersFragment.onRefresh();
+
+                            } else {
+                                Toast.makeText(itemView.getContext(),
+                                        "Ocurrió un error: " + response.getString("reason"),
+                                        Toast.LENGTH_SHORT).show();
+                            }
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject jsonObject) {
+                        Toast.makeText(itemView.getContext(), "Ocurrio un error inesperado:" + throwable.getMessage(), Toast.LENGTH_LONG).show();
+
+                    }
+
+
+                },itemView.getContext());
+
+
+
+
+            }
+        });
+
         return itemView;
     }
 

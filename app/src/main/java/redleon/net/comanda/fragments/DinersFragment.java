@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import redleon.net.comanda.R;
 import redleon.net.comanda.activities.MenuActivity;
@@ -66,7 +67,7 @@ public class DinersFragment extends ListFragment  implements SwipeRefreshLayout.
         }
         System.out.println("DinersFragment:"+ getServiceId());
 
-         adapter = new DinersListAdapter(getActivity());
+         adapter = new DinersListAdapter(getActivity(), this);
         setListAdapter(adapter);
 
         DinersListLoader dinersListLoader = new DinersListLoader(adapter);
@@ -150,11 +151,17 @@ public class DinersFragment extends ListFragment  implements SwipeRefreshLayout.
     public void onListItemClick(ListView l, View v, int pos, long id) {
         super.onListItemClick(l, v, pos, id);
         DinersResult dr = (DinersResult) getListAdapter().getItem(pos);
-        Intent intent = new Intent(getActivity(), MenuActivity.class);
-        intent.putExtra(MenuActivity.SERVICE_ID, getServiceId());
-        intent.putExtra(MenuActivity.DINER_ID, dr.getId());
-        startActivity(intent);
+        if (dr.getStatus() == 0) {
+            Intent intent = new Intent(getActivity(), MenuActivity.class);
+            intent.putExtra(MenuActivity.SERVICE_ID, getServiceId());
+            intent.putExtra(MenuActivity.DINER_ID, dr.getId());
+            startActivity(intent);
+        }else{
+            Toast.makeText(this.getActivity(), "El cliente ya cerró su servicio." , Toast.LENGTH_LONG).show();
+
+        }
         //Toast.makeText(getActivity(), "Item " + pos + " was clicked", Toast.LENGTH_SHORT).show();
     }
+
 
 }

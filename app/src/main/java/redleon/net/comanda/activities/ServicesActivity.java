@@ -112,7 +112,7 @@ public class ServicesActivity extends ActionBarActivity implements ActionBar.Tab
                             return;
                         }else{
                             Toast.makeText(me,
-                                    "Ocurrió un error: "+sResponse,
+                                    "No se puede cerrar servicio: "+sResponse,
                                     Toast.LENGTH_SHORT).show();
                         }
 
@@ -149,6 +149,8 @@ public class ServicesActivity extends ActionBarActivity implements ActionBar.Tab
                             Toast.makeText(me,
                                     "Se agregó una persona al servicio",
                                     Toast.LENGTH_SHORT).show();
+
+
                         }else{
                             Toast.makeText(me,
                                     "Ocurrió un error: "+sResponse,

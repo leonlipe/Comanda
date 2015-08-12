@@ -194,16 +194,17 @@ public class PaymentsFragment extends ListFragment implements SwipeRefreshLayout
         super.onListItemClick(l, v, pos, id);
 
         final PaymentsResult item = (PaymentsResult) getListAdapter().getItem(pos);
-        if (selectedItems.contains(item)){
-            selectedItems.remove(item);
-            total = total.subtract(item.getTotal());
-        }else{
-            selectedItems.add(item);
-            total = total.add(item.getTotal());
+        if (item.getStatus() == 0) {
+            if (selectedItems.contains(item)) {
+                selectedItems.remove(item);
+                total = total.subtract(item.getTotal());
+            } else {
+                selectedItems.add(item);
+                total = total.add(item.getTotal());
+            }
+
+            totalText.setText(total.toString());
         }
-
-        totalText.setText(total.toString());
-
     }
 
 

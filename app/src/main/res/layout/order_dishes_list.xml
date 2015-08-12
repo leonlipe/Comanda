@@ -37,4 +37,16 @@
         android:textSize="14sp"
         android:layout_alignParentLeft="true"
         />
+
+    <TextView
+        android:id="@+id/helptext"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/listInfo"
+
+        android:maxLines="4"
+        android:text="Ayuda"
+        android:textSize="14sp"
+        android:layout_alignParentLeft="true"
+        />
     </RelativeLayout>

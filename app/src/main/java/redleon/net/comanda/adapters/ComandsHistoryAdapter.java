@@ -62,14 +62,20 @@ public class ComandsHistoryAdapter extends BaseAdapter {
         TextView titleText = (TextView) itemView.findViewById(R.id.listTitle);
         TextView descriptionText = (TextView) itemView.findViewById(R.id.listDescription);
         TextView infoText = (TextView) itemView.findViewById(R.id.listInfo);
+        TextView helpText = (TextView) itemView.findViewById(R.id.helptext);
 
         String title = mEntries.get(position).getDish_name();
         titleText.setText(title);
         String description =
                 mEntries.get(position).getDish_desc();
-        String sInfoText = mEntries.get(position).getStatus() + " en " + mEntries.get(position).getPlace_name();
-        if (description.trim().length() == 0) {
-            description = "Sorry, no description for this image.";
+        String sInfoText;
+        if (mEntries.get(position).getStatus().equals("Ordenado")){
+            sInfoText = mEntries.get(position).getStatus() + " para envío a  " + mEntries.get(position).getPlace_name();
+            helpText.setText("Deslice para borrar.");
+        }else{
+            sInfoText = mEntries.get(position).getStatus() + " en " + mEntries.get(position).getPlace_name();
+            helpText.setText("");
+
         }
         descriptionText.setText(description);
         infoText.setText(sInfoText);
