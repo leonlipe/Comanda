@@ -31,6 +31,7 @@ import redleon.net.comanda.loaders.ComandasListLoader;
 import redleon.net.comanda.model.Extra;
 import redleon.net.comanda.model.OrderDishesData;
 import redleon.net.comanda.network.HttpClient;
+import redleon.net.comanda.utils.Network;
 import redleon.net.comanda.utils.SwipeListViewActivity;
 
 public class ComandHistoryActivity extends SwipeListViewActivity implements SwipeRefreshLayout.OnRefreshListener{
@@ -118,7 +119,7 @@ public class ComandHistoryActivity extends SwipeListViewActivity implements Swip
         //        Toast.LENGTH_SHORT).show();
         final ComandHistoryActivity me = this;
         OrderDishesData dish = (OrderDishesData) mListView.getItemAtPosition(position);
-        HttpClient.post("/diners/remove_dish/" + dish.getId().toString(), null, new JsonHttpResponseHandler() {
+        HttpClient.post("/diners/remove_dish/" + dish.getId().toString(), Network.makeAuthParams(me), new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 // Pull out the first event on the public timeline

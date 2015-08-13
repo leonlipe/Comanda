@@ -47,7 +47,7 @@ public class MakersViewLoaders  extends
 
         DefaultHttpClient client = new DefaultHttpClient();
         HttpGet httpGet = null;
-        httpGet = new HttpGet(url + getPlaceKey());
+        httpGet = new HttpGet(url );
 
         HttpResponse httpResponse = null;
         try {
@@ -65,7 +65,7 @@ public class MakersViewLoaders  extends
     protected ArrayList<MakersCommandItem> doInBackground(URL... params) {
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(mAdapter.getmContext());
         String ip_server = sp.getString("ip_server", "NA");
-        String myUrl = "http://"+ip_server+mUrl;
+        String myUrl = "http://"+ip_server+mUrl+ getPlaceKey();
         myUrl = Network.addAuthParams(myUrl, mAdapter.getmContext());
         InputStream source = retrieveStream(myUrl);
         Reader reader = null;

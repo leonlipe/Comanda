@@ -48,7 +48,7 @@ public class MakersDetailLoader extends
 
         DefaultHttpClient client = new DefaultHttpClient();
         HttpGet httpGet = null;
-        httpGet = new HttpGet(url + getDishId());
+        httpGet = new HttpGet(url );
 
         HttpResponse httpResponse = null;
         try {
@@ -66,9 +66,9 @@ public class MakersDetailLoader extends
     protected ArrayList<Dish> doInBackground(URL... params) {
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(mAdapter.getmContext());
         String ip_server = sp.getString("ip_server", "NA");
-        String myUrl = "http://"+ip_server+mUrl;
+        String myUrl = "http://"+ip_server+mUrl+getDishId();
         myUrl = Network.addAuthParams(myUrl, mAdapter.getmContext());
-        InputStream source = retrieveStream("http://"+ip_server+mUrl);
+        InputStream source = retrieveStream(myUrl);
         Reader reader = null;
         ArrayList<Dish> resultados = new ArrayList<Dish>();
         try {

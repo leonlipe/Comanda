@@ -28,6 +28,7 @@ import redleon.net.comanda.model.Dish;
 import redleon.net.comanda.model.TablesResult;
 import redleon.net.comanda.model.Tiime;
 import redleon.net.comanda.network.HttpClient;
+import redleon.net.comanda.utils.Network;
 
 import com.google.gson.Gson;
 import com.loopj.android.http.*;
@@ -66,7 +67,7 @@ public class TablesActivity extends ActionBarActivity implements AdapterView.OnI
             TablesListLoader loadData = new TablesListLoader(adapter);
             loadData.execute();
             System.out.println("http call");
-            HttpClient.get("/tiimes_for_menu.json", null, new JsonHttpResponseHandler() {
+            HttpClient.get("/tiimes_for_menu.json", Network.makeAuthParams(mySelf), new JsonHttpResponseHandler() {
                 @Override
                 public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                     // Pull out the first event on the public timeline
@@ -135,74 +136,74 @@ public class TablesActivity extends ActionBarActivity implements AdapterView.OnI
 
 
     //@Override
-    protected void onListItemClick(ListView l, View v, int position, long id) {
-
-      final TablesActivity mySelf = this;
-
-
-            HttpClient.get("/services/start/" + ((TablesResult) l.getItemAtPosition(position)).getId(), null, new JsonHttpResponseHandler() {
-                @Override
-                public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                    // Pull out the first event on the public timeline
-
-                    try {
-
-                        String sResponse = response.getString("status");
-                        // Do something with the response
-                        System.out.println(response.getJSONObject("service").getInt("id"));
-                        if (sResponse.equals("ok")) {
-                            Intent intent = new Intent(mySelf, ServicesActivity.class);
-                            intent.putExtra(EXTRA_MESSAGE, response.getJSONObject("service").getInt("id"));
-                            startActivity(intent);
-                        }
-
-
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                    catch (Exception e){
-                        Toast.makeText(mySelf, "Ocurrio un error inesperado", Toast.LENGTH_LONG).show();
-                    }
-
-                }
-
-                @Override
-                public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject jsonObject){
-                    Toast.makeText(mySelf, "Ocurrio un error inesperado:"+throwable.getMessage(), Toast.LENGTH_LONG).show();
-
-                }
-
-
-            },getBaseContext());
-
-       /* String url = "http://172.31.1.19:3000/services/start/"+((TablesResult) l.getItemAtPosition(position)).getId();
-        // Llamar al WS para generar un nuevo servicio, y que la actividad de servicios consulte la info del mismo.
-        DefaultHttpClient client = new DefaultHttpClient();
-        HttpGet httpGet = null;
-        httpGet = new HttpGet(url);
-
-        HttpResponse httpResponse = null;
-        try {
-            httpResponse = client.execute(httpGet);
-            HttpEntity getResponseEntity = httpResponse.getEntity();
-            InputStream response = getResponseEntity.getContent();
-            // llamar al intent
-            Intent intent = new Intent(this, ServicesActivity.class);
-            intent.putExtra(EXTRA_MESSAGE, ((TablesResult) l.getItemAtPosition(position)).getId());
-            startActivity(intent);
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            httpGet.abort();
-        }*/
-
-
-
-
-        //  Uri uri = ContentUris.withAppendedId(this.getIntent().getData(), id);
-        // your code
-
-    }
+//    protected void onListItemClick(ListView l, View v, int position, long id) {
+//
+//      final TablesActivity mySelf = this;
+//
+//
+//            HttpClient.get("/services/start/" + ((TablesResult) l.getItemAtPosition(position)).getId(), null, new JsonHttpResponseHandler() {
+//                @Override
+//                public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+//                    // Pull out the first event on the public timeline
+//
+//                    try {
+//
+//                        String sResponse = response.getString("status");
+//                        // Do something with the response
+//                        System.out.println(response.getJSONObject("service").getInt("id"));
+//                        if (sResponse.equals("ok")) {
+//                            Intent intent = new Intent(mySelf, ServicesActivity.class);
+//                            intent.putExtra(EXTRA_MESSAGE, response.getJSONObject("service").getInt("id"));
+//                            startActivity(intent);
+//                        }
+//
+//
+//                    } catch (JSONException e) {
+//                        e.printStackTrace();
+//                    }
+//                    catch (Exception e){
+//                        Toast.makeText(mySelf, "Ocurrio un error inesperado", Toast.LENGTH_LONG).show();
+//                    }
+//
+//                }
+//
+//                @Override
+//                public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject jsonObject){
+//                    Toast.makeText(mySelf, "Ocurrio un error inesperado:"+throwable.getMessage(), Toast.LENGTH_LONG).show();
+//
+//                }
+//
+//
+//            },getBaseContext());
+//
+//       /* String url = "http://172.31.1.19:3000/services/start/"+((TablesResult) l.getItemAtPosition(position)).getId();
+//        // Llamar al WS para generar un nuevo servicio, y que la actividad de servicios consulte la info del mismo.
+//        DefaultHttpClient client = new DefaultHttpClient();
+//        HttpGet httpGet = null;
+//        httpGet = new HttpGet(url);
+//
+//        HttpResponse httpResponse = null;
+//        try {
+//            httpResponse = client.execute(httpGet);
+//            HttpEntity getResponseEntity = httpResponse.getEntity();
+//            InputStream response = getResponseEntity.getContent();
+//            // llamar al intent
+//            Intent intent = new Intent(this, ServicesActivity.class);
+//            intent.putExtra(EXTRA_MESSAGE, ((TablesResult) l.getItemAtPosition(position)).getId());
+//            startActivity(intent);
+//
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            httpGet.abort();
+//        }*/
+//
+//
+//
+//
+//        //  Uri uri = ContentUris.withAppendedId(this.getIntent().getData(), id);
+//        // your code
+//
+//    }
 
 
 
@@ -250,7 +251,7 @@ public class TablesActivity extends ActionBarActivity implements AdapterView.OnI
         final TablesActivity mySelf = this;
         final TablesResult tablesResult = (TablesResult) parent.getItemAtPosition(position);
 
-        HttpClient.get("/services/start/" + tablesResult.getId(), null, new JsonHttpResponseHandler() {
+        HttpClient.get("/services/start/" + tablesResult.getId(), Network.makeAuthParams(mySelf), new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 // Pull out the first event on the public timeline
@@ -280,6 +281,11 @@ public class TablesActivity extends ActionBarActivity implements AdapterView.OnI
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject jsonObject){
                 Toast.makeText(mySelf, "Ocurrio un error inesperado:"+throwable.getMessage(), Toast.LENGTH_LONG).show();
+
+            }
+            @Override
+            public void onFailure(int c, Header[] h, String s, Throwable t){
+                Toast.makeText(mySelf, "Ocurrio un error inesperado:"+t.getMessage(), Toast.LENGTH_LONG).show();
 
             }
 

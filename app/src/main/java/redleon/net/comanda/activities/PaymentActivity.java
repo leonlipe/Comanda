@@ -25,6 +25,7 @@ import java.util.ArrayList;
 
 import redleon.net.comanda.R;
 import redleon.net.comanda.network.HttpClient;
+import redleon.net.comanda.utils.Network;
 
 public class PaymentActivity extends ActionBarActivity {
     public final static String DINERS_ARRAY = "net.redleon.DINERS_ARRAY";
@@ -144,7 +145,7 @@ public class PaymentActivity extends ActionBarActivity {
         final PaymentActivity me = this;
 
 
-        RequestParams params = new RequestParams();
+        RequestParams params = Network.makeAuthParams(this);
         params.put("data",new Gson().toJson(new PaymentData("",getPaymentMethod())) );
         params.put("ids", new Gson().toJson(getIdsArray()));
 

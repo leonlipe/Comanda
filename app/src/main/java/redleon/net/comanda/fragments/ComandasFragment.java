@@ -29,6 +29,7 @@ import redleon.net.comanda.loaders.ComandasListLoader;
 import redleon.net.comanda.model.ComandasResult;
 import redleon.net.comanda.model.DinersResult;
 import redleon.net.comanda.network.HttpClient;
+import redleon.net.comanda.utils.Network;
 
 
 /**
@@ -160,7 +161,7 @@ public class ComandasFragment extends ListFragment implements SwipeRefreshLayout
 
         final ComandasResult dr = (ComandasResult) getListAdapter().getItem(pos);
 
-        HttpClient.get("/services/get_history/" + dr.getId(), null, new JsonHttpResponseHandler() {
+        HttpClient.get("/services/get_history/" + dr.getId(), Network.makeAuthParams(me.getActivity()), new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 // Pull out the first event on the public timeline

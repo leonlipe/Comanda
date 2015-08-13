@@ -21,6 +21,7 @@ import redleon.net.comanda.adapters.MakersDetailListAdapter;
 import redleon.net.comanda.loaders.MakersDetailLoader;
 import redleon.net.comanda.model.Dish;
 import redleon.net.comanda.network.HttpClient;
+import redleon.net.comanda.utils.Network;
 
 public class MakersDetailActivity extends ActionBarActivity implements AdapterView.OnItemClickListener,  SwipeRefreshLayout.OnRefreshListener{
     private Integer commandId;
@@ -78,7 +79,7 @@ public class MakersDetailActivity extends ActionBarActivity implements AdapterVi
 
         if (id == R.id.action_dispatch_command) {
 
-            HttpClient.post("/commands/completed/" + getCommandId(), null, new JsonHttpResponseHandler() {
+            HttpClient.post("/commands/completed/" + getCommandId(), Network.makeAuthParams(me), new JsonHttpResponseHandler() {
                 @Override
                 public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                     // Pull out the first event on the public timeline
@@ -110,7 +111,7 @@ public class MakersDetailActivity extends ActionBarActivity implements AdapterVi
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         final MakersDetailActivity me = this;
-        HttpClient.post("/order_dishes/setready/" + ((Dish) parent.getItemAtPosition(position)).getOrder_dishes_id(), null, new JsonHttpResponseHandler() {
+        HttpClient.post("/order_dishes/setready/" + ((Dish) parent.getItemAtPosition(position)).getOrder_dishes_id(), Network.makeAuthParams(me), new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 // Pull out the first event on the public timeline

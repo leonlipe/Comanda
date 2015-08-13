@@ -39,6 +39,7 @@ import redleon.net.comanda.model.DishSize;
 import redleon.net.comanda.model.DishToOrder;
 import redleon.net.comanda.model.Extra;
 import redleon.net.comanda.network.HttpClient;
+import redleon.net.comanda.utils.Network;
 
 public class DishActivity extends ActionBarActivity {
 
@@ -77,7 +78,7 @@ public class DishActivity extends ActionBarActivity {
         spinner.setAdapter(adapter);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        HttpClient.get("/extras_for_select.json", null, new JsonHttpResponseHandler() {
+        HttpClient.get("/extras_for_select.json", Network.makeAuthParams(me), new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 // Pull out the first event on the public timeline
@@ -108,7 +109,7 @@ public class DishActivity extends ActionBarActivity {
 
         },getBaseContext());
 
-        HttpClient.get("/dishes/get_sizes/"+getDishId()+".json", null, new JsonHttpResponseHandler() {
+        HttpClient.get("/dishes/get_sizes/"+getDishId()+".json", Network.makeAuthParams(me), new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 // Pull out the first event on the public timeline
@@ -198,7 +199,7 @@ public class DishActivity extends ActionBarActivity {
         dishToOrder.setNotes(notes.getText().toString());
         dishToOrder.setDishtiime(Integer.valueOf((String) tiime_spinner.getSelectedItem()));
 
-        dishToOrder.setDishsize( ((DishSize)size_spinner.getSelectedItem()).getId() );
+        dishToOrder.setDishsize(((DishSize) size_spinner.getSelectedItem()).getId());
 
 
         ListView extras_list = (ListView) findViewById(R.id.extras_list);
@@ -212,8 +213,8 @@ public class DishActivity extends ActionBarActivity {
 
         String data = new Gson().toJson(dishToOrder);
 
-        RequestParams params = new RequestParams();
-        params.put("data", data);
+        RequestParams params = Network.makeAuthParams(this);
+         params.put("data", data);
 
         HttpClient.post("/add_dish_to_order/"+getDishId().toString(), params, new JsonHttpResponseHandler() {
             @Override

@@ -24,6 +24,7 @@ import redleon.net.comanda.fragments.DinersFragment;
 import redleon.net.comanda.fragments.InvoicesFragment;
 import redleon.net.comanda.fragments.PaymentsFragment;
 import redleon.net.comanda.network.HttpClient;
+import redleon.net.comanda.utils.Network;
 
 
 public class ServicesActivity extends ActionBarActivity implements ActionBar.TabListener, ComandasFragment.OnFragmentInteractionListener, DinersFragment.OnFragmentInteractionListener, InvoicesFragment.OnFragmentInteractionListener, PaymentsFragment.OnFragmentInteractionListener, ViewPager.OnPageChangeListener{
@@ -93,7 +94,7 @@ public class ServicesActivity extends ActionBarActivity implements ActionBar.Tab
         }
 
         if (id == R.id.action_close_service) {
-            HttpClient.post("/services/close/" + getServiceId(), null, new JsonHttpResponseHandler() {
+            HttpClient.post("/services/close/" + getServiceId(), Network.makeAuthParams(me), new JsonHttpResponseHandler() {
                 @Override
                 public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                     // Pull out the first event on the public timeline
@@ -134,7 +135,7 @@ public class ServicesActivity extends ActionBarActivity implements ActionBar.Tab
 
 
         if (id == R.id.action_add_person) {
-            HttpClient.post("/services/add_diner/" + getServiceId(), null, new JsonHttpResponseHandler() {
+            HttpClient.post("/services/add_diner/" + getServiceId(), Network.makeAuthParams(me), new JsonHttpResponseHandler() {
                 @Override
                 public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                     // Pull out the first event on the public timeline
@@ -173,7 +174,7 @@ public class ServicesActivity extends ActionBarActivity implements ActionBar.Tab
             return true;
         }
         if (id == R.id.action_send_all) {
-            HttpClient.post("/commands/sendthem/" + getServiceId(), null, new JsonHttpResponseHandler() {
+            HttpClient.post("/commands/sendthem/" + getServiceId(), Network.makeAuthParams(me), new JsonHttpResponseHandler() {
                 @Override
                 public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                     // Pull out the first event on the public timeline

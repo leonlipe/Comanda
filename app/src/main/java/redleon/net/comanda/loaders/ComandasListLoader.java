@@ -47,7 +47,7 @@ public class ComandasListLoader extends
 
         DefaultHttpClient client = new DefaultHttpClient();
         HttpGet httpGet = null;
-        httpGet = new HttpGet(url+getServiceId().toString());
+        httpGet = new HttpGet(url);
 
         HttpResponse httpResponse = null;
         try {
@@ -65,7 +65,7 @@ public class ComandasListLoader extends
     protected ArrayList<ComandasResult> doInBackground(URL... params) {
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(mAdapter.getmContext());
         String ip_server = sp.getString("ip_server", "NA");
-        String myUrl = "http://"+ip_server+mUrl;
+        String myUrl = "http://"+ip_server+mUrl+getServiceId();
         myUrl = Network.addAuthParams(myUrl, mAdapter.getmContext());
         InputStream source = retrieveStream(myUrl);
         Reader reader = null;

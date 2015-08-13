@@ -23,6 +23,7 @@ import redleon.net.comanda.R;
 import redleon.net.comanda.fragments.DinersFragment;
 import redleon.net.comanda.model.DinersResult;
 import redleon.net.comanda.network.HttpClient;
+import redleon.net.comanda.utils.Network;
 
 /**
  * Created by leon on 19/05/15.
@@ -88,7 +89,7 @@ public class DinersListAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
 
-                HttpClient.post("/diners/remove/"+ dinersResult.getId().toString(), null, new JsonHttpResponseHandler() {
+                HttpClient.post("/diners/remove/"+ dinersResult.getId().toString(), Network.makeAuthParams(itemView.getContext()), new JsonHttpResponseHandler() {
                     @Override
                     public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                         // Pull out the first event on the public timeline

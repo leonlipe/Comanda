@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
+import com.loopj.android.http.RequestParams;
+
 import org.apache.http.NameValuePair;
 import org.apache.http.client.utils.URLEncodedUtils;
 import org.apache.http.message.BasicNameValuePair;
@@ -36,5 +38,19 @@ public class Network {
         String paramString = URLEncodedUtils.format(params, "utf-8");
         url += paramString;
         return url;
+    }
+
+    public static RequestParams makeAuthParams( Context context){
+        RequestParams params = new RequestParams();
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
+        String token = sp.getString("access_token", "NA");
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+        Date date = new Date();
+
+        params.put("username", sp.getString("user_login", "NA"));
+        params.add("reqdate", dateFormat.format(date));
+        params.add("signature", Encoder.encode(dateFormat.format(date),token));
+
+        return params;
     }
 }
