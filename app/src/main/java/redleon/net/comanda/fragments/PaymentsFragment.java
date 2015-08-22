@@ -206,6 +206,22 @@ public class PaymentsFragment extends ListFragment implements SwipeRefreshLayout
             totalText.setText(total.toString());
         }
     }
+    @Override
+    public void onStart(){
+        super.onStart();
+
+         System.out.println(">>>>>>>>>>>>>>>>>OnStart Payments Fragment");
+
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        onRefresh();
+        System.out.println(">>>>>>>>>>>>>>>>>>OnResume Payments Fragment");
+
+
+    }
 
 
 }

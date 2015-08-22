@@ -52,6 +52,8 @@ public class DinersFragment extends ListFragment  implements SwipeRefreshLayout.
         Bundle args = new Bundle();
         args.putInt(ARG_SERVICE_ID, param1);
         fragment.setArguments(args);
+
+
         return fragment;
     }
 
@@ -162,6 +164,26 @@ public class DinersFragment extends ListFragment  implements SwipeRefreshLayout.
         }
         //Toast.makeText(getActivity(), "Item " + pos + " was clicked", Toast.LENGTH_SHORT).show();
     }
+    @Override
+    public void onStart(){
+        super.onStart();
+
+         System.out.println(">>>>>>>>>>>>>>>>>OnStart Diners Fragmnent");
+
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        onRefresh();
+        System.out.println(">>>>>>>>>>>>>>>>>>OnResume Diners Fragmnent");
+
+
+
+
+    }
+
+
 
 
 }

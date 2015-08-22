@@ -137,5 +137,21 @@ public class InvoicesFragment extends ListFragment implements SwipeRefreshLayout
 
 
     }
+    @Override
+    public void onStart(){
+        super.onStart();
+
+         System.out.println(">>>>>>>>>>>>>>>>>OnStart Invoices Fragment");
+
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        onRefresh();
+        System.out.println(">>>>>>>>>>>>>>>>>>OnResume Invoices Fragment");
+
+
+    }
 
 }

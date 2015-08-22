@@ -150,6 +150,7 @@ public class ServicesActivity extends ActionBarActivity implements ActionBar.Tab
                             Toast.makeText(me,
                                     "Se agregó una persona al servicio",
                                     Toast.LENGTH_SHORT).show();
+                            mViewPager.findViewWithTag();
 
 
                         }else{
@@ -260,6 +261,7 @@ public class ServicesActivity extends ActionBarActivity implements ActionBar.Tab
 
     @Override
     public void onPageSelected(int position) {
+
         actionBar.setSelectedNavigationItem(position);
     }
 

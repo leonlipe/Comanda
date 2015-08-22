@@ -64,8 +64,8 @@ public class TablesActivity extends ActionBarActivity implements AdapterView.OnI
                     android.R.color.holo_orange_light,
                     android.R.color.holo_red_light);
 
-            TablesListLoader loadData = new TablesListLoader(adapter);
-            loadData.execute();
+//            TablesListLoader loadData = new TablesListLoader(adapter);
+//            loadData.execute();
             System.out.println("http call");
             HttpClient.get("/tiimes_for_menu.json", Network.makeAuthParams(mySelf), new JsonHttpResponseHandler() {
                 @Override
@@ -271,26 +271,26 @@ public class TablesActivity extends ActionBarActivity implements AdapterView.OnI
 
                 } catch (JSONException e) {
                     e.printStackTrace();
-                }
-                catch (Exception e){
+                } catch (Exception e) {
                     Toast.makeText(mySelf, "Ocurrio un error inesperado", Toast.LENGTH_LONG).show();
                 }
             }
 
 
             @Override
-            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject jsonObject){
-                Toast.makeText(mySelf, "Ocurrio un error inesperado:"+throwable.getMessage(), Toast.LENGTH_LONG).show();
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject jsonObject) {
+                Toast.makeText(mySelf, "Ocurrio un error inesperado:" + throwable.getMessage(), Toast.LENGTH_LONG).show();
 
             }
+
             @Override
-            public void onFailure(int c, Header[] h, String s, Throwable t){
-                Toast.makeText(mySelf, "Ocurrio un error inesperado:"+t.getMessage(), Toast.LENGTH_LONG).show();
+            public void onFailure(int c, Header[] h, String s, Throwable t) {
+                Toast.makeText(mySelf, "Ocurrio un error inesperado:" + t.getMessage(), Toast.LENGTH_LONG).show();
 
             }
 
 
-        },getBaseContext());
+        }, getBaseContext());
     }
 
     @Override
@@ -298,6 +298,23 @@ public class TablesActivity extends ActionBarActivity implements AdapterView.OnI
         TablesListLoader tablesListLoader = new TablesListLoader(adapter);
         tablesListLoader.execute();
         swipeLayout.setRefreshing(false);
+
+    }
+
+    @Override
+    public void onStart(){
+        super.onStart();
+
+        // System.out.println(">>>>>>>>>>>>>>>>>OnStart");
+
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        onRefresh();
+        System.out.println(">>>>>>>>>>>>>>>>>>OnResume");
+
 
     }
 }

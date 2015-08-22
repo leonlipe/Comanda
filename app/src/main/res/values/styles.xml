@@ -5,5 +5,8 @@
 
         <!-- Customize your theme here. @android:style/Theme.Holo.Light.DarkActionBar   Theme.AppCompat.Light.DarkActionBar-->
     </style>
+    <!--<style name="CustomActionBar" parent="@android:style/TextAppearance.Holo.Widget.ActionBar.Menu">-->
+        <!--<item name="android:textSize">40sp</item>-->
+    <!--</style>-->
 
 </resources>

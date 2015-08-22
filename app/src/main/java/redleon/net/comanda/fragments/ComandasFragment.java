@@ -197,4 +197,22 @@ public class ComandasFragment extends ListFragment implements SwipeRefreshLayout
         //Toast.makeText(getActivity(), "Item " + pos + " was clicked", Toast.LENGTH_SHORT).show();
     }
 
+    @Override
+    public void onStart(){
+        super.onStart();
+
+         System.out.println(">>>>>>>>>>>>>>>>>OnStart Comandas Fragment");
+
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        onRefresh();
+        System.out.println(">>>>>>>>>>>>>>>>>>OnResume Comandas Fragment");
+
+
+    }
+
+
 }

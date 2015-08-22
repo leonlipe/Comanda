@@ -12,6 +12,7 @@ import java.util.ArrayList;
 
 import redleon.net.comanda.R;
 import redleon.net.comanda.model.Dish;
+import redleon.net.comanda.model.Extra;
 
 /**
  * Created by leon on 22/07/15.
@@ -59,9 +60,19 @@ public class MakersDetailListAdapter extends BaseAdapter {
 
         TextView dish_desc_text = (TextView) itemView.findViewById(R.id.dish_desc);
         TextView dish_name_text = (TextView) itemView.findViewById(R.id.dish_name);
-
+        TextView dish_notes_text = (TextView) itemView.findViewById(R.id.dish_notes);
+        TextView dish_extras_text = (TextView) itemView.findViewById(R.id.dish_extras);
         String dish_desc = mEntries.get(position).getStatus_desc().toString();
         String dish_name = mEntries.get(position).getName();
+        String dish_extra = "";
+        Extra[] extras = mEntries.get(position).getExtras();
+        for(int x = 0; x < extras.length; x++){
+            dish_extra = dish_extra.concat(extras[x].getDescription());
+        }
+        if (extras.length <= 0){
+            dish_extra = "Sin ingredientes extas.";
+        }
+
 //        String comandaInfo = "Pendientes: "+mEntries.get(position).getPending().toString()+" Enviadas: "+mEntries.get(position).getSended().toString()+" Terminadas: "+mEntries.get(position).getFinished().toString();
 //        titleText.setText(title);
 //        String description = "Servicio: "+
@@ -71,6 +82,8 @@ public class MakersDetailListAdapter extends BaseAdapter {
 //        info.setText(comandaInfo);
         dish_desc_text.setText(dish_desc);
         dish_name_text.setText(dish_name);
+        dish_notes_text.setText(mEntries.get(position).getNotes());
+        dish_extras_text.setText(dish_extra);
         return itemView;
     }
 

@@ -63,9 +63,9 @@ public class MakersActivity extends ActionBarActivity implements AdapterView.OnI
         }
 
 
-        MakersViewLoaders loadData = new MakersViewLoaders(makersListAdapter);
-        loadData.setPlaceKey(getPlaceKey());
-        loadData.execute();
+//        MakersViewLoaders loadData = new MakersViewLoaders(makersListAdapter);
+//        loadData.setPlaceKey(getPlaceKey());
+//        loadData.execute();
 
     }
 
@@ -117,4 +117,23 @@ public class MakersActivity extends ActionBarActivity implements AdapterView.OnI
         swipeLayout.setRefreshing(false);
 
     }
+
+    @Override
+    public void onStart(){
+        super.onStart();
+      //  onRefresh();
+      //  System.out.println(">>>>>>>>>>>>>>>>>OnStart");
+
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        onRefresh();
+
+        System.out.println(">>>>>>>>>>>>>>>>>>OnResume");
+
+
+    }
+
 }

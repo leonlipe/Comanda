@@ -10,8 +10,41 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
-    <TextView android:id="@+id/dish_desc"
+    <TextView
         android:textSize="16sp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="  Notas:"
+        android:textStyle="bold"
+
+        />
+
+    <TextView android:id="@+id/dish_notes"
+        android:textSize="16sp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+    <TextView
+        android:textSize="16sp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="  Ingredientes extras:"
+        android:textStyle="bold"
+
+        />
+    <TextView android:id="@+id/dish_extras"
+        android:textSize="16sp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+    <TextView
+        android:textSize="16sp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="  Status:"
+        android:textStyle="bold"
+
+        />
+    <TextView android:id="@+id/dish_desc"
+        android:textSize="14sp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 

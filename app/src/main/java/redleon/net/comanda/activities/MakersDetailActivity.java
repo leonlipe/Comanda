@@ -50,9 +50,11 @@ public class MakersDetailActivity extends ActionBarActivity implements AdapterVi
                 android.R.color.holo_green_light,
                 android.R.color.holo_orange_light,
                 android.R.color.holo_red_light);
-        MakersDetailLoader loadData = new MakersDetailLoader(makersDetailListAdapter);
-        loadData.setDishId(getCommandId());
-        loadData.execute();
+
+//        MakersDetailLoader makersDetailLoader = new MakersDetailLoader(makersDetailListAdapter);
+//        makersDetailLoader.setDishId(getCommandId());
+//        makersDetailLoader.execute();
+
     }
 
 
@@ -127,6 +129,23 @@ public class MakersDetailActivity extends ActionBarActivity implements AdapterVi
 
         },getBaseContext());
 
+
+
+    }
+
+    @Override
+    public void onStart(){
+        super.onStart();
+
+      // System.out.println(">>>>>>>>>>>>>>>>>OnStart");
+
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        onRefresh();
+        System.out.println(">>>>>>>>>>>>>>>>>>OnResume");
 
 
     }
