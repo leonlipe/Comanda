@@ -52,6 +52,7 @@ public class DinersFragment extends ListFragment  implements SwipeRefreshLayout.
         Bundle args = new Bundle();
         args.putInt(ARG_SERVICE_ID, param1);
         fragment.setArguments(args);
+        //fragment.setTag
 
 
         return fragment;

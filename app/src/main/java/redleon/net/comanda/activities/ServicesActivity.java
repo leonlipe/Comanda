@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
 import com.loopj.android.http.JsonHttpResponseHandler;
@@ -135,6 +136,7 @@ public class ServicesActivity extends ActionBarActivity implements ActionBar.Tab
 
 
         if (id == R.id.action_add_person) {
+        //    View view =  mViewPager.findViewWithTag(makeFragmentName(R.id.pager, 0));
             HttpClient.post("/services/add_diner/" + getServiceId(), Network.makeAuthParams(me), new JsonHttpResponseHandler() {
                 @Override
                 public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
@@ -150,7 +152,7 @@ public class ServicesActivity extends ActionBarActivity implements ActionBar.Tab
                             Toast.makeText(me,
                                     "Se agregó una persona al servicio",
                                     Toast.LENGTH_SHORT).show();
-                            mViewPager.findViewWithTag();
+                            //mViewPager.findViewWithTag();
 
 
                         }else{
@@ -284,5 +286,9 @@ public class ServicesActivity extends ActionBarActivity implements ActionBar.Tab
 
     public void setBarTitle(String barTitle) {
         this.barTitle = barTitle;
+    }
+
+    private static String makeFragmentName(int viewPagerId, int index) {
+        return "android:switcher:" + viewPagerId + ":" + index;
     }
 }

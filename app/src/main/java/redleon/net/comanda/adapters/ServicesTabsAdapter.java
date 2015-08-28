@@ -28,7 +28,11 @@ public class ServicesTabsAdapter extends FragmentPagerAdapter{
 
         switch (position) {
             case 0:
-                return DinersFragment.newInstance(getServiceId());
+                DinersFragment dinersFragment= DinersFragment.newInstance(getServiceId());
+                System.out.println(">>>>>>>>");
+                System.out.println(dinersFragment);
+
+                return dinersFragment;
             case 1:
                 return ComandasFragment.newInstance(getServiceId());
             case 2:
