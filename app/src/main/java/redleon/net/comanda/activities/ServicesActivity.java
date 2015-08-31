@@ -152,7 +152,7 @@ public class ServicesActivity extends ActionBarActivity implements ActionBar.Tab
                             Toast.makeText(me,
                                     "Se agregó una persona al servicio",
                                     Toast.LENGTH_SHORT).show();
-                            //mViewPager.findViewWithTag();
+                            updateForPersonChange();
 
 
                         }else{
@@ -191,6 +191,10 @@ public class ServicesActivity extends ActionBarActivity implements ActionBar.Tab
                             Toast.makeText(me,
                                     "Las comandas se enviaron correctamente.",
                                     Toast.LENGTH_SHORT).show();
+
+                            ComandasFragment cf = (ComandasFragment) mAdapter.getFragment(1);
+                            if (cf != null)
+                                cf.onRefresh();
                         }else{
                             Toast.makeText(me,
                                     sResponse,
@@ -290,5 +294,17 @@ public class ServicesActivity extends ActionBarActivity implements ActionBar.Tab
 
     private static String makeFragmentName(int viewPagerId, int index) {
         return "android:switcher:" + viewPagerId + ":" + index;
+    }
+
+    public void updateForPersonChange(){
+        DinersFragment df = (DinersFragment) mAdapter.getFragment(0);
+        ComandasFragment cf = (ComandasFragment) mAdapter.getFragment(1);
+        PaymentsFragment pf = (PaymentsFragment) mAdapter.getFragment(2);
+        if (df != null)
+            df.onRefresh();
+        if (cf != null)
+            cf.onRefresh();
+        if (pf != null)
+            pf.onRefresh();
     }
 }

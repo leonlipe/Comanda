@@ -8,18 +8,27 @@ package redleon.net.comanda.adapters;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
+import android.view.ViewGroup;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import redleon.net.comanda.fragments.ComandasFragment;
 import redleon.net.comanda.fragments.DinersFragment;
 import redleon.net.comanda.fragments.InvoicesFragment;
 import redleon.net.comanda.fragments.PaymentsFragment;
 
-public class ServicesTabsAdapter extends FragmentPagerAdapter{
+public class ServicesTabsAdapter extends FragmentPagerAdapter {
 
+    private Map<Integer, String> mFragmentTags;
+    private FragmentManager mFragmentManager;
     private Integer serviceId;
 
     public ServicesTabsAdapter(FragmentManager fm) {
         super(fm);
+        mFragmentManager = fm;
+        mFragmentTags = new HashMap<Integer, String>();
 
     }
 
@@ -46,6 +55,19 @@ public class ServicesTabsAdapter extends FragmentPagerAdapter{
     }
 
     @Override
+    public Object instantiateItem(ViewGroup container, int position){
+        Object obj = super.instantiateItem(container, position);
+        if (obj instanceof Fragment){
+            Fragment f = (Fragment) obj;
+            String tag = f.getTag();
+            mFragmentTags.put(position, tag);
+        }
+
+        return obj;
+
+    }
+
+    @Override
     public int getCount() {
         return 4;
     }
@@ -57,5 +79,14 @@ public class ServicesTabsAdapter extends FragmentPagerAdapter{
 
     public void setServiceId(Integer serviceId) {
         this.serviceId = serviceId;
+    }
+
+    public Fragment getFragment(int position){
+        String tag = mFragmentTags.get(position);
+        if (tag == null){
+            return null;
+        }
+
+        return mFragmentManager.findFragmentByTag(tag);
     }
 }

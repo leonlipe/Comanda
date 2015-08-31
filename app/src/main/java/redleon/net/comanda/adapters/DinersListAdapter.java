@@ -20,6 +20,7 @@ import org.w3c.dom.Text;
 import java.util.ArrayList;
 
 import redleon.net.comanda.R;
+import redleon.net.comanda.activities.ServicesActivity;
 import redleon.net.comanda.fragments.DinersFragment;
 import redleon.net.comanda.model.DinersResult;
 import redleon.net.comanda.network.HttpClient;
@@ -101,7 +102,8 @@ public class DinersListAdapter extends BaseAdapter {
                                 Toast.makeText(itemView.getContext(),
                                         "La persona se eliminó del servicio",
                                         Toast.LENGTH_SHORT).show();
-                                dinersFragment.onRefresh();
+                                ServicesActivity servicesActivity = (ServicesActivity) dinersFragment.getActivity();
+                                servicesActivity.updateForPersonChange();
 
                             } else {
                                 Toast.makeText(itemView.getContext(),
