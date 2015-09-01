@@ -50,13 +50,13 @@ public class ComandsHistoryAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView,
                         ViewGroup parent) {
-        RelativeLayout itemView;
+        LinearLayout itemView;
         if (convertView == null) {
-            itemView = (RelativeLayout) mLayoutInflater.inflate(
+            itemView = (LinearLayout) mLayoutInflater.inflate(
                     R.layout.order_dishes_list, parent, false);
 
         } else {
-            itemView = (RelativeLayout) convertView;
+            itemView = (LinearLayout) convertView;
         }
 
         TextView titleText = (TextView) itemView.findViewById(R.id.listTitle);
@@ -79,6 +79,9 @@ public class ComandsHistoryAdapter extends BaseAdapter {
         }
         descriptionText.setText(description);
         infoText.setText(sInfoText);
+
+       // TextView separatorView = (TextView) view.findViewById(R.id.separator);
+
         return itemView;
     }
 

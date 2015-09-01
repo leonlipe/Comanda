@@ -63,6 +63,7 @@ public class ComandHistoryActivity extends SwipeListViewActivity implements Swip
         ComandasHistoryLoader comandasHistoryLoader = new ComandasHistoryLoader(comandsHistoryAdapter);
         comandasHistoryLoader.setDinerId(getDinerId());
         comandasHistoryLoader.execute();
+        setTitle("Historial de comandas");
 
 
     }
