@@ -62,11 +62,12 @@ public class TablesListAdapter extends BaseAdapter {
         TextView descriptionText = (TextView) itemView.findViewById(R.id.listDescription);
         TextView statusText = (TextView) itemView.findViewById(R.id.tableStatus);
 
+
         String title = mEntries.get(position).getKey();
         titleText.setText(title);
         String description =
                 mEntries.get(position).getDescription();
-        statusText.setText(mEntries.get(position).getStatus_desc());
+        statusText.setText(mEntries.get(position).getStatus_desc() + " "+mEntries.get(position).getMesero());
         descriptionText.setText(description);
 
         return itemView;

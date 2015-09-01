@@ -3,8 +3,16 @@
     android:id="@+id/fragment_makers_swipe_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp">
+
     <ListView
-        android:id="@android:id/list"
+        android:id="@+id/makers_activity_list"
         android:fadingEdge="vertical"
         android:fadingEdgeLength="10dp"
         android:longClickable="true"
@@ -12,12 +20,16 @@
         android:layout_height="match_parent" >
 
     </ListView>
-    <TextView
-        android:id="@android:id/empty"
-        android:text="@string/loading"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        />
+        <TextView
+            android:id="@+id/empty_data"
+            android:text="@string/nodata"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            />
+
+
+    </LinearLayout>
+
 
 </android.support.v4.widget.SwipeRefreshLayout>

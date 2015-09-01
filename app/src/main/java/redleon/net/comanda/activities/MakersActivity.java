@@ -41,7 +41,9 @@ public class MakersActivity extends ActionBarActivity implements AdapterView.OnI
 
         setPlaceKey(intent.getStringExtra(PLACE_KEY));
         makersListAdapter = new MakersListAdapter(this);
-        listView = (ListView) findViewById(android.R.id.list);
+
+        listView = (ListView) findViewById(R.id.makers_activity_list);
+        listView.setEmptyView(findViewById(R.id.empty_data));
 
         listView.setAdapter(makersListAdapter);
         listView.setOnItemClickListener(this);

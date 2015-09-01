@@ -53,6 +53,7 @@ public class TablesActivity extends ActionBarActivity implements AdapterView.OnI
 
             adapter = new TablesListAdapter(this);
             listView = (ListView) findViewById(android.R.id.list);
+            listView.setEmptyView(findViewById(R.id.empty_data));
 
             listView.setAdapter(adapter);
             listView.setOnItemClickListener(this);
@@ -260,12 +261,14 @@ public class TablesActivity extends ActionBarActivity implements AdapterView.OnI
 
                     String sResponse = response.getString("status");
                     // Do something with the response
-                    System.out.println(response.getJSONObject("service").getInt("id"));
+                   // System.out.println(response.getJSONObject("service").getInt("id"));
                     if (sResponse.equals("ok")) {
                         Intent intent = new Intent(mySelf, ServicesActivity.class);
                         intent.putExtra(EXTRA_MESSAGE, response.getJSONObject("service").getInt("id"));
                         intent.putExtra(ServicesActivity.TITLE, tablesResult.getDescription());
                         startActivity(intent);
+                    }else{
+                        Toast.makeText(mySelf, response.getString("reason"), Toast.LENGTH_LONG).show();
                     }
 
 

@@ -18,6 +18,7 @@ public class TablesResult {
     private Integer sent;
     private Integer prepared;
     private Integer served;
+    private String mesero;
 
     public Integer getId() {
         return id;
@@ -89,5 +90,13 @@ public class TablesResult {
 
     public void setServed(Integer served) {
         this.served = served;
+    }
+
+    public String getMesero() {
+        return mesero;
+    }
+
+    public void setMesero(String mesero) {
+        this.mesero = mesero;
     }
 }

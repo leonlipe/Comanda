@@ -62,6 +62,7 @@ public class InvoicesFragment extends ListFragment implements SwipeRefreshLayout
         }
 
         invoicesListAdapter = new InvoicesListAdapter(getActivity());
+
         setListAdapter(invoicesListAdapter);
         InvoicesListLoader invoicesListLoader = new InvoicesListLoader(invoicesListAdapter);
         invoicesListLoader.setServiceId(serviceId);
