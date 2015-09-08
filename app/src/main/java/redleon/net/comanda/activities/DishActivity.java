@@ -128,6 +128,7 @@ public class DishActivity extends ActionBarActivity {
                     Spinner spinner = (Spinner) findViewById(R.id.dish_spin_size);
                     //DishSizeSpinerAdapter dAdapter = new DishSizeSpinerAdapter(me, sizes);
                     ArrayAdapter<DishSize> dAdapter = new ArrayAdapter<DishSize>(me,R.layout.dish_size_spinner, sizes);
+                    dAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
                     spinner.setAdapter(dAdapter);
                     //dAdapter.notifyDataSetChanged();
@@ -197,6 +198,14 @@ public class DishActivity extends ActionBarActivity {
         dishToOrder.setServiceId(getServiceId());
         dishToOrder.setDinerId(getDinerId());
         dishToOrder.setNotes(notes.getText().toString());
+        if (tiime_spinner.getCount() == 0 ){
+            Toast.makeText(me, "Seleccione un tiempo.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if (size_spinner.getCount() == 0 ){
+            Toast.makeText(me, "Seleccione una tamaño.", Toast.LENGTH_SHORT).show();
+            return;
+        }
         dishToOrder.setDishtiime(Integer.valueOf((String) tiime_spinner.getSelectedItem()));
 
         dishToOrder.setDishsize(((DishSize) size_spinner.getSelectedItem()).getId());
