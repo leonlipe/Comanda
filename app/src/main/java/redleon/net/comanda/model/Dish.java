@@ -16,7 +16,7 @@ public class Dish {
     private String notes;
     private Extra[] extras;
     private Integer dishtiime;
-    private String size_descl;
+    private String size_desc;
 
 
 
@@ -122,11 +122,11 @@ public class Dish {
         this.dishtiime = dishtiime;
     }
 
-    public String getSize_descl() {
-        return size_descl;
+    public String getSize_desc() {
+        return size_desc;
     }
 
-    public void setSize_descl(String size_descl) {
-        this.size_descl = size_descl;
+    public void setSize_desc(String size_desc) {
+        this.size_desc = size_desc;
     }
 }

@@ -58,16 +58,22 @@ public class MakersDetailListAdapter extends BaseAdapter {
             itemView = (LinearLayout) convertView;
         }
 
+        TextView dish_size_desc = (TextView) itemView.findViewById(R.id.dish_size);
         TextView dish_desc_text = (TextView) itemView.findViewById(R.id.dish_desc);
         TextView dish_name_text = (TextView) itemView.findViewById(R.id.dish_name);
         TextView dish_notes_text = (TextView) itemView.findViewById(R.id.dish_notes);
         TextView dish_extras_text = (TextView) itemView.findViewById(R.id.dish_extras);
         String dish_desc = mEntries.get(position).getStatus_desc().toString();
         String dish_name = mEntries.get(position).getName();
+        String dish_size = mEntries.get(position).getSize_desc();
         String dish_extra = "";
         Extra[] extras = mEntries.get(position).getExtras();
         for(int x = 0; x < extras.length; x++){
             dish_extra = dish_extra.concat(extras[x].getDescription());
+            if (x > 0){
+                dish_extra = dish_extra.concat(",");
+            }
+
         }
         if (extras.length <= 0){
             dish_extra = "Sin ingredientes extas.";
@@ -84,6 +90,7 @@ public class MakersDetailListAdapter extends BaseAdapter {
         dish_name_text.setText(dish_name);
         dish_notes_text.setText(mEntries.get(position).getNotes());
         dish_extras_text.setText(dish_extra);
+        dish_size_desc.setText(dish_size);
         return itemView;
     }
 
