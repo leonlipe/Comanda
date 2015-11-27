@@ -58,9 +58,9 @@ public class SubMenuListAdapter extends BaseAdapter {
         }
 
         TextView menuNameText = (TextView) itemView.findViewById(R.id.menu_name);
-        TextView menuDescriptionText = (TextView) itemView.findViewById(R.id.menu_description);
+//        TextView menuDescriptionText = (TextView) itemView.findViewById(R.id.menu_description);
         menuNameText.setText(mEntries.get(position).getName());
-        menuDescriptionText.setText(mEntries.get(position).getDescription());
+//        menuDescriptionText.setText(mEntries.get(position).getDescription());
         return itemView;
     }
 

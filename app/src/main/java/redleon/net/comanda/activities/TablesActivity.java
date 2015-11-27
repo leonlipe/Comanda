@@ -11,6 +11,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.GridView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -39,7 +40,7 @@ import java.util.List;
 
 public class TablesActivity extends ActionBarActivity implements AdapterView.OnItemClickListener, SwipeRefreshLayout.OnRefreshListener  {
     public final static String EXTRA_MESSAGE = "com.mycompany.myfirstapp.MESSAGE";
-    private ListView listView;
+    private GridView gridView;
     TablesListAdapter adapter;
     private SwipeRefreshLayout swipeLayout;
 
@@ -52,11 +53,11 @@ public class TablesActivity extends ActionBarActivity implements AdapterView.OnI
             setContentView(R.layout.activity_tables);
 
             adapter = new TablesListAdapter(this);
-            listView = (ListView) findViewById(android.R.id.list);
-            listView.setEmptyView(findViewById(R.id.empty_data));
+            gridView = (GridView) findViewById(R.id.gridview);
+            gridView.setEmptyView(findViewById(R.id.empty_data));
 
-            listView.setAdapter(adapter);
-            listView.setOnItemClickListener(this);
+            gridView.setAdapter(adapter);
+            gridView.setOnItemClickListener(this);
 
             swipeLayout = (SwipeRefreshLayout) findViewById(R.id.fragment_tables_swipe_container);
             swipeLayout.setOnRefreshListener(this);

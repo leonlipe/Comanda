@@ -5,6 +5,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -49,25 +51,31 @@ public class TablesListAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView,
                         ViewGroup parent) {
-        RelativeLayout itemView;
+        LinearLayout itemView;
         if (convertView == null) {
-            itemView = (RelativeLayout) mLayoutInflater.inflate(
+            itemView = (LinearLayout) mLayoutInflater.inflate(
                     R.layout.table_layout_list, parent, false);
 
         } else {
-            itemView = (RelativeLayout) convertView;
+            itemView = (LinearLayout) convertView;
         }
 
         TextView titleText = (TextView) itemView.findViewById(R.id.listTitle);
         TextView descriptionText = (TextView) itemView.findViewById(R.id.listDescription);
         TextView statusText = (TextView) itemView.findViewById(R.id.tableStatus);
-
+        ImageView imageIcon = (ImageView) itemView.findViewById(R.id.imageIcon);
 
         String title = mEntries.get(position).getKey();
         titleText.setText(title);
         String description =
                 mEntries.get(position).getDescription();
         statusText.setText(mEntries.get(position).getStatus_desc() + " "+mEntries.get(position).getMesero());
+        if (mEntries.get(position).getStatus_desc().equals("Ocupada")){
+            imageIcon.setImageResource(R.drawable.dish_and_fork_no);
+        }else{
+            imageIcon.setImageResource(R.drawable.dish_and_fork_ok);
+
+        }
         descriptionText.setText(description);
 
         return itemView;

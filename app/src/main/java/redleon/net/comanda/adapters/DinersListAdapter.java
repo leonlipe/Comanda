@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -75,6 +76,7 @@ public class DinersListAdapter extends BaseAdapter {
         TextView titleText = (TextView) itemView.findViewById(R.id.diner_title);
         TextView descriptionText = (TextView) itemView.findViewById(R.id.diner_desc);
         TextView dinerStatusText = (TextView) itemView.findViewById(R.id.diner_status);
+        ImageView personIcon = (ImageView) itemView.findViewById(R.id.imageIcon);
 
         String title = mEntries.get(position).getDiner_number().toString();
         titleText.setText(title);
@@ -83,6 +85,12 @@ public class DinersListAdapter extends BaseAdapter {
 
         descriptionText.setText(description);
         dinerStatusText.setText(mEntries.get(position).getStatus_desc());
+
+        if (mEntries.get(position).getStatus_desc().equals("Activo")){
+            personIcon.setImageResource(R.drawable.person);
+        }else {
+            personIcon.setImageResource(R.drawable.person_closed);
+        }
 
         Button btnDelete = (Button) itemView.findViewById(R.id.btn_pay);
         final DinersResult dinersResult = mEntries.get(position);

@@ -1,40 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content" >
+    android:layout_height="match_parent"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp"
+    android:orientation="horizontal" >
 
-
-
-    <TextView
-        android:id="@+id/listTitle"
+    <ImageView
+        android:id="@+id/imageIcon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="A List item title"
-        android:textSize="16sp"
-        android:textStyle="bold" />
+        android:scaleType="center"
+        android:gravity="center"
+        android:src="@drawable/dish_and_fork" />
 
-    <TextView
-        android:id="@+id/listDescription"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/listTitle"
-        android:layout_marginTop="5dp"
-        android:maxLines="4"
-        android:text="The List item description"
-        android:textSize="14sp"
-        android:layout_alignParentLeft="true"
-        />
-    <TextView
-        android:id="@+id/tableStatus"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/listDescription"
-        android:layout_marginTop="5dp"
-        android:maxLines="4"
-        android:text="Table status"
-        android:textSize="14sp"
-        />
+    <RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
 
 
-</RelativeLayout>
+
+        <TextView
+            android:id="@+id/listTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="A List item title"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/listDescription"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/listTitle"
+            android:layout_marginTop="5dp"
+            android:maxLines="4"
+            android:text="The List item description"
+            android:textSize="14sp"
+            android:layout_alignParentLeft="true"
+            />
+        <TextView
+            android:id="@+id/tableStatus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/listDescription"
+            android:layout_marginTop="5dp"
+            android:maxLines="4"
+            android:text="Table status"
+            android:textSize="14sp"
+            />
+
+
+    </RelativeLayout>
+
+</LinearLayout>
