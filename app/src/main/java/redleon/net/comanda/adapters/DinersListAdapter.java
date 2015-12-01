@@ -78,13 +78,14 @@ public class DinersListAdapter extends BaseAdapter {
         TextView dinerStatusText = (TextView) itemView.findViewById(R.id.diner_status);
         ImageView personIcon = (ImageView) itemView.findViewById(R.id.imageIcon);
 
-        String title = mEntries.get(position).getDiner_number().toString();
+        String title ="Persona no "+mEntries.get(position).getDiner_number().toString();
         titleText.setText(title);
         String description =
-                mEntries.get(position).getDiner_desc();
+                "Servicio: "+
+                        mEntries.get(position).getStatus_desc();
 
         descriptionText.setText(description);
-        dinerStatusText.setText(mEntries.get(position).getStatus_desc());
+        dinerStatusText.setText("Presione para ordernar platillos.");
 
         if (mEntries.get(position).getStatus_desc().equals("Activo")){
             personIcon.setImageResource(R.drawable.person);

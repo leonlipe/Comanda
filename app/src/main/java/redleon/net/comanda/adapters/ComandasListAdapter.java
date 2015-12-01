@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -60,14 +61,17 @@ public class ComandasListAdapter extends BaseAdapter {
         TextView titleText = (TextView) itemView.findViewById(R.id.comanda_title);
         TextView descriptionText = (TextView) itemView.findViewById(R.id.comanda_desc);
         TextView info = (TextView) itemView.findViewById(R.id.comanda_info);
+        ImageView personIcon = (ImageView) itemView.findViewById(R.id.imageIcon);
+
 
         String title = "Persona no "+mEntries.get(position).getDiner_number().toString();
         String comandaInfo = "Pendientes: "+mEntries.get(position).getPending().toString()+" Enviadas: "+mEntries.get(position).getSended().toString()+" Terminadas: "+mEntries.get(position).getFinished().toString();
         titleText.setText(title);
-        String description = "Servicio: "+
-                mEntries.get(position).getStatus_desc();
-        if (description.trim().length() == 0) {
-            description = "Sorry, no description for this image.";
+        String description = "Servicio: "+ mEntries.get(position).getStatus_desc();
+        if (mEntries.get(position).getStatus_desc().equals("Activo")){
+            personIcon.setImageResource(R.drawable.person);
+        }else {
+            personIcon.setImageResource(R.drawable.person_closed);
         }
         descriptionText.setText(description);
         info.setText(comandaInfo);

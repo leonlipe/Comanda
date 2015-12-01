@@ -8,6 +8,7 @@ public class MakersCommandItem {
     private Integer id;
     private String name;
     private Integer status;
+    private String table;
 
     public Integer getId() {
         return id;
@@ -31,5 +32,13 @@ public class MakersCommandItem {
 
     public void setStatus(Integer status) {
         this.status = status;
+    }
+
+    public String getTable() {
+        return table;
+    }
+
+    public void setTable(String table) {
+        this.table = table;
     }
 }

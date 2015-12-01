@@ -3,6 +3,8 @@
     android:layout_height="match_parent"
     android:paddingLeft="16dp"
     android:paddingRight="16dp"
+    android:paddingTop="16sp"
+    android:paddingBottom="16sp"
     android:orientation="vertical" >
 
     <TextView android:text="@string/dish_notes" android:layout_width="wrap_content"

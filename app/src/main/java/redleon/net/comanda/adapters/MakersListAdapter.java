@@ -59,9 +59,11 @@ public class MakersListAdapter extends BaseAdapter {
 
         TextView command_number_text = (TextView) itemView.findViewById(R.id.command_number);
         TextView name_waitres_text = (TextView) itemView.findViewById(R.id.command_waitres);
+        TextView comand_table_text = (TextView) itemView.findViewById(R.id.command_table);
 
         String command_number = "Comanda no "+mEntries.get(position).getId().toString();
         String name_waitres = mEntries.get(position).getName();
+
 //        String comandaInfo = "Pendientes: "+mEntries.get(position).getPending().toString()+" Enviadas: "+mEntries.get(position).getSended().toString()+" Terminadas: "+mEntries.get(position).getFinished().toString();
 //        titleText.setText(title);
 //        String description = "Servicio: "+
@@ -71,6 +73,7 @@ public class MakersListAdapter extends BaseAdapter {
 //        info.setText(comandaInfo);
         command_number_text.setText(name_waitres);
         name_waitres_text.setText(command_number);
+        comand_table_text.setText(mEntries.get(position).getTable());
         return itemView;
     }
 

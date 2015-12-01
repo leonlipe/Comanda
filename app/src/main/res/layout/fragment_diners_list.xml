@@ -4,7 +4,13 @@
     android:layout_height="fill_parent"
     android:orientation="horizontal"
     android:baselineAligned="false"
-    android:descendantFocusability="blocksDescendants">
+    android:descendantFocusability="blocksDescendants"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp"
+    android:paddingTop="16sp"
+    android:paddingBottom="16sp"
+    >
+
     <ImageView
         android:id="@+id/imageIcon"
         android:layout_width="wrap_content"
@@ -12,25 +18,28 @@
         android:scaleType="center"
         android:gravity="center"
         android:src="@drawable/person" />
+
    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_weight="0.80"
     android:layout_width="0dp"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:descendantFocusability="blocksDescendants">
+    android:descendantFocusability="blocksDescendants"
+       android:paddingLeft="16dp"
+       android:paddingRight="16dp">
 
     <TextView android:id="@+id/diner_title"
-        android:textSize="16sp"
+        android:textSize="20sp"
         android:textStyle="bold"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
     <TextView android:id="@+id/diner_desc"
-        android:textSize="16sp"
+        android:textSize="20sp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
     <TextView android:id="@+id/diner_status"
-        android:textSize="14sp"
+        android:textSize="16sp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 

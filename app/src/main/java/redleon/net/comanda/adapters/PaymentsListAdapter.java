@@ -67,14 +67,15 @@ public class PaymentsListAdapter extends BaseAdapter {
         TextView descriptionText = (TextView) itemView.findViewById(R.id.payment_desc);
         TextView totalText = (TextView) itemView.findViewById(R.id.payment_total);
 
-        String title = "Persona no: " + mEntries.get(position).getDiner_number().toString() + " " +mEntries.get(position).getStatus_desc();
+        String title = "Persona no " + mEntries.get(position).getDiner_number().toString();
         titleText.setText(title);
-        String description = "Total de pedidos: "+
-                mEntries.get(position).getOrder_dishes().length;
+        String description = "Servicio: "+ mEntries.get(position).getStatus_desc();
+
+                //"Total de pedidos: "+ mEntries.get(position).getOrder_dishes().length;
 
         descriptionText.setText(description);
 
-        String total = "Total de la persona: $ "+mEntries.get(position).getTotal();
+        String total = "Total de pedidos: "+ mEntries.get(position).getOrder_dishes().length + " / Total de la persona: $ "+mEntries.get(position).getTotal();
 
         totalText.setText(total);
         return itemView;

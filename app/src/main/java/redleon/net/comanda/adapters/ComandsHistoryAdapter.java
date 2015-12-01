@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -59,6 +60,8 @@ public class ComandsHistoryAdapter extends BaseAdapter {
             itemView = (LinearLayout) convertView;
         }
 
+
+        ImageView image_icon = (ImageView) itemView.findViewById(R.id.imageIcon);
         TextView titleText = (TextView) itemView.findViewById(R.id.listTitle);
         TextView descriptionText = (TextView) itemView.findViewById(R.id.listDescription);
         TextView infoText = (TextView) itemView.findViewById(R.id.listInfo);
@@ -74,12 +77,18 @@ public class ComandsHistoryAdapter extends BaseAdapter {
             helpText.setText("Deslice para borrar.");
         }else{
             sInfoText = mEntries.get(position).getStatus() + " en " + mEntries.get(position).getPlace_name();
-            helpText.setText("");
+            helpText.setText("El platillo no se puede borrar.");
 
         }
         descriptionText.setText(description);
         infoText.setText(sInfoText);
 
+
+        if (mEntries.get(position).getStatus().equals("Terminado")){
+            image_icon.setImageResource(R.drawable.dish_ready);
+        }else {
+            image_icon.setImageResource(R.drawable.dish_not_ready);
+        }
        // TextView separatorView = (TextView) view.findViewById(R.id.separator);
 
         return itemView;

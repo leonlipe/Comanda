@@ -3,18 +3,39 @@
 
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+    android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="10dp">
+    android:paddingBottom="16dp"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp"
+    android:paddingTop="16sp"
+   >
 
+    <ImageView
+        android:id="@+id/imageIcon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:scaleType="center"
+        android:gravity="center"
+        android:src="@drawable/dish_not_ready" />
+
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_weight="0.80"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:descendantFocusability="blocksDescendants"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp">
 
     <TextView
         android:id="@+id/listTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="A List item title"
-        android:textSize="16sp"
+        android:textSize="20sp"
         android:textStyle="bold" />
 
     <TextView
@@ -24,7 +45,7 @@
         android:layout_marginTop="5dp"
         android:maxLines="4"
         android:text="The List item description"
-        android:textSize="14sp"
+        android:textSize="16sp"
         android:layout_alignParentLeft="true"
         />
 
@@ -35,7 +56,7 @@
 
         android:maxLines="4"
         android:text="The List item description"
-        android:textSize="14sp"
+        android:textSize="16sp"
         android:layout_alignParentLeft="true"
         />
 
@@ -46,7 +67,8 @@
 
         android:maxLines="4"
         android:text="Ayuda"
-        android:textSize="14sp"
+        android:textSize="16sp"
         android:layout_alignParentLeft="true"
         />
     </LinearLayout>
+</LinearLayout>

@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -58,6 +59,8 @@ public class MakersDetailListAdapter extends BaseAdapter {
             itemView = (LinearLayout) convertView;
         }
 
+        ImageView image_icon = (ImageView) itemView.findViewById(R.id.imageIcon);
+
         TextView dish_size_desc = (TextView) itemView.findViewById(R.id.dish_size);
         TextView dish_desc_text = (TextView) itemView.findViewById(R.id.dish_desc);
         TextView dish_name_text = (TextView) itemView.findViewById(R.id.dish_name);
@@ -79,6 +82,11 @@ public class MakersDetailListAdapter extends BaseAdapter {
             dish_extra = "Sin ingredientes extas.";
         }
 
+        if (mEntries.get(position).getStatus_desc().contains("Preparado")){
+            image_icon.setImageResource(R.drawable.dish_ready);
+        }else {
+            image_icon.setImageResource(R.drawable.dish_not_ready);
+        }
 //        String comandaInfo = "Pendientes: "+mEntries.get(position).getPending().toString()+" Enviadas: "+mEntries.get(position).getSended().toString()+" Terminadas: "+mEntries.get(position).getFinished().toString();
 //        titleText.setText(title);
 //        String description = "Servicio: "+
