@@ -7,7 +7,6 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -54,7 +53,7 @@ public class TablesListAdapter extends BaseAdapter {
         LinearLayout itemView;
         if (convertView == null) {
             itemView = (LinearLayout) mLayoutInflater.inflate(
-                    R.layout.table_layout_list, parent, false);
+                    R.layout.activity_tables_list, parent, false);
 
         } else {
             itemView = (LinearLayout) convertView;

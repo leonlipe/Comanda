@@ -13,9 +13,11 @@
 
     <ListView android:id="@id/android:list"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:drawSelectorOnTop="false"/>
+        android:layout_height="0px"
+        android:drawSelectorOnTop="false"
+        android:layout_weight="3"
+
+        />
 
     <TextView android:id="@id/android:empty"
         android:layout_width="match_parent"
@@ -23,21 +25,22 @@
         android:text="@string/nodata"/>
 
 
-        <TextView android:id="@+id/payment_list_total"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="$0.00"/>
+    <TextView android:id="@+id/payment_list_total"
+    android:textSize="90sp"
+    android:textStyle="bold"
+    android:layout_width="match_parent"
+    android:layout_height="0px"
+    android:gravity="right"
+    android:layout_weight="0.5"
+    android:text="$0.00"/>
 
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-
-            android:layout_weight="0.1"
-            android:text="Pagar"
-            android:id="@+id/btn_pay"/>
+    <Button
+    android:layout_width="match_parent"
+    android:layout_height="0px"
+    android:layout_gravity="center"
+    android:layout_weight="0.5"
+    android:text="Pagar"
+    android:id="@+id/btn_pay"/>
 
     </LinearLayout>
 

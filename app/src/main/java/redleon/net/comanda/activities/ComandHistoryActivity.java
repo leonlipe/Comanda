@@ -118,40 +118,40 @@ public class ComandHistoryActivity extends SwipeListViewActivity implements Swip
         //Toast.makeText(this,
         //        "Swipe to " + (isRight ? "right" : "left") + " direction",
         //        Toast.LENGTH_SHORT).show();
-        final ComandHistoryActivity me = this;
-        OrderDishesData dish = (OrderDishesData) mListView.getItemAtPosition(position);
-        HttpClient.post("/diners/remove_dish/" + dish.getId().toString(), Network.makeAuthParams(me), new JsonHttpResponseHandler() {
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                // Pull out the first event on the public timeline
-
-                try {
-                    String sResponse = response.getString("status");
-                    // Do something with the response
-                    if (sResponse.equals("ok")) {
-                        Toast.makeText(me,
-                                "El platillo se quitó de la orden",
-                                Toast.LENGTH_SHORT).show();
-                        me.onRefresh();
-                    }else{
-                        Toast.makeText(me,
-                                "Ocurrió un error: "+response.getString("reason"),
-                                Toast.LENGTH_SHORT).show();
-                    }
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject jsonObject){
-                Toast.makeText(me, "Ocurrio un error inesperado:"+throwable.getMessage(), Toast.LENGTH_LONG).show();
-
-            }
-
-
-        },getBaseContext());
+//        final ComandHistoryActivity me = this;
+//        OrderDishesData dish = (OrderDishesData) mListView.getItemAtPosition(position);
+//        HttpClient.post("/diners/remove_dish/" + dish.getId().toString(), Network.makeAuthParams(me), new JsonHttpResponseHandler() {
+//            @Override
+//            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+//                // Pull out the first event on the public timeline
+//
+//                try {
+//                    String sResponse = response.getString("status");
+//                    // Do something with the response
+//                    if (sResponse.equals("ok")) {
+//                        Toast.makeText(me,
+//                                "El platillo se quitó de la orden",
+//                                Toast.LENGTH_SHORT).show();
+//                        me.onRefresh();
+//                    }else{
+//                        Toast.makeText(me,
+//                                "Ocurrió un error: "+response.getString("reason"),
+//                                Toast.LENGTH_SHORT).show();
+//                    }
+//
+//                } catch (JSONException e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject jsonObject){
+//                Toast.makeText(me, "Ocurrio un error inesperado:"+throwable.getMessage(), Toast.LENGTH_LONG).show();
+//
+//            }
+//
+//
+//        },getBaseContext());
     }
 
     @Override

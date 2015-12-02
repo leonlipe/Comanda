@@ -25,6 +25,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.math.BigDecimal;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -149,7 +150,7 @@ public class PaymentsFragment extends ListFragment implements SwipeRefreshLayout
         paymentsListLoader.setServiceId(serviceId);
         paymentsListLoader.execute();
         selectedItems.clear();
-        totalText.setText("0");
+        totalText.setText("$0.00");
         total = new BigDecimal(0);
         swipeLayout.setRefreshing(false);
 
@@ -168,7 +169,7 @@ public class PaymentsFragment extends ListFragment implements SwipeRefreshLayout
             Log.v("Pay:", new Gson().toJson(idsArray));
             Intent intent = new Intent(v.getContext(), PaymentActivity.class);
             intent.putIntegerArrayListExtra(PaymentActivity.DINERS_ARRAY, idsArray);
-            intent.putExtra(PaymentActivity.GRAN_TOTAL, totalText.getText());
+            intent.putExtra(PaymentActivity.GRAN_TOTAL, totalText.getText().toString().replaceAll("[^\\d.]+", ""));
             intent.putExtra(PaymentActivity.SERVICE_ID, serviceId);
             startActivity(intent);
         }
@@ -202,8 +203,8 @@ public class PaymentsFragment extends ListFragment implements SwipeRefreshLayout
                 selectedItems.add(item);
                 total = total.add(item.getTotal());
             }
-
-            totalText.setText(total.toString());
+            NumberFormat format = NumberFormat.getCurrencyInstance();
+            totalText.setText(format.format(total));
         }
     }
     @Override

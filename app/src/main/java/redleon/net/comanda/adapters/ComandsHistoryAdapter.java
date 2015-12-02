@@ -5,15 +5,26 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.loopj.android.http.JsonHttpResponseHandler;
+
+import org.apache.http.Header;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 
 import redleon.net.comanda.R;
+import redleon.net.comanda.activities.ComandHistoryActivity;
+import redleon.net.comanda.model.DinersResult;
 import redleon.net.comanda.model.OrderDishesData;
+import redleon.net.comanda.network.HttpClient;
+import redleon.net.comanda.utils.Network;
 
 /**
  * Created by leon on 26/06/15.
@@ -51,15 +62,58 @@ public class ComandsHistoryAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView,
                         ViewGroup parent) {
-        LinearLayout itemView;
+        final LinearLayout itemView;
         if (convertView == null) {
             itemView = (LinearLayout) mLayoutInflater.inflate(
-                    R.layout.order_dishes_list, parent, false);
+                    R.layout.activity_comand_history_list, parent, false);
 
         } else {
             itemView = (LinearLayout) convertView;
         }
 
+        Button btnDelete = (Button) itemView.findViewById(R.id.btn_delete_dish);
+        final OrderDishesData dish = mEntries.get(position);
+        btnDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                HttpClient.post("/diners/remove_dish/" + dish.getId().toString(), Network.makeAuthParams(itemView.getContext()), new JsonHttpResponseHandler() {
+                    @Override
+                    public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                        // Pull out the first event on the public timeline
+
+                        try {
+                            String sResponse = response.getString("status");
+                            // Do something with the response
+                            if (sResponse.equals("ok")) {
+                                Toast.makeText(itemView.getContext(),
+                                        "El platillo se quitó de la orden",
+                                        Toast.LENGTH_SHORT).show();
+                                // refresh
+                                ((ComandHistoryActivity)mContext).onRefresh();
+
+                            } else {
+                                Toast.makeText(itemView.getContext(),
+                                        "Ocurrió un error: " + response.getString("reason"),
+                                        Toast.LENGTH_SHORT).show();
+                            }
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject jsonObject) {
+                        Toast.makeText(itemView.getContext(), "Ocurrio un error inesperado:" + throwable.getMessage(), Toast.LENGTH_LONG).show();
+
+                    }
+
+
+                }, itemView.getContext());
+
+            }
+        });
 
         ImageView image_icon = (ImageView) itemView.findViewById(R.id.imageIcon);
         TextView titleText = (TextView) itemView.findViewById(R.id.listTitle);
@@ -74,10 +128,11 @@ public class ComandsHistoryAdapter extends BaseAdapter {
         String sInfoText;
         if (mEntries.get(position).getStatus().equals("Ordenado")){
             sInfoText = mEntries.get(position).getStatus() + " para envío a  " + mEntries.get(position).getPlace_name();
-            helpText.setText("Deslice para borrar.");
+            helpText.setText("Deslice para cancelar.");
         }else{
             sInfoText = mEntries.get(position).getStatus() + " en " + mEntries.get(position).getPlace_name();
-            helpText.setText("El platillo no se puede borrar.");
+            helpText.setText("El platillo no se puede cancelar.");
+            btnDelete.setEnabled(false);
 
         }
         descriptionText.setText(description);

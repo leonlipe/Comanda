@@ -71,4 +71,13 @@
         android:layout_alignParentLeft="true"
         />
     </LinearLayout>
+
+    <Button
+        android:id="@+id/btn_delete_dish"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Cancelar"
+        android:gravity="center"
+        android:layout_weight="0.20"
+        />
 </LinearLayout>
