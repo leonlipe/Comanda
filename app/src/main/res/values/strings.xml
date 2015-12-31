@@ -37,6 +37,7 @@
     <string name="title_activity_payment">PaymentActivity</string>
     <string name="porcentaje_cobro">Porcentaje de cobro</string>
     <string name="payment_do_payment">Realizar pago</string>
+    <string name="action_reassign_table">Reasignar mesa</string>
 
     <!-- Arrays -->
     <string-array name="payment_method_array">
@@ -48,4 +49,5 @@
     </string-array>
     <string name="title_activity_sub_menu">SubMenuActivity</string>
     <string name="title_activity_initial">Comandera</string>
+    <string name="title_activity_tables_reasign">Reasignar Mesa</string>
 </resources>

@@ -3,10 +3,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="redleon.net.comanda.activities.DishActivity">
 
-    <!--<item android:id="@+id/action_show_cocina"-->
-        <!--android:icon="@drawable/ic_action_new"-->
-        <!--android:title="@string/action_show_cocina"-->
-        <!--app:showAsAction="ifRoom" />-->
+    <item android:id="@+id/action_reassign_table"
+      android:icon="@drawable/ic_action_new"
+      android:title="@string/action_reassign_table"
+      app:showAsAction="ifRoom" />
     <!--<item android:id="@+id/action_show_barra"-->
         <!--android:icon="@drawable/ic_action_new"-->
         <!--android:title="@string/action_show_barra"-->
