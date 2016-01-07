@@ -44,4 +44,13 @@
 
     </LinearLayout>
 
+    <Button
+        android:id="@+id/btn_reassign_person"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Reasignar"
+        android:gravity="center"
+        android:layout_weight="0.20"
+        />
+
 </LinearLayout>

@@ -77,7 +77,7 @@ public class ComandasFragment extends ListFragment implements SwipeRefreshLayout
         }
         System.out.println("ComandasFragment:"+serviceId);
 
-        adapter = new ComandasListAdapter(getActivity());
+        adapter = new ComandasListAdapter(getActivity(), this);
         setListAdapter(adapter);
 
         ComandasListLoader comandasListLoader = new ComandasListLoader(adapter);
