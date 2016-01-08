@@ -70,6 +70,10 @@
             android:name=".activities.TablesReasignActivity"
             android:label="@string/title_activity_tables_reasign" >
         </activity>
+        <activity
+            android:name=".activities.MakersActivityOld"
+            android:label="@string/title_activity_makers_activity_old" >
+        </activity>
     </application>
 
 </manifest>

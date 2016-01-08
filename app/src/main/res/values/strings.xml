@@ -28,6 +28,7 @@
     <string name="title_activity_comand_history">Historial de comandas</string>
     <string name="hello_world">Hello world!</string>
     <string name="initial_act_text">Comandera, presione el boton ingresar para empezar.</string>
+    <string name="action_show_oldies">Mostrar comandas antiguas</string>
     <string name="action_dispatch_command">Despachar comanda</string>
     <string name="action_show_cocina">Mostrar cocina</string>
     <string name="action_show_barra">Mostrar barra</string>
@@ -51,4 +52,5 @@
     <string name="title_activity_sub_menu">SubMenuActivity</string>
     <string name="title_activity_initial">Comandera</string>
     <string name="title_activity_tables_reasign">Reasignar Mesa</string>
+    <string name="title_activity_makers_activity_old">MakersActivityOld</string>
 </resources>

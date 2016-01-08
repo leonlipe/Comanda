@@ -1,33 +1,24 @@
 package redleon.net.comanda.activities;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarActivity;
-import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
-import com.loopj.android.http.JsonHttpResponseHandler;
-
-import org.apache.http.Header;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import redleon.net.comanda.R;
-import redleon.net.comanda.adapters.MakersListAdapter;
-import redleon.net.comanda.loaders.MakersViewLoaders;
+import redleon.net.comanda.adapters.MakersListAdapterOld;
+import redleon.net.comanda.loaders.MakersViewLoadersOld;
 import redleon.net.comanda.model.MakersCommandItem;
-import redleon.net.comanda.model.TablesResult;
-import redleon.net.comanda.network.HttpClient;
 
-public class MakersActivity extends ActionBarActivity implements AdapterView.OnItemClickListener,  SwipeRefreshLayout.OnRefreshListener  {
+public class MakersActivityOld extends ActionBarActivity implements AdapterView.OnItemClickListener,  SwipeRefreshLayout.OnRefreshListener  {
     ListView listView;
     private String placeKey;
-    MakersListAdapter makersListAdapter;
+    MakersListAdapterOld makersListAdapterOld;
     private SwipeRefreshLayout swipeLayout;
 
 
@@ -36,16 +27,16 @@ public class MakersActivity extends ActionBarActivity implements AdapterView.OnI
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_makers);
+        setContentView(R.layout.activity_makers_activity_old);
         Intent intent = getIntent();
 
         setPlaceKey(intent.getStringExtra(PLACE_KEY));
-        makersListAdapter = new MakersListAdapter(this);
+        makersListAdapterOld = new MakersListAdapterOld(this);
 
         listView = (ListView) findViewById(R.id.makers_activity_list);
         listView.setEmptyView(findViewById(R.id.empty_data));
 
-        listView.setAdapter(makersListAdapter);
+        listView.setAdapter(makersListAdapterOld);
         listView.setOnItemClickListener(this);
         swipeLayout = (SwipeRefreshLayout) findViewById(R.id.fragment_makers_swipe_container);
         swipeLayout.setOnRefreshListener(this);
@@ -85,13 +76,9 @@ public class MakersActivity extends ActionBarActivity implements AdapterView.OnI
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-        Intent intent;
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_show_oldies) {
-            intent = new Intent(this, MakersActivityOld.class);
-            intent.putExtra(MakersActivityOld.PLACE_KEY, getPlaceKey());
-            startActivity(intent);
+        if (id == R.id.action_settings) {
             return true;
         }
 
@@ -117,9 +104,9 @@ public class MakersActivity extends ActionBarActivity implements AdapterView.OnI
 
     @Override
     public void onRefresh() {
-        MakersViewLoaders makersViewLoaders = new MakersViewLoaders(makersListAdapter);
-        makersViewLoaders.setPlaceKey(getPlaceKey());
-        makersViewLoaders.execute();
+        MakersViewLoadersOld makersViewLoadersOld = new MakersViewLoadersOld(makersListAdapterOld);
+        makersViewLoadersOld.setPlaceKey(getPlaceKey());
+        makersViewLoadersOld.execute();
         swipeLayout.setRefreshing(false);
 
     }
@@ -127,8 +114,8 @@ public class MakersActivity extends ActionBarActivity implements AdapterView.OnI
     @Override
     public void onStart(){
         super.onStart();
-      //  onRefresh();
-      //  System.out.println(">>>>>>>>>>>>>>>>>OnStart");
+        //  onRefresh();
+        //  System.out.println(">>>>>>>>>>>>>>>>>OnStart");
 
     }
 

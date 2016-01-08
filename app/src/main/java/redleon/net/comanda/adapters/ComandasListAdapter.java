@@ -52,6 +52,39 @@ public class ComandasListAdapter extends BaseAdapter {
         this.ctx=context;
         mLayoutInflater = (LayoutInflater) getmContext()
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        final Context ctxl = context;
+
+        HttpClient.get("/listtables.json", Network.makeAuthParams(context), new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                // Pull out the first event on the public timeline
+
+                try {
+                    String sResponse = response.getString("response");
+                    // Do something with the response
+                    if (sResponse.equals("ok")) {
+                        JSONArray extras = response.getJSONArray("data");
+                        // mExtras = new Extra[extras.length()];
+
+                        for (int x = 0; x < extras.length(); x++) {
+                            mTables.add(new Table(extras.getJSONObject(x).getInt("id"), extras.getJSONObject(x).getInt("number")));
+                        }
+
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject jsonObject) {
+                Toast.makeText(ctxl, "Ocurrio un error inesperado:" + throwable.getMessage(), Toast.LENGTH_LONG).show();
+
+            }
+
+
+        },context);
     }
 
     @Override
@@ -84,37 +117,7 @@ public class ComandasListAdapter extends BaseAdapter {
             itemView = (LinearLayout) convertView;
         }
 
-        HttpClient.get("/listtables.json", Network.makeAuthParams(itemView.getContext()), new JsonHttpResponseHandler() {
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                // Pull out the first event on the public timeline
 
-                try {
-                    String sResponse = response.getString("response");
-                    // Do something with the response
-                    if (sResponse.equals("ok")) {
-                        JSONArray extras = response.getJSONArray("data");
-                        // mExtras = new Extra[extras.length()];
-
-                        for (int x = 0; x < extras.length(); x++) {
-                            mTables.add(new Table(extras.getJSONObject(x).getInt("id"), extras.getJSONObject(x).getInt("number")));
-                        }
-
-                    }
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject jsonObject) {
-                Toast.makeText(itemView.getContext(), "Ocurrio un error inesperado:" + throwable.getMessage(), Toast.LENGTH_LONG).show();
-
-            }
-
-
-        }, itemView.getContext());
 
 
         TextView titleText = (TextView) itemView.findViewById(R.id.comanda_title);

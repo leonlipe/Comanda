@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -66,12 +67,17 @@ public class PaymentsListAdapter extends BaseAdapter {
         TextView titleText = (TextView) itemView.findViewById(R.id.payment_title);
         TextView descriptionText = (TextView) itemView.findViewById(R.id.payment_desc);
         TextView totalText = (TextView) itemView.findViewById(R.id.payment_total);
+        ImageView personIcon = (ImageView) itemView.findViewById(R.id.imageIcon);
 
         String title = "Persona no " + mEntries.get(position).getDiner_number().toString();
         titleText.setText(title);
         String description = "Servicio: "+ mEntries.get(position).getStatus_desc();
 
-                //"Total de pedidos: "+ mEntries.get(position).getOrder_dishes().length;
+        if (mEntries.get(position).getStatus_desc().equals("Activo")){
+            personIcon.setImageResource(R.drawable.person);
+        }else {
+            personIcon.setImageResource(R.drawable.person_closed);
+        }
 
         descriptionText.setText(description);
 
