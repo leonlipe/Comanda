@@ -128,12 +128,19 @@ public class ComandsHistoryAdapter extends BaseAdapter {
         String sInfoText;
         if (mEntries.get(position).getStatus().equals("Ordenado")){
             sInfoText = mEntries.get(position).getStatus() + " para envío a  " + mEntries.get(position).getPlace_name();
-            helpText.setText("Deslice para cancelar.");
-        }else{
+            helpText.setText("Presione boton para cancelar.");
+        }else if (mEntries.get(position).getStatus().equals("Terminado")){
             sInfoText = mEntries.get(position).getStatus() + " en " + mEntries.get(position).getPlace_name();
-            helpText.setText("El platillo no se puede cancelar.");
+            helpText.setText("No se puede cancelar");
             btnDelete.setEnabled(false);
 
+        }else{
+            sInfoText = mEntries.get(position).getStatus() + " en " + mEntries.get(position).getPlace_name();
+            helpText.setText("Presione boton para solicitar cancelacion");
+            if (mEntries.get(position).getCancel_request() == 1) {
+                btnDelete.setEnabled(false);
+                helpText.setText("Se solicito cancelacion del platillo");
+            }
         }
         descriptionText.setText(description);
         infoText.setText(sInfoText);

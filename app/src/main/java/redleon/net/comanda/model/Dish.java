@@ -17,6 +17,7 @@ public class Dish {
     private Extra[] extras;
     private Integer dishtiime;
     private String size_desc;
+    private Integer cancel_request;
 
 
 
@@ -128,5 +129,13 @@ public class Dish {
 
     public void setSize_desc(String size_desc) {
         this.size_desc = size_desc;
+    }
+
+    public Integer getCancel_request() {
+        return cancel_request;
+    }
+
+    public void setCancel_request(Integer cancel_request) {
+        this.cancel_request = cancel_request;
     }
 }

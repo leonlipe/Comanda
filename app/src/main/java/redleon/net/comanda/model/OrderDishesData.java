@@ -13,6 +13,7 @@ public class OrderDishesData {
     private String tiime_desc;
     private String status;
     private String place_name;
+    private Integer cancel_request;
 
     public Integer getId() {
         return id;
@@ -76,5 +77,13 @@ public class OrderDishesData {
 
     public void setPlace_name(String place_name) {
         this.place_name = place_name;
+    }
+
+    public Integer getCancel_request() {
+        return cancel_request;
+    }
+
+    public void setCancel_request(Integer cancel_request) {
+        this.cancel_request = cancel_request;
     }
 }

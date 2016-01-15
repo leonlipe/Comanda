@@ -5,15 +5,26 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.loopj.android.http.JsonHttpResponseHandler;
+
+import org.apache.http.Header;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 
 import redleon.net.comanda.R;
+import redleon.net.comanda.activities.MakersDetailActivity;
 import redleon.net.comanda.model.Dish;
 import redleon.net.comanda.model.Extra;
+import redleon.net.comanda.network.HttpClient;
+import redleon.net.comanda.utils.Network;
 
 /**
  * Created by leon on 22/07/15.
@@ -50,7 +61,7 @@ public class MakersDetailListAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView,
                         ViewGroup parent) {
-        LinearLayout itemView;
+        final LinearLayout itemView;
         if (convertView == null) {
             itemView = (LinearLayout) mLayoutInflater.inflate(
                     R.layout.activity_makers_detail_list, parent, false);
@@ -58,6 +69,51 @@ public class MakersDetailListAdapter extends BaseAdapter {
         } else {
             itemView = (LinearLayout) convertView;
         }
+
+
+        Button btnDelete = (Button) itemView.findViewById(R.id.btn_delete_dish);
+        final Dish dish = mEntries.get(position);
+        btnDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                HttpClient.post("/diners/remove_dish_places/" + dish.getOrder_dishes_id().toString(), Network.makeAuthParams(itemView.getContext()), new JsonHttpResponseHandler() {
+                    @Override
+                    public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                        // Pull out the first event on the public timeline
+
+                        try {
+                            String sResponse = response.getString("status");
+                            // Do something with the response
+                            if (sResponse.equals("ok")) {
+                                Toast.makeText(itemView.getContext(),
+                                        "El platillo se quitó de la orden",
+                                        Toast.LENGTH_SHORT).show();
+                                // refresh
+                                ((MakersDetailActivity) mContext).onRefresh();
+
+                            } else {
+                                Toast.makeText(itemView.getContext(),
+                                        "Ocurrió un error: " + response.getString("reason"),
+                                        Toast.LENGTH_SHORT).show();
+                            }
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject jsonObject) {
+                        Toast.makeText(itemView.getContext(), "Ocurrio un error inesperado:" + throwable.getMessage(), Toast.LENGTH_LONG).show();
+
+                    }
+
+
+                }, itemView.getContext());
+
+            }
+        });
 
         ImageView image_icon = (ImageView) itemView.findViewById(R.id.imageIcon);
 
@@ -81,11 +137,15 @@ public class MakersDetailListAdapter extends BaseAdapter {
         if (extras.length <= 0){
             dish_extra = "Sin ingredientes extas.";
         }
-
+        btnDelete.setEnabled(false);
         if (mEntries.get(position).getStatus_desc().contains("Preparado")){
             image_icon.setImageResource(R.drawable.dish_ready);
         }else {
             image_icon.setImageResource(R.drawable.dish_not_ready);
+            if (mEntries.get(position).getCancel_request() == 1){
+                dish_desc = mEntries.get(position).getStatus_desc().toString()+" Se solicita cancelacion";
+                btnDelete.setEnabled(true);
+            }
         }
 //        String comandaInfo = "Pendientes: "+mEntries.get(position).getPending().toString()+" Enviadas: "+mEntries.get(position).getSended().toString()+" Terminadas: "+mEntries.get(position).getFinished().toString();
 //        titleText.setText(title);
