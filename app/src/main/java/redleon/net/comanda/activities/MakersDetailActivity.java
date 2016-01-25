@@ -14,6 +14,7 @@ import android.widget.Toast;
 import com.loopj.android.http.JsonHttpResponseHandler;
 
 import org.apache.http.Header;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import redleon.net.comanda.R;
@@ -116,9 +117,19 @@ public class MakersDetailActivity extends ActionBarActivity implements AdapterVi
         HttpClient.post("/order_dishes/setready/" + ((Dish) parent.getItemAtPosition(position)).getOrder_dishes_id(), Network.makeAuthParams(me), new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                // Pull out the first event on the public timeline
-                me.onRefresh();
-                Toast.makeText(me, "Se ha despachado el platillo", Toast.LENGTH_SHORT).show();
+                try{
+                    String sResponse = response.getString("resultado");
+                    if (sResponse.equals("ok")) {
+                        Toast.makeText(me, "Se ha despachado el platillo", Toast.LENGTH_SHORT).show();
+
+                    }else{
+                        Toast.makeText(me, sResponse, Toast.LENGTH_SHORT).show();
+                    }
+                    me.onRefresh();
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject jsonObject){
