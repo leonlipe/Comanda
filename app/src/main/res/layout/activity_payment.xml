@@ -1,4 +1,4 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingLeft="16dp"
@@ -7,33 +7,49 @@
 
 
 
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_weight="0.3">
 
-    <TextView android:text="Porcentaje de cobro" android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-       />
-    <EditText android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/porcentaje_cobro" />
+        <TextView android:text="Gran total" android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/lbl_gran_total"
+            android:textSize="30sp"
+            android:textStyle="bold"
+            />
 
-    <Spinner
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/payment_method_spin" />
-
-
-    <TextView android:text="Gran total" android:layout_width="wrap_content"
+        <TextView android:text="Gran total" android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/gran_total_text"
+        android:textSize="35sp"
         />
 
-    <Button
+        <Spinner
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/payment_method_spin"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+         />
+
+        <TextView android:text="" android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="35sp"
+            />
+
+        </LinearLayout>
+
+        <Button
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
         android:text="@string/payment_do_payment"
         android:id="@+id/payment_do_payment"
         android:clickable="true"
         android:enabled="true"
         android:focusable="true"
-        android:onClick="doPayment"/>
+        android:onClick="doPayment"
+        android:layout_height="match_parent"
+            android:layout_weight="0.7"/>
 
 </LinearLayout>

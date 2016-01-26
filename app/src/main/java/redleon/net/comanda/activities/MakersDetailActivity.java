@@ -12,6 +12,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.loopj.android.http.JsonHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
 
 import org.apache.http.Header;
 import org.json.JSONException;
@@ -81,13 +82,24 @@ public class MakersDetailActivity extends ActionBarActivity implements AdapterVi
         }
 
         if (id == R.id.action_dispatch_command) {
-
-            HttpClient.post("/commands/completed/" + getCommandId(), Network.makeAuthParams(me), new JsonHttpResponseHandler() {
+            RequestParams params = Network.makeAuthParams(this);
+            params.put("command_id", getCommandId());
+            HttpClient.post("/commands/completed/" + getCommandId(), params, new JsonHttpResponseHandler() {
                 @Override
                 public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                    // Pull out the first event on the public timeline
-                    me.onRefresh();
-                    Toast.makeText(me, "Se ha despachado la comanda", Toast.LENGTH_SHORT).show();
+                    try{
+
+                        me.onRefresh();
+                        String sResponse = response.getString("status");
+
+                        if (sResponse.equals("ok")) {
+                        Toast.makeText(me, "Se ha despachado la comanda", Toast.LENGTH_SHORT).show();
+                        }else{
+                            Toast.makeText(me, sResponse, Toast.LENGTH_SHORT).show();
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                 }
                 @Override
                 public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject jsonObject){
@@ -114,7 +126,9 @@ public class MakersDetailActivity extends ActionBarActivity implements AdapterVi
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         final MakersDetailActivity me = this;
-        HttpClient.post("/order_dishes/setready/" + ((Dish) parent.getItemAtPosition(position)).getOrder_dishes_id(), Network.makeAuthParams(me), new JsonHttpResponseHandler() {
+        RequestParams params = Network.makeAuthParams(this);
+        params.put("command_id", getCommandId());
+        HttpClient.post("/order_dishes/setready/" + ((Dish) parent.getItemAtPosition(position)).getOrder_dishes_id(),params, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 try{
