@@ -12,6 +12,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
+import android.widget.CheckBox;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Spinner;
@@ -46,6 +47,8 @@ public class DishActivity extends ActionBarActivity {
     public final static String DISH_ID = "net.redleon.DISH_ID";
     public final static String DINER_ID = "net.redleon.DINER_ID";
     public final static String SERVICE_ID = "net.redleon.SERVICE_ID";
+
+    public Boolean highPriority = false;
 
     private Integer dishId;
     private Integer dinerId;
@@ -212,6 +215,8 @@ public class DishActivity extends ActionBarActivity {
 
 
         ListView extras_list = (ListView) findViewById(R.id.extras_list);
+        CheckBox chkprio = (CheckBox) findViewById(R.id.checkbox_prio);
+
         String[] picker = new String[extras_list.getCount()];
         for(int x = 0; x<extras_list.getCount();x++){
             Extra ex = (Extra) extras_list.getAdapter().getItem(x);
@@ -223,7 +228,8 @@ public class DishActivity extends ActionBarActivity {
         String data = new Gson().toJson(dishToOrder);
 
         RequestParams params = Network.makeAuthParams(this);
-         params.put("data", data);
+        params.put("data", data);
+        params.put("prioridad",chkprio.isChecked());
 
         HttpClient.post("/add_dish_to_order/"+getDishId().toString(), params, new JsonHttpResponseHandler() {
             @Override
@@ -317,5 +323,20 @@ public class DishActivity extends ActionBarActivity {
 
     }
 
+    public void onCheckboxClicked(View view) {
+        // Is the view now checked?
+        boolean checked = ((CheckBox) view).isChecked();
+
+        // Check which checkbox was clicked
+        switch(view.getId()) {
+            case R.id.checkbox_prio:
+                if (checked)
+                    highPriority = true;
+                else
+                    highPriority = false;
+                break;
+
+        }
+    }
 
 }

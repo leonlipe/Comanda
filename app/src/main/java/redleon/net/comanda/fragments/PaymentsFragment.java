@@ -169,7 +169,7 @@ public class PaymentsFragment extends ListFragment implements SwipeRefreshLayout
             Log.v("Pay:", new Gson().toJson(idsArray));
             Intent intent = new Intent(v.getContext(), PaymentActivity.class);
             intent.putIntegerArrayListExtra(PaymentActivity.DINERS_ARRAY, idsArray);
-            intent.putExtra(PaymentActivity.GRAN_TOTAL, totalText.getText().toString().replaceAll("[^\\d.]+", ""));
+            intent.putExtra(PaymentActivity.GRAN_TOTAL, totalText.getText());
             intent.putExtra(PaymentActivity.SERVICE_ID, serviceId);
             startActivity(intent);
         }

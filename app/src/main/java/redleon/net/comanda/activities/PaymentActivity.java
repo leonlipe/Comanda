@@ -33,7 +33,7 @@ public class PaymentActivity extends ActionBarActivity {
         public final static String SERVICE_ID = "net.redleon.SERVICE_ID";
 
     private ArrayList<Integer> idsArray;
-    private BigDecimal granTotal;
+ //   private BigDecimal granTotal;
     private Integer serviceId;
     private String paymentMethod;
 
@@ -43,7 +43,7 @@ public class PaymentActivity extends ActionBarActivity {
         setContentView(R.layout.activity_payment);
         Intent intent = getIntent();
         setIdsArray(intent.getIntegerArrayListExtra(DINERS_ARRAY));
-        setGranTotal(new BigDecimal(intent.getStringExtra(GRAN_TOTAL)));
+      //  setGranTotal(new BigDecimal(intent.getStringExtra(GRAN_TOTAL)));
         setServiceId(intent.getIntExtra(SERVICE_ID,0));
 
         Spinner spinner = (Spinner) findViewById(R.id.payment_method_spin);
@@ -53,7 +53,7 @@ public class PaymentActivity extends ActionBarActivity {
         spinner.setAdapter(adapter);
 
         TextView granTotalText = (TextView) findViewById(R.id.gran_total_text);
-        granTotalText.setText(getGranTotal().toString());
+        granTotalText.setText(intent.getStringExtra(GRAN_TOTAL));
         Spinner payment_method = (Spinner) findViewById(R.id.payment_method_spin);
         payment_method.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -98,13 +98,13 @@ public class PaymentActivity extends ActionBarActivity {
         this.idsArray = idsArray;
     }
 
-    public BigDecimal getGranTotal() {
-        return granTotal;
-    }
-
-    public void setGranTotal(BigDecimal granTotal) {
-        this.granTotal = granTotal;
-    }
+//    public BigDecimal getGranTotal() {
+//        return granTotal;
+//    }
+//
+//    public void setGranTotal(BigDecimal granTotal) {
+//        this.granTotal = granTotal;
+//    }
 
     public String getPaymentMethod() {
         return paymentMethod;

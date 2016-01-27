@@ -40,6 +40,8 @@
     <string name="payment_do_payment">Realizar pago</string>
     <string name="action_reassign_table">Reasignar mesa</string>
     <string name="dialog_set_table">Seleccionar mesa</string>
+    <string name="chkprio">Alta prioridad</string>
+
 
     <!-- Arrays -->
     <string-array name="payment_method_array">
