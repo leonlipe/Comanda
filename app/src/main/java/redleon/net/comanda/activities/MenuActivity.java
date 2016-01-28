@@ -23,12 +23,13 @@ import redleon.net.comanda.model.Tiime;
 
 public class MenuActivity extends ActionBarActivity implements AdapterView.OnItemClickListener {
 
-
+    public final static String TABLE_DESC = "net.redleon.TABLE_DESC";
     public final static String SERVICE_ID = "net.redleon.SERVICE_ID";
     public final static String DINER_ID = "net.redleon.DINER_ID";
 
     private Integer serviceId;
     private Integer dinerId;
+    private String tableDesc;
 
     private ListView listView;
     private MenuListAdapter menuListAdapter;
@@ -40,6 +41,7 @@ public class MenuActivity extends ActionBarActivity implements AdapterView.OnIte
         Intent intent = getIntent();
         setServiceId(intent.getIntExtra(SERVICE_ID, 0));
         setDinerId(intent.getIntExtra(DINER_ID, 0));
+        setTableDesc(intent.getStringExtra(TABLE_DESC));
 
         setContentView(R.layout.activity_menu);
         menuListAdapter = new MenuListAdapter(this);
@@ -95,5 +97,13 @@ public class MenuActivity extends ActionBarActivity implements AdapterView.OnIte
 
     public void setDinerId(Integer dinerId) {
         this.dinerId = dinerId;
+    }
+
+    public String getTableDesc() {
+        return tableDesc;
+    }
+
+    public void setTableDesc(String tableDesc) {
+        this.tableDesc = tableDesc;
     }
 }

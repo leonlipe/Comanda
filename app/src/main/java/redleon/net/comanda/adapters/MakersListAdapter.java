@@ -8,6 +8,8 @@ import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 
 import redleon.net.comanda.R;
@@ -60,7 +62,9 @@ public class MakersListAdapter extends BaseAdapter {
         TextView command_number_text = (TextView) itemView.findViewById(R.id.command_number);
         TextView name_waitres_text = (TextView) itemView.findViewById(R.id.command_waitres);
         TextView comand_table_text = (TextView) itemView.findViewById(R.id.command_table);
+        TextView command_priority = (TextView) itemView.findViewById(R.id.command_priority);
 
+        command_priority.setText(mEntries.get(position).getPriority()?"Procesar primero": "");
         String command_number = "Comanda no "+mEntries.get(position).getId().toString();
         String name_waitres = mEntries.get(position).getName();
 

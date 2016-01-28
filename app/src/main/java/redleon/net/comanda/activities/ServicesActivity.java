@@ -55,6 +55,7 @@ public class ServicesActivity extends ActionBarActivity implements ActionBar.Tab
         mAdapter = new ServicesTabsAdapter(getSupportFragmentManager());
         System.out.println("ServicesActivity:" + getServiceId());
         mAdapter.setServiceId(getServiceId());
+        mAdapter.setWindowTitle(intent.getStringExtra(TITLE));
         mViewPager.setAdapter(mAdapter);
         setTitle(getBarTitle());
 

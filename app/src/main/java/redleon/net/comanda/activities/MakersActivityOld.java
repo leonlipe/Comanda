@@ -46,13 +46,13 @@ public class MakersActivityOld extends ActionBarActivity implements AdapterView.
                 android.R.color.holo_red_light);
 
         if (getPlaceKey().equals("COC")) {
-            setTitle("Cocina");
+            setTitle("Cocina - Historial");
         }else
         if (getPlaceKey().equals("PIZ")) {
-            setTitle("Pizzeria");
+            setTitle("Pizzeria - Historial");
         }else
         if (getPlaceKey().equals("BAA")) {
-            setTitle("Barra");
+            setTitle("Barra - Historial");
         }
 
 
@@ -66,7 +66,7 @@ public class MakersActivityOld extends ActionBarActivity implements AdapterView.
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_makers, menu);
+        getMenuInflater().inflate(R.menu.menu_makers_activity_old, menu);
         return true;
     }
 

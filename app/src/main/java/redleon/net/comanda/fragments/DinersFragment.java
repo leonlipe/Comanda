@@ -32,8 +32,10 @@ public class DinersFragment extends ListFragment  implements SwipeRefreshLayout.
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_SERVICE_ID = "serviceid";
+    private static final String ARG_WINDOW_TITLE = "windowtitle";
 
     private Integer serviceId;
+    private String windowTitle;
     private SwipeRefreshLayout swipeLayout;
 
     private DinersListAdapter adapter;
@@ -47,10 +49,11 @@ public class DinersFragment extends ListFragment  implements SwipeRefreshLayout.
      * @return A new instance of fragment DinersFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static DinersFragment newInstance(Integer param1) {
+    public static DinersFragment newInstance(Integer param1, String param2) {
         DinersFragment fragment = new DinersFragment();
         Bundle args = new Bundle();
         args.putInt(ARG_SERVICE_ID, param1);
+        args.putString(ARG_WINDOW_TITLE, param2);
         fragment.setArguments(args);
         //fragment.setTag
 
@@ -67,6 +70,7 @@ public class DinersFragment extends ListFragment  implements SwipeRefreshLayout.
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             setServiceId(getArguments().getInt(ARG_SERVICE_ID));
+            setWindowTitle(getArguments().getString(ARG_WINDOW_TITLE));
         }
         System.out.println("DinersFragment:"+ getServiceId());
 
@@ -135,6 +139,14 @@ public class DinersFragment extends ListFragment  implements SwipeRefreshLayout.
         this.serviceId = serviceId;
     }
 
+    public String getWindowTitle() {
+        return windowTitle;
+    }
+
+    public void setWindowTitle(String windowTitle) {
+        this.windowTitle = windowTitle;
+    }
+
     /**
      * This interface must be implemented by activities that contain this
      * fragment to allow an interaction in this fragment to be communicated
@@ -158,6 +170,7 @@ public class DinersFragment extends ListFragment  implements SwipeRefreshLayout.
             Intent intent = new Intent(getActivity(), MenuActivity.class);
             intent.putExtra(MenuActivity.SERVICE_ID, getServiceId());
             intent.putExtra(MenuActivity.DINER_ID, dr.getId());
+            intent.putExtra(MenuActivity.TABLE_DESC, getWindowTitle());
             startActivity(intent);
         }else{
             Toast.makeText(this.getActivity(), "El cliente ya cerró su servicio." , Toast.LENGTH_LONG).show();

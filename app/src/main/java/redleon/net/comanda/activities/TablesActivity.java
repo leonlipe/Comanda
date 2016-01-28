@@ -39,7 +39,7 @@ import java.util.List;
 
 
 public class TablesActivity extends ActionBarActivity implements AdapterView.OnItemClickListener, SwipeRefreshLayout.OnRefreshListener  {
-    public final static String EXTRA_MESSAGE = "com.mycompany.myfirstapp.MESSAGE";
+    public final static String EXTRA_MESSAGE = "net.redleon.comanda.MESSAGE";
     private GridView gridView;
     TablesListAdapter adapter;
     private SwipeRefreshLayout swipeLayout;

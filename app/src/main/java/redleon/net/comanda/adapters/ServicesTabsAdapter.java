@@ -24,6 +24,7 @@ public class ServicesTabsAdapter extends FragmentPagerAdapter {
     private Map<Integer, String> mFragmentTags;
     private FragmentManager mFragmentManager;
     private Integer serviceId;
+    private String windowTitle;
 
     public ServicesTabsAdapter(FragmentManager fm) {
         super(fm);
@@ -37,7 +38,7 @@ public class ServicesTabsAdapter extends FragmentPagerAdapter {
 
         switch (position) {
             case 0:
-                DinersFragment dinersFragment= DinersFragment.newInstance(getServiceId());
+                DinersFragment dinersFragment= DinersFragment.newInstance(getServiceId(), getWindowTitle());
                 System.out.println(">>>>>>>>");
                 System.out.println(dinersFragment);
 
@@ -88,5 +89,13 @@ public class ServicesTabsAdapter extends FragmentPagerAdapter {
         }
 
         return mFragmentManager.findFragmentByTag(tag);
+    }
+
+    public String getWindowTitle() {
+        return windowTitle;
+    }
+
+    public void setWindowTitle(String windowTitle) {
+        this.windowTitle = windowTitle;
     }
 }

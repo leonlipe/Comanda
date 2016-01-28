@@ -16,6 +16,7 @@ import redleon.net.comanda.loaders.SubMenuListLoader;
 
 public class SubMenuActivity extends ActionBarActivity implements AdapterView.OnItemClickListener{
 
+    public final static String TABLE_DESC = "net.redleon.TABLE_DESC";
     public final static String SERVICE_ID = "net.redleon.SERVICE_ID";
     public final static String DINER_ID = "net.redleon.DINER_ID";
     public final static String MENU_ID = "net.redleon.MENU_ID";
@@ -23,6 +24,8 @@ public class SubMenuActivity extends ActionBarActivity implements AdapterView.On
     private Integer serviceId;
     private Integer dinerId;
     private Integer menuId;
+    private String tableDesc;
+
 
     private ListView listView;
     private SubMenuListAdapter subMenuListAdapter;
@@ -36,6 +39,7 @@ public class SubMenuActivity extends ActionBarActivity implements AdapterView.On
         setServiceId(intent.getIntExtra(SERVICE_ID, 0));
         setDinerId(intent.getIntExtra(DINER_ID, 0));
         setMenuId(intent.getIntExtra(MENU_ID, 0));
+        setTableDesc(intent.getStringExtra(TABLE_DESC));
 
         subMenuListAdapter = new SubMenuListAdapter(this);
         listView = (ListView) findViewById(android.R.id.list);
@@ -64,8 +68,13 @@ public class SubMenuActivity extends ActionBarActivity implements AdapterView.On
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        if (id == R.id.action_home) {
+
+            Intent intent = new Intent(this, ServicesActivity.class);
+            intent.putExtra(TablesActivity.EXTRA_MESSAGE, getServiceId());
+            intent.putExtra(ServicesActivity.TITLE, getTableDesc());
+            startActivity(intent);
+
         }
 
         return super.onOptionsItemSelected(item);
@@ -107,5 +116,13 @@ public class SubMenuActivity extends ActionBarActivity implements AdapterView.On
 
     public void setMenuId(Integer menuId) {
         this.menuId = menuId;
+    }
+
+    public String getTableDesc() {
+        return tableDesc;
+    }
+
+    public void setTableDesc(String tableDesc) {
+        this.tableDesc = tableDesc;
     }
 }

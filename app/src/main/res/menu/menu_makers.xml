@@ -4,7 +4,7 @@
     tools:context="redleon.net.comanda.activities.MakersActivity">
 
     <item android:id="@+id/action_show_oldies"
-        android:icon="@drawable/ic_action_accept"
+        android:icon="@drawable/ic_history_white_24dp"
         android:title="@string/action_dispatch_command"
         app:showAsAction="ifRoom" />
 
