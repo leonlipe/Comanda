@@ -12,6 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.loopj.android.http.JsonHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
 
 import org.apache.http.Header;
 import org.json.JSONException;
@@ -76,8 +77,8 @@ public class MakersDetailListAdapter extends BaseAdapter {
         btnDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                HttpClient.post("/diners/remove_dish_places/" + dish.getOrder_dishes_id().toString(), Network.makeAuthParams(itemView.getContext()), new JsonHttpResponseHandler() {
+                RequestParams params = Network.makeAuthParams(itemView.getContext());
+                HttpClient.post("/diners/remove_dish_places/" + dish.getOrder_dishes_id().toString(), params, new JsonHttpResponseHandler() {
                     @Override
                     public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                         // Pull out the first event on the public timeline
@@ -174,4 +175,6 @@ public class MakersDetailListAdapter extends BaseAdapter {
     public void setmContext(Context mContext) {
         this.mContext = mContext;
     }
+
+
 }
