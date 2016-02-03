@@ -77,6 +77,7 @@ public class MenuActivity extends ActionBarActivity implements AdapterView.OnIte
         intent.putExtra(SubMenuActivity.SERVICE_ID, getServiceId());
         intent.putExtra(SubMenuActivity.DINER_ID,getDinerId());
         intent.putExtra(SubMenuActivity.MENU_ID, menuItem.getId() );
+        intent.putExtra(SubMenuActivity.TABLE_DESC, getTableDesc() );
         startActivity(intent);
 
 

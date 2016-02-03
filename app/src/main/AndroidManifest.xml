@@ -17,6 +17,9 @@
         <activity
             android:name=".activities.ServicesActivity"
             android:label="@string/title_activity_service" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activities.TablesActivity" />
         </activity>
         <activity
             android:name=".activities.AppPreferences"
@@ -25,10 +28,7 @@
             android:name=".activities.MenuActivity"
             android:label="@string/title_activity_menu" >
 
-            <!-- android:parentActivityName=".activities.ServicesActivity" > -->
-            <!-- <meta-data -->
-            <!-- android:name="android.support.PARENT_ACTIVITY" -->
-            <!-- android:value=".activities.ServicesActivity" /> -->
+
         </activity>
         <activity
             android:name=".activities.DishActivity"
@@ -40,6 +40,7 @@
         <activity
             android:name=".activities.ComandHistoryActivity"
             android:label="@string/title_activity_comand_history" >
+
         </activity>
         <activity
             android:name=".activities.MakersActivity"
@@ -48,14 +49,21 @@
         <activity
             android:name=".activities.MakersDetailActivity"
             android:label="@string/title_activity_makers_detail" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activities.MakersActivity" />
         </activity>
         <activity
             android:name=".activities.PaymentActivity"
             android:label="Pagos" >
+           
         </activity>
         <activity
             android:name=".activities.SubMenuActivity"
             android:label="Platillos" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activities.MenuActivity" />
         </activity>
         <activity
             android:name=".activities.InitialActivity"
@@ -69,10 +77,16 @@
         <activity
             android:name=".activities.TablesReasignActivity"
             android:label="@string/title_activity_tables_reasign" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activities.TablesActivity" />
         </activity>
         <activity
             android:name=".activities.MakersActivityOld"
             android:label="@string/title_activity_makers_activity_old" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activities.MakersActivity" />
         </activity>
     </application>
 
