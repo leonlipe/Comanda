@@ -20,6 +20,7 @@
     <string name="dialog_add_ingredient">Agregar ingrediente</string>
     <string name="dialog_extra_ingredient_select">Extras</string>
     <string name="ok">Aceptar</string>
+    <string name="quantity">Cantidad</string>
     <string name="cancel">Cancelar</string>
     <string name="hello_blank_fragment"></string>
     <string name="diners_fragment">Diners fragment</string>

@@ -79,8 +79,16 @@ public class DishActivity extends ActionBarActivity {
                 R.array.times_array, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        Spinner spinner_quantity = (Spinner) findViewById(R.id.dish_quantity);
+        ArrayAdapter<CharSequence> spinner_quantity_adapter = ArrayAdapter.createFromResource(this,
+                R.array.quantity_array, android.R.layout.simple_spinner_item);
+        spinner_quantity_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner_quantity.setAdapter(spinner_quantity_adapter);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        //getActionBar().setDisplayHomeAsUpEnabled(false);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         HttpClient.get("/extras_for_select.json", Network.makeAuthParams(me), new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
@@ -193,6 +201,7 @@ public class DishActivity extends ActionBarActivity {
         final Activity me = this;
         Spinner size_spinner = (Spinner)findViewById(R.id.dish_spin_size);
         Spinner tiime_spinner = (Spinner)findViewById(R.id.dish_spin_time);
+        Spinner quantity_spinner = (Spinner)findViewById(R.id.dish_quantity);
         TextView notes = (TextView)findViewById(R.id.dish_edit_notes);
         DishSize size = (DishSize) size_spinner.getSelectedItem();
         CharSequence tiime = (CharSequence) tiime_spinner.getSelectedItem();
@@ -209,8 +218,11 @@ public class DishActivity extends ActionBarActivity {
             Toast.makeText(me, "Seleccione una tamaño.", Toast.LENGTH_SHORT).show();
             return;
         }
+        if (quantity_spinner.getCount() == 0 ){
+            Toast.makeText(me, "Seleccione una tamaño.", Toast.LENGTH_SHORT).show();
+            return;
+        }
         dishToOrder.setDishtiime(Integer.valueOf((String) tiime_spinner.getSelectedItem()));
-
         dishToOrder.setDishsize(((DishSize) size_spinner.getSelectedItem()).getId());
 
 
@@ -224,12 +236,12 @@ public class DishActivity extends ActionBarActivity {
         }
 
         dishToOrder.setPicker(picker);
-
         String data = new Gson().toJson(dishToOrder);
 
         RequestParams params = Network.makeAuthParams(this);
         params.put("data", data);
         params.put("prioridad",chkprio.isChecked());
+        params.put("quantity",(String) quantity_spinner.getSelectedItem());
 
         HttpClient.post("/add_dish_to_order/"+getDishId().toString(), params, new JsonHttpResponseHandler() {
             @Override

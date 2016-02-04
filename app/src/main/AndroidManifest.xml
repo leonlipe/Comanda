@@ -33,9 +33,7 @@
         <activity
             android:name=".activities.DishActivity"
             android:label="@string/title_activity_dish" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activities.MenuActivity" />
+
         </activity>
         <activity
             android:name=".activities.ComandHistoryActivity"
@@ -56,14 +54,12 @@
         <activity
             android:name=".activities.PaymentActivity"
             android:label="Pagos" >
-           
+
         </activity>
         <activity
             android:name=".activities.SubMenuActivity"
             android:label="Platillos" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activities.MenuActivity" />
+
         </activity>
         <activity
             android:name=".activities.InitialActivity"
