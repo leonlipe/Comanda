@@ -47,9 +47,7 @@
         <activity
             android:name=".activities.MakersDetailActivity"
             android:label="@string/title_activity_makers_detail" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activities.MakersActivity" />
+
         </activity>
         <activity
             android:name=".activities.PaymentActivity"
@@ -80,9 +78,7 @@
         <activity
             android:name=".activities.MakersActivityOld"
             android:label="@string/title_activity_makers_activity_old" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activities.MakersActivity" />
+           
         </activity>
     </application>
 
