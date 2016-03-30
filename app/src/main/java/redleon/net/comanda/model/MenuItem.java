@@ -8,6 +8,7 @@ public class MenuItem {
     private String name;
     private String description;
     private boolean visible;
+    private boolean wextras;
 
     public Integer getId() {
         return id;
@@ -39,5 +40,13 @@ public class MenuItem {
 
     public void setVisible(boolean visible) {
         this.visible = visible;
+    }
+
+    public boolean isWextras() {
+        return wextras;
+    }
+
+    public void setWextras(boolean wextras) {
+        this.wextras = wextras;
     }
 }

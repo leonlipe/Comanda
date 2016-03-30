@@ -47,12 +47,14 @@ public class DishActivity extends ActionBarActivity {
     public final static String DISH_ID = "net.redleon.DISH_ID";
     public final static String DINER_ID = "net.redleon.DINER_ID";
     public final static String SERVICE_ID = "net.redleon.SERVICE_ID";
+    public final static String WEXTRAS = "net.redleon.WEXTRAS";
 
     public Boolean highPriority = false;
 
     private Integer dishId;
     private Integer dinerId;
     private Integer serviceId;
+    private boolean wextras;
     private ArrayList<Extra> mExtras = new ArrayList<Extra>();
     private ArrayList<Extra> extrasForDish = new ArrayList<Extra>();
     private BaseAdapter extrasForDishAdapter;
@@ -65,6 +67,7 @@ public class DishActivity extends ActionBarActivity {
         setDishId(intent.getIntExtra(DISH_ID, 0));
         setDinerId(intent.getIntExtra(DINER_ID, 0));
         setServiceId(intent.getIntExtra(SERVICE_ID, 0));
+        setWextras(intent.getBooleanExtra(WEXTRAS,false));
         final Activity me = this;
         final ListView listview = (ListView) findViewById(R.id.extras_list);
 
@@ -76,14 +79,14 @@ public class DishActivity extends ActionBarActivity {
 
         Spinner spinner = (Spinner) findViewById(R.id.dish_spin_time);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
-                R.array.times_array, android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                R.array.times_array, R.layout.spinner_item);
+        adapter.setDropDownViewResource(R.layout.spinner_items);
         spinner.setAdapter(adapter);
 
         Spinner spinner_quantity = (Spinner) findViewById(R.id.dish_quantity);
         ArrayAdapter<CharSequence> spinner_quantity_adapter = ArrayAdapter.createFromResource(this,
-                R.array.quantity_array, android.R.layout.simple_spinner_item);
-        spinner_quantity_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                R.array.quantity_array,  R.layout.spinner_item);
+        spinner_quantity_adapter.setDropDownViewResource(R.layout.spinner_items);
         spinner_quantity.setAdapter(spinner_quantity_adapter);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -138,8 +141,8 @@ public class DishActivity extends ActionBarActivity {
                     System.out.println(sizes.toString());
                     Spinner spinner = (Spinner) findViewById(R.id.dish_spin_size);
                     //DishSizeSpinerAdapter dAdapter = new DishSizeSpinerAdapter(me, sizes);
-                    ArrayAdapter<DishSize> dAdapter = new ArrayAdapter<DishSize>(me,R.layout.dish_size_spinner, sizes);
-                    dAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                    ArrayAdapter<DishSize> dAdapter = new ArrayAdapter<DishSize>(me,R.layout.spinner_item, sizes);
+                    dAdapter.setDropDownViewResource(R.layout.spinner_items);
 
                     spinner.setAdapter(dAdapter);
                     //dAdapter.notifyDataSetChanged();
@@ -189,10 +192,14 @@ public class DishActivity extends ActionBarActivity {
         for(int x = 0; x<mExtras.length; x++){
             extras[x]=mExtras[x].getDescription();
         }*/
-        System.out.println("ZZZZZ:");
-        System.out.println(mExtras);
-        ((ExtraIngredientDialog) extraIngredient).setItems(mExtras);
-        extraIngredient.show(getSupportFragmentManager(),"extraIngredient");
+       // System.out.println("ZZZZZ:");
+       // System.out.println(mExtras);
+        if (isWextras()) {
+            ((ExtraIngredientDialog) extraIngredient).setItems(mExtras);
+            extraIngredient.show(getSupportFragmentManager(), "extraIngredient");
+        }else{
+            Toast.makeText(this, "No se pueden agregar extras al platillo", Toast.LENGTH_SHORT).show();
+        }
 
     }
 
@@ -307,6 +314,14 @@ public class DishActivity extends ActionBarActivity {
 
     public void setServiceId(Integer serviceId) {
         this.serviceId = serviceId;
+    }
+
+    public boolean isWextras() {
+        return wextras;
+    }
+
+    public void setWextras(boolean wextras) {
+        this.wextras = wextras;
     }
 
 

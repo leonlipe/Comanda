@@ -61,7 +61,7 @@ public class DishSizeSpinerAdapter extends ArrayAdapter<DishSize> {
 
         if (v == null) {
             LayoutInflater inflater = activity.getLayoutInflater();
-            v = inflater.inflate(R.layout.dish_size_spinner, null);
+            v = inflater.inflate(R.layout.spinner_items, null);
         }
         TextView lbl = (TextView) v.findViewById(R.id.dish_size);
         lbl.setTextColor(Color.BLACK);

@@ -2,7 +2,6 @@ package redleon.net.comanda.fragments;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.ListFragment;
@@ -11,35 +10,22 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
-import com.loopj.android.http.JsonHttpResponseHandler;
-import com.loopj.android.http.RequestParams;
-
-import org.apache.http.Header;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.math.BigDecimal;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
-
 import redleon.net.comanda.R;
-import redleon.net.comanda.activities.ComandHistoryActivity;
-import redleon.net.comanda.activities.MakersDetailActivity;
 import redleon.net.comanda.activities.PaymentActivity;
-import redleon.net.comanda.activities.ServicesActivity;
 import redleon.net.comanda.adapters.PaymentsListAdapter;
 import redleon.net.comanda.loaders.PaymentsListLoader;
-import redleon.net.comanda.model.ComandasResult;
-import redleon.net.comanda.model.MakersCommandItem;
 import redleon.net.comanda.model.PaymentsResult;
-import redleon.net.comanda.network.HttpClient;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -49,7 +35,7 @@ import redleon.net.comanda.network.HttpClient;
  * Use the {@link PaymentsFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class PaymentsFragment extends ListFragment implements SwipeRefreshLayout.OnRefreshListener, View.OnClickListener {
+public class PaymentsFragment extends ListFragment implements SwipeRefreshLayout.OnRefreshListener, View.OnClickListener{
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_SERVICE_ID = "serviceid";
 
@@ -99,6 +85,7 @@ public class PaymentsFragment extends ListFragment implements SwipeRefreshLayout
         PaymentsListLoader.setServiceId(serviceId);
         PaymentsListLoader.execute();
 
+
     }
 
     @Override
@@ -107,7 +94,7 @@ public class PaymentsFragment extends ListFragment implements SwipeRefreshLayout
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_payments, container, false);
         ListView listView = (ListView) view.findViewById(android.R.id.list);
-        listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE_MODAL);
+       // listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE_MODAL);
         totalText = (TextView) view.findViewById(R.id.payment_list_total);
         Button btnPagar = (Button) view.findViewById(R.id.btn_pay);
         btnPagar.setOnClickListener(this);
@@ -175,6 +162,12 @@ public class PaymentsFragment extends ListFragment implements SwipeRefreshLayout
         }
     }
 
+   // @Override
+//    public boolean onLongClick(View view) {
+//        System.out.println("Pasa por el click sostenido");
+//        return false;
+//    }
+
     /**
      * This interface must be implemented by activities that contain this
      * fragment to allow an interaction in this fragment to be communicated
@@ -207,6 +200,8 @@ public class PaymentsFragment extends ListFragment implements SwipeRefreshLayout
             totalText.setText(format.format(total));
         }
     }
+
+
     @Override
     public void onStart(){
         super.onStart();

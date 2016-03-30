@@ -86,6 +86,7 @@ public class SubMenuActivity extends ActionBarActivity implements AdapterView.On
 
         Intent intent = new Intent(this, DishActivity.class);
         intent.putExtra(DishActivity.DISH_ID,menuItem.getId());
+        intent.putExtra(DishActivity.WEXTRAS,menuItem.isWextras());
         intent.putExtra(DishActivity.DINER_ID,getDinerId());
         intent.putExtra(DishActivity.SERVICE_ID,getServiceId());
 

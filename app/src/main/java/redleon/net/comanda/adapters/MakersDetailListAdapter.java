@@ -123,10 +123,12 @@ public class MakersDetailListAdapter extends BaseAdapter {
         TextView dish_name_text = (TextView) itemView.findViewById(R.id.dish_name);
         TextView dish_notes_text = (TextView) itemView.findViewById(R.id.dish_notes);
         TextView dish_extras_text = (TextView) itemView.findViewById(R.id.dish_extras);
+        TextView dish_tiime_text = (TextView) itemView.findViewById(R.id.dish_tiime);
         String dish_desc = mEntries.get(position).getStatus_desc().toString();
         String dish_name = mEntries.get(position).getName();
         String dish_size = mEntries.get(position).getSize_desc();
         String dish_extra = "";
+        Integer dish_time = mEntries.get(position).getDishtiime();
         Extra[] extras = mEntries.get(position).getExtras();
         for(int x = 0; x < extras.length; x++){
             dish_extra = dish_extra.concat(extras[x].getDescription());
@@ -160,6 +162,7 @@ public class MakersDetailListAdapter extends BaseAdapter {
         dish_notes_text.setText(mEntries.get(position).getNotes());
         dish_extras_text.setText(dish_extra);
         dish_size_desc.setText(dish_size);
+        dish_tiime_text.setText(dish_time.toString());
         return itemView;
     }
 
