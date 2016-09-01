@@ -1,5 +1,6 @@
 package redleon.net.comanda.loaders;
 
+import android.app.ProgressDialog;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.preference.PreferenceManager;
@@ -8,10 +9,7 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.DefaultHttpClient;
+
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -21,6 +19,10 @@ import java.net.URL;
 import java.util.ArrayList;
 
 
+import cz.msebera.android.httpclient.HttpEntity;
+import cz.msebera.android.httpclient.HttpResponse;
+import cz.msebera.android.httpclient.client.methods.HttpGet;
+import cz.msebera.android.httpclient.impl.client.DefaultHttpClient;
 import redleon.net.comanda.adapters.TablesListAdapter;
 import redleon.net.comanda.model.TablesResult;
 import redleon.net.comanda.utils.Network;
@@ -30,7 +32,7 @@ import redleon.net.comanda.utils.Network;
  */
 public class TablesListLoader extends
         AsyncTask<URL, Integer, ArrayList<TablesResult>> {
-
+    private ProgressDialog progressBar;
     private final String mUrl =
             "/tables_for_list.json";
 
@@ -93,7 +95,18 @@ public class TablesListLoader extends
         return resultados;
     }
 
+    @Override
+    protected void onPreExecute(){
+        progressBar = new ProgressDialog(mAdapter.getmContext());
+        progressBar.setCancelable(false);
+        progressBar.setMessage("Consultado información...");
+        progressBar.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        progressBar.setIndeterminate(true);
+        progressBar.show();
+    }
+
     protected void onPostExecute(ArrayList<TablesResult> entries) {
+        progressBar.dismiss();
         if (hadError){
             Toast.makeText(mAdapter.getmContext(), "Ocurrio un error inesperado, tal vez no hay conexion con el servidor o la autenticacion no se puede realizar. "+errorMsg, Toast.LENGTH_LONG).show();
         }else {

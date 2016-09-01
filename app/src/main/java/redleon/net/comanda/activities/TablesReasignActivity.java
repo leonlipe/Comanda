@@ -1,5 +1,6 @@
 package redleon.net.comanda.activities;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -10,12 +11,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
-import org.apache.http.Header;
+import cz.msebera.android.httpclient.Header;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -34,7 +36,7 @@ import redleon.net.comanda.network.HttpClient;
 import redleon.net.comanda.utils.Network;
 
 public class TablesReasignActivity extends ActionBarActivity implements AdapterView.OnItemClickListener, SwipeRefreshLayout.OnRefreshListener {
-    private GridView gridView;
+    private ListView listView;
     TablesListAdapter adapter;
     private SwipeRefreshLayout swipeLayout;
     private ArrayList<Table> mTables = new ArrayList<Table>();
@@ -48,24 +50,30 @@ public class TablesReasignActivity extends ActionBarActivity implements AdapterV
             setContentView(R.layout.activity_tables_reasign);
 
             adapter = new TablesListAdapter(this);
-            gridView = (GridView) findViewById(R.id.gridview);
-            gridView.setEmptyView(findViewById(R.id.empty_data));
+            listView = (ListView) findViewById(R.id.list_view);
+            listView.setEmptyView(findViewById(R.id.empty_data));
 
-            gridView.setAdapter(adapter);
-            gridView.setOnItemClickListener(this);
+            listView.setAdapter(adapter);
+            listView.setOnItemClickListener(this);
 
             swipeLayout = (SwipeRefreshLayout) findViewById(R.id.fragment_tables_swipe_container);
             swipeLayout.setOnRefreshListener(this);
-            swipeLayout.setColorScheme(android.R.color.holo_blue_bright,
+            swipeLayout.setColorSchemeColors(android.R.color.holo_blue_bright,
                     android.R.color.holo_green_light,
                     android.R.color.holo_orange_light,
                     android.R.color.holo_red_light);
 
-
-
+            final ProgressDialog progressBar;
+            progressBar = new ProgressDialog(this);
+            progressBar.setCancelable(false);
+            progressBar.setMessage("Consultado información...");
+            progressBar.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            progressBar.setIndeterminate(true);
+            progressBar.show();
             HttpClient.get("/listtables.json", Network.makeAuthParams(me), new JsonHttpResponseHandler() {
-                @Override
+                //@Override
                 public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                    progressBar.dismiss();
                     // Pull out the first event on the public timeline
 
                     try {
@@ -86,8 +94,9 @@ public class TablesReasignActivity extends ActionBarActivity implements AdapterV
                     }
                 }
 
-                @Override
+               // @Override
                 public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject jsonObject) {
+                    progressBar.dismiss();
                     Toast.makeText(me, "Ocurrio un error inesperado:" + throwable.getMessage(), Toast.LENGTH_LONG).show();
 
                 }
@@ -174,9 +183,17 @@ public class TablesReasignActivity extends ActionBarActivity implements AdapterV
         final TablesReasignActivity me = this;
         RequestParams params = Network.makeAuthParams(this);
         params.put("table_id", table.getId());
+        final ProgressDialog progressBar;
+        progressBar = new ProgressDialog(this);
+        progressBar.setCancelable(false);
+        progressBar.setMessage("Consultado información...");
+        progressBar.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        progressBar.setIndeterminate(true);
+        progressBar.show();
         HttpClient.post("/services/reassign/"+origin, params, new JsonHttpResponseHandler() {
-            @Override
+            //@Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                progressBar.dismiss();
                 // Pull out the first event on the public timeline
 
                 try {
@@ -193,8 +210,9 @@ public class TablesReasignActivity extends ActionBarActivity implements AdapterV
                 }
                 Toast.makeText(me, "La mesa se reasigno correctamente.",Toast.LENGTH_SHORT).show();
             }
-            @Override
+           // @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject jsonObject){
+                progressBar.dismiss();
                 Toast.makeText(me, "Ocurrio un error inesperado:"+throwable.getMessage(), Toast.LENGTH_LONG).show();
 
             }

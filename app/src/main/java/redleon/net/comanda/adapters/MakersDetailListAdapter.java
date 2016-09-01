@@ -1,5 +1,6 @@
 package redleon.net.comanda.adapters;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,7 +15,7 @@ import android.widget.Toast;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
-import org.apache.http.Header;
+import cz.msebera.android.httpclient.Header;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -78,9 +79,17 @@ public class MakersDetailListAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 RequestParams params = Network.makeAuthParams(itemView.getContext());
+                final ProgressDialog progressBar;
+                progressBar = new ProgressDialog(getmContext());
+                progressBar.setCancelable(false);
+                progressBar.setMessage("Consultado información...");
+                progressBar.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+                progressBar.setIndeterminate(true);
+                progressBar.show();
                 HttpClient.post("/diners/remove_dish_places/" + dish.getOrder_dishes_id().toString(), params, new JsonHttpResponseHandler() {
-                    @Override
+                    //@Override
                     public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                        progressBar.dismiss();
                         // Pull out the first event on the public timeline
 
                         try {
@@ -104,8 +113,9 @@ public class MakersDetailListAdapter extends BaseAdapter {
                         }
                     }
 
-                    @Override
+                   // @Override
                     public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject jsonObject) {
+                        progressBar.dismiss();
                         Toast.makeText(itemView.getContext(), "Ocurrio un error inesperado:" + throwable.getMessage(), Toast.LENGTH_LONG).show();
 
                     }

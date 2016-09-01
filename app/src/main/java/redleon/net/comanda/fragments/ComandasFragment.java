@@ -1,6 +1,7 @@
 package redleon.net.comanda.fragments;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -15,7 +16,7 @@ import android.widget.Toast;
 
 import com.loopj.android.http.JsonHttpResponseHandler;
 
-import org.apache.http.Header;
+import cz.msebera.android.httpclient.Header;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -94,7 +95,7 @@ public class ComandasFragment extends ListFragment implements SwipeRefreshLayout
         View view = inflater.inflate(R.layout.fragment_comandas, container, false);
         swipeLayout = (SwipeRefreshLayout) view.findViewById(R.id.fragment_comandas_swipe_container);
         swipeLayout.setOnRefreshListener(this);
-        swipeLayout.setColorScheme(android.R.color.holo_blue_bright,
+        swipeLayout.setColorSchemeColors(android.R.color.holo_blue_bright,
                 android.R.color.holo_green_light,
                 android.R.color.holo_orange_light,
                 android.R.color.holo_red_light);
@@ -160,10 +161,17 @@ public class ComandasFragment extends ListFragment implements SwipeRefreshLayout
         final ComandasFragment me = this;
 
         final ComandasResult dr = (ComandasResult) getListAdapter().getItem(pos);
-
+        final ProgressDialog progressBar;
+        progressBar = new ProgressDialog(getActivity());
+        progressBar.setCancelable(false);
+        progressBar.setMessage("Consultado información...");
+        progressBar.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        progressBar.setIndeterminate(true);
+        progressBar.show();
         HttpClient.get("/services/get_history/" + dr.getId(), Network.makeAuthParams(me.getActivity()), new JsonHttpResponseHandler() {
-            @Override
+            //@Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                progressBar.dismiss();
                 // Pull out the first event on the public timeline
 
                 try {
@@ -184,8 +192,9 @@ public class ComandasFragment extends ListFragment implements SwipeRefreshLayout
                     e.printStackTrace();
                 }
             }
-            @Override
+         //   @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject jsonObject){
+                progressBar.dismiss();
                 Toast.makeText(me.getActivity(), "Ocurrio un error inesperado:" + throwable.getMessage(), Toast.LENGTH_LONG).show();
 
             }

@@ -1,5 +1,6 @@
 package redleon.net.comanda.activities;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
@@ -12,18 +13,12 @@ import android.widget.Toast;
 
 import com.loopj.android.http.JsonHttpResponseHandler;
 
-import org.apache.http.Header;
-import org.json.JSONArray;
+import cz.msebera.android.httpclient.Header;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import redleon.net.comanda.ComandaApp;
 import redleon.net.comanda.R;
-import redleon.net.comanda.model.Dish;
-import redleon.net.comanda.model.Tiime;
 import redleon.net.comanda.network.HttpClient;
 import redleon.net.comanda.utils.Encoder;
 import redleon.net.comanda.utils.Network;
@@ -76,10 +71,18 @@ public class InitialActivity extends ActionBarActivity {
         final SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
         final Boolean shall_pass = true;
         // Login client
-
+        final ProgressDialog progressBar;
+        progressBar = new ProgressDialog(this);
+        progressBar.setCancelable(false);
+        progressBar.setMessage("Autenticando...");
+        progressBar.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        progressBar.setIndeterminate(true);
+        progressBar.setCancelable(true);
+       // progressBar.show();
         HttpClient.get("/login_mobile.json", Network.makeAuthParams(mySelf), new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                progressBar.dismiss();
                 // Pull out the first event on the public timeline
 
                 try {
@@ -94,9 +97,12 @@ public class InitialActivity extends ActionBarActivity {
 
                 } catch (JSONException e) {
                     e.printStackTrace();
+                    progressBar.dismiss();
                 } catch (Exception e) {
+                    progressBar.dismiss();
                     e.printStackTrace();
                     Toast.makeText(mySelf, "Ocurrio un error inesperado", Toast.LENGTH_LONG).show();
+
 
 
                 }
@@ -104,6 +110,7 @@ public class InitialActivity extends ActionBarActivity {
 
             @Override
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                progressBar.dismiss();
                 Toast.makeText(mySelf, "Ocurrio un error inesperado: " + throwable.getMessage(), Toast.LENGTH_LONG).show();
 
             }
@@ -126,6 +133,8 @@ public class InitialActivity extends ActionBarActivity {
             startActivity(intent);
         } else if (user_type.equals(PLACE_MESAS)) {
             Intent intent = new Intent(this, TablesActivity.class);
+            //Intent intent = new Intent(this, MaterialMenuActivity.class);
+            //Intent intent = new Intent(this, MaterialTablesActivity.class);
             startActivity(intent);
         } else if (user_type.equals(PLACE_BARRA)) {
             Intent intent = new Intent(this, MakersActivity.class);

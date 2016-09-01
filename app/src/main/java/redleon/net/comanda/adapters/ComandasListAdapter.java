@@ -1,6 +1,7 @@
 package redleon.net.comanda.adapters;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
@@ -17,7 +18,7 @@ import android.widget.Toast;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
-import org.apache.http.Header;
+import cz.msebera.android.httpclient.Header;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -53,12 +54,18 @@ public class ComandasListAdapter extends BaseAdapter {
         mLayoutInflater = (LayoutInflater) getmContext()
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         final Context ctxl = context;
-
+        final ProgressDialog progressBar;
+        progressBar = new ProgressDialog(getmContext());
+        progressBar.setCancelable(false);
+        progressBar.setMessage("Consultado información...");
+        progressBar.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        progressBar.setIndeterminate(true);
+        progressBar.show();
         HttpClient.get("/listtables.json", Network.makeAuthParams(context), new JsonHttpResponseHandler() {
-            @Override
+            //@Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 // Pull out the first event on the public timeline
-
+                progressBar.dismiss();
                 try {
                     String sResponse = response.getString("response");
                     // Do something with the response
@@ -77,8 +84,9 @@ public class ComandasListAdapter extends BaseAdapter {
                 }
             }
 
-            @Override
+           // @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject jsonObject) {
+                progressBar.dismiss();
                 Toast.makeText(ctxl, "Ocurrio un error inesperado:" + throwable.getMessage(), Toast.LENGTH_LONG).show();
 
             }

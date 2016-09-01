@@ -47,7 +47,7 @@
     <Button
         android:id="@+id/btn_pay"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="150dp"
         android:text="Quitar"
         android:gravity="center"
         android:layout_weight="0.20"

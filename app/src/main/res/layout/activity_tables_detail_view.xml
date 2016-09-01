@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 
+
 <android.support.v7.widget.CardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:id="@+id/cv"
     >
-
-
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -16,41 +15,32 @@
         >
 
         <ImageView
-            android:id="@+id/imageIcon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:id="@+id/table_picture"
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
             android:layout_marginRight="16dp"
-            android:src="@drawable/dish_and_fork" />
+            />
 
         <TextView
-            android:id="@+id/listTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-
-            android:layout_toRightOf="@+id/imageIcon"
+            android:id="@+id/table_name"
+            android:layout_toRightOf="@+id/table_picture"
             android:layout_alignParentTop="true"
-            android:textSize="30sp" />
-
-        <TextView
-            android:id="@+id/listDescription"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toRightOf="@+id/imageIcon"
-            android:layout_below="@+id/listTitle"
-            android:textSize="16sp"
-            />
-        <TextView
-            android:id="@+id/tableStatus"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toRightOf="@+id/imageIcon"
-            android:layout_below="@+id/listDescription"
-            android:textSize="16sp"
+            android:textSize="30sp"
             />
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/table_description"
+            android:layout_toRightOf="@+id/table_picture"
+            android:layout_below="@+id/table_name"
+            />
 
     </RelativeLayout>
 
 </android.support.v7.widget.CardView>
+

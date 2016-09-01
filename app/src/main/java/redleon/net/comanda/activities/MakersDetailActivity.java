@@ -1,5 +1,6 @@
 package redleon.net.comanda.activities;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarActivity;
@@ -14,7 +15,7 @@ import android.widget.Toast;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
-import org.apache.http.Header;
+import cz.msebera.android.httpclient.Header;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -48,7 +49,7 @@ public class MakersDetailActivity extends ActionBarActivity implements AdapterVi
         listView.setOnItemClickListener(this);
         swipeLayout = (SwipeRefreshLayout) findViewById(R.id.fragment_makers_detail_swipe_container);
         swipeLayout.setOnRefreshListener(this);
-        swipeLayout.setColorScheme(android.R.color.holo_blue_bright,
+        swipeLayout.setColorSchemeColors(android.R.color.holo_blue_bright,
                 android.R.color.holo_green_light,
                 android.R.color.holo_orange_light,
                 android.R.color.holo_red_light);
@@ -84,9 +85,17 @@ public class MakersDetailActivity extends ActionBarActivity implements AdapterVi
         if (id == R.id.action_dispatch_command) {
             RequestParams params = Network.makeAuthParams(this);
             params.put("command_id", getCommandId());
+            final ProgressDialog progressBar;
+            progressBar = new ProgressDialog(this);
+            progressBar.setCancelable(false);
+            progressBar.setMessage("Consultado información...");
+            progressBar.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            progressBar.setIndeterminate(true);
+            progressBar.show();
             HttpClient.post("/commands/completed/" + getCommandId(), params, new JsonHttpResponseHandler() {
-                @Override
+                //@Override
                 public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                    progressBar.dismiss();
                     try{
 
                         me.onRefresh();
@@ -101,8 +110,9 @@ public class MakersDetailActivity extends ActionBarActivity implements AdapterVi
                         e.printStackTrace();
                     }
                 }
-                @Override
+                //@Override
                 public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject jsonObject){
+                    progressBar.dismiss();
                     Toast.makeText(me, "Ocurrio un error inesperado:"+throwable.getMessage(), Toast.LENGTH_LONG).show();
 
                 }
@@ -128,9 +138,17 @@ public class MakersDetailActivity extends ActionBarActivity implements AdapterVi
         final MakersDetailActivity me = this;
         RequestParams params = Network.makeAuthParams(this);
         params.put("command_id", getCommandId());
+        final ProgressDialog progressBar;
+        progressBar = new ProgressDialog(this);
+        progressBar.setCancelable(false);
+        progressBar.setMessage("Consultado información...");
+        progressBar.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        progressBar.setIndeterminate(true);
+        progressBar.show();
         HttpClient.post("/order_dishes/setready/" + ((Dish) parent.getItemAtPosition(position)).getOrder_dishes_id(),params, new JsonHttpResponseHandler() {
-            @Override
+           // @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                progressBar.dismiss();
                 try{
                     String sResponse = response.getString("resultado");
                     if (sResponse.equals("ok")) {
@@ -145,8 +163,9 @@ public class MakersDetailActivity extends ActionBarActivity implements AdapterVi
                     e.printStackTrace();
                 }
             }
-            @Override
+           // @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject jsonObject){
+                progressBar.dismiss();
                 Toast.makeText(me, "Ocurrio un error inesperado:"+throwable.getMessage(), Toast.LENGTH_LONG).show();
 
             }

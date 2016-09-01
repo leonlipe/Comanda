@@ -1,6 +1,7 @@
 package redleon.net.comanda.adapters;
 
 import android.content.Context;
+import android.support.v7.widget.CardView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -50,13 +51,13 @@ public class TablesListAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView,
                         ViewGroup parent) {
-        LinearLayout itemView;
+        CardView itemView;
         if (convertView == null) {
-            itemView = (LinearLayout) mLayoutInflater.inflate(
+            itemView = (CardView) mLayoutInflater.inflate(
                     R.layout.activity_tables_list, parent, false);
 
         } else {
-            itemView = (LinearLayout) convertView;
+            itemView = (CardView) convertView;
         }
 
         TextView titleText = (TextView) itemView.findViewById(R.id.listTitle);
@@ -64,11 +65,11 @@ public class TablesListAdapter extends BaseAdapter {
         TextView statusText = (TextView) itemView.findViewById(R.id.tableStatus);
         ImageView imageIcon = (ImageView) itemView.findViewById(R.id.imageIcon);
 
-        String title = mEntries.get(position).getKey();
+        String title = mEntries.get(position).getDescription();
         titleText.setText(title);
         String description =
-                mEntries.get(position).getDescription();
-        statusText.setText(mEntries.get(position).getStatus_desc() + " "+mEntries.get(position).getMesero());
+                mEntries.get(position).getStatus_desc();
+        statusText.setText(mEntries.get(position).getMesero());
         if (mEntries.get(position).getStatus_desc().equals("Ocupada")){
             imageIcon.setImageResource(R.drawable.dish_and_fork_no);
         }else{

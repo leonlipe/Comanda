@@ -2,6 +2,7 @@ package redleon.net.comanda.activities;
 
 import android.app.ActionBar;
 import android.app.ListActivity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -11,11 +12,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.GridView;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import org.apache.http.Header;
+import cz.msebera.android.httpclient.Header;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -40,7 +40,7 @@ import java.util.List;
 
 public class TablesActivity extends ActionBarActivity implements AdapterView.OnItemClickListener, SwipeRefreshLayout.OnRefreshListener  {
     public final static String EXTRA_MESSAGE = "net.redleon.comanda.MESSAGE";
-    private GridView gridView;
+    private ListView listView;
     TablesListAdapter adapter;
     private SwipeRefreshLayout swipeLayout;
 
@@ -53,80 +53,78 @@ public class TablesActivity extends ActionBarActivity implements AdapterView.OnI
             setContentView(R.layout.activity_tables);
 
             adapter = new TablesListAdapter(this);
-            gridView = (GridView) findViewById(R.id.gridview);
-            gridView.setEmptyView(findViewById(R.id.empty_data));
+            listView = (ListView) findViewById(R.id.list_view);
+            listView.setEmptyView(findViewById(R.id.empty_data));
 
-            gridView.setAdapter(adapter);
-            gridView.setOnItemClickListener(this);
+            listView.setAdapter(adapter);
+            listView.setOnItemClickListener(this);
 
             swipeLayout = (SwipeRefreshLayout) findViewById(R.id.fragment_tables_swipe_container);
             swipeLayout.setOnRefreshListener(this);
-            swipeLayout.setColorScheme(android.R.color.holo_blue_bright,
+
+            swipeLayout.setColorSchemeResources(android.R.color.holo_blue_bright,
                     android.R.color.holo_green_light,
                     android.R.color.holo_orange_light,
                     android.R.color.holo_red_light);
 
-//            TablesListLoader loadData = new TablesListLoader(adapter);
-//            loadData.execute();
-            System.out.println("http call");
-            HttpClient.get("/tiimes_for_menu.json", Network.makeAuthParams(mySelf), new JsonHttpResponseHandler() {
-                @Override
-                public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                    // Pull out the first event on the public timeline
-
-                    try {
-
-                        String sResponse = response.getString("name");
-                        // Do something with the response
-                        if (sResponse != null) {
-                         /*   Intent intent = new Intent(mySelf, ServicesActivity.class);
-                            intent.putExtra(EXTRA_MESSAGE, response.getJSONObject("service").getInt("id"));
-                            startActivity(intent);*/
-                            List<Tiime> menu = ((ComandaApp) mySelf.getApplication()).getMenu();
-                            if (menu == null) {
-                                ((ComandaApp) mySelf.getApplication()).setMenu(new ArrayList<Tiime>());
-                                menu = ((ComandaApp) mySelf.getApplication()).getMenu();
-                            }
-                            System.out.println(menu.toString());
-                            JSONArray tiimes = response.getJSONArray("items");
-                            for (int x = 0; x < tiimes.length(); x++) {
-                                JSONObject tiime = tiimes.getJSONObject(x);
-                                JSONArray dishes = tiime.getJSONArray("items");
-                                Dish[] timmesDishes = new Dish[dishes.length()];
-                                for (int y = 0; y < dishes.length(); y++) {
-                                    JSONObject dish = dishes.getJSONObject(y);
-                                    timmesDishes[y] = new Dish(dish.getInt("id"), dish.getString("description"), dish.getString("name"));
-                                }
-                                menu.add(new Tiime(tiime.getInt("id"), tiime.getString("name"), tiime.getString("description"), timmesDishes));
-                            }
-                            System.out.println("menu");
-                            for (Tiime time : menu) {
-                                System.out.println(time.getName());
-                            }
-
-                        }
-
-
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                    catch (Exception e){
-                        e.printStackTrace();
-                        Toast.makeText(mySelf, "Ocurrio un error inesperado", Toast.LENGTH_LONG).show();
-
-
-                    }
-                }
-                @Override
-                public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable){
-                    Toast.makeText(mySelf, "Ocurrio un error inesperado: "+throwable.getMessage(), Toast.LENGTH_LONG).show();
-
-                }
-
-
-
-
-            },getBaseContext());
+//            HttpClient.get("/tiimes_for_menu.json", Network.makeAuthParams(mySelf), new JsonHttpResponseHandler() {
+//                //@Override
+//                public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+//                    // Pull out the first event on the public timeline
+//
+//                    try {
+//
+//                        String sResponse = response.getString("name");
+//                        // Do something with the response
+//                        if (sResponse != null) {
+//                         /*   Intent intent = new Intent(mySelf, ServicesActivity.class);
+//                            intent.putExtra(EXTRA_MESSAGE, response.getJSONObject("service").getInt("id"));
+//                            startActivity(intent);*/
+//                            List<Tiime> menu = ((ComandaApp) mySelf.getApplication()).getMenu();
+//                            if (menu == null) {
+//                                ((ComandaApp) mySelf.getApplication()).setMenu(new ArrayList<Tiime>());
+//                                menu = ((ComandaApp) mySelf.getApplication()).getMenu();
+//                            }
+//                            System.out.println(menu.toString());
+//                            JSONArray tiimes = response.getJSONArray("items");
+//                            for (int x = 0; x < tiimes.length(); x++) {
+//                                JSONObject tiime = tiimes.getJSONObject(x);
+//                                JSONArray dishes = tiime.getJSONArray("items");
+//                                Dish[] timmesDishes = new Dish[dishes.length()];
+//                                for (int y = 0; y < dishes.length(); y++) {
+//                                    JSONObject dish = dishes.getJSONObject(y);
+//                                    timmesDishes[y] = new Dish(dish.getInt("id"), dish.getString("description"), dish.getString("name"));
+//                                }
+//                                menu.add(new Tiime(tiime.getInt("id"), tiime.getString("name"), tiime.getString("description"), timmesDishes));
+//                            }
+//                            System.out.println("menu");
+//                            for (Tiime time : menu) {
+//                                System.out.println(time.getName());
+//                            }
+//
+//                        }
+//
+//
+//                    } catch (JSONException e) {
+//                        e.printStackTrace();
+//                    }
+//                    catch (Exception e){
+//                        e.printStackTrace();
+//                        Toast.makeText(mySelf, "Ocurrio un error inesperado", Toast.LENGTH_LONG).show();
+//
+//
+//                    }
+//                }
+//               // @Override
+//                public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable){
+//                    Toast.makeText(mySelf, "Ocurrio un error inesperado: "+throwable.getMessage(), Toast.LENGTH_LONG).show();
+//
+//                }
+//
+//
+//
+//
+//            },getBaseContext());
 
         }catch(Exception e){
             e.printStackTrace();
@@ -252,10 +250,17 @@ public class TablesActivity extends ActionBarActivity implements AdapterView.OnI
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         final TablesActivity mySelf = this;
         final TablesResult tablesResult = (TablesResult) parent.getItemAtPosition(position);
-
+        final ProgressDialog progressBar;
+        progressBar = new ProgressDialog(this);
+        progressBar.setCancelable(false);
+        progressBar.setMessage("Consultado información...");
+        progressBar.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        progressBar.setIndeterminate(true);
+        progressBar.show();
         HttpClient.get("/services/start/" + tablesResult.getId(), Network.makeAuthParams(mySelf), new JsonHttpResponseHandler() {
-            @Override
+            //@Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                progressBar.dismiss();
                 // Pull out the first event on the public timeline
 
                 try {
@@ -281,14 +286,16 @@ public class TablesActivity extends ActionBarActivity implements AdapterView.OnI
             }
 
 
-            @Override
+           // @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject jsonObject) {
+                progressBar.dismiss();
                 Toast.makeText(mySelf, "Ocurrio un error inesperado:" + throwable.getMessage(), Toast.LENGTH_LONG).show();
 
             }
 
-            @Override
+          //  @Override
             public void onFailure(int c, Header[] h, String s, Throwable t) {
+                progressBar.dismiss();
                 Toast.makeText(mySelf, "Ocurrio un error inesperado:" + t.getMessage(), Toast.LENGTH_LONG).show();
 
             }

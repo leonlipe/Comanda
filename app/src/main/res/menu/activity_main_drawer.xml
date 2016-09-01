@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/antipasta"
+            android:icon="@drawable/ic_local_dining_black_24dp"
+            android:title="ANTIPASTI" />
+        <item
+            android:id="@+id/ensalada"
+            android:icon="@drawable/ic_local_dining_black_24dp"
+            android:title="INSALATE" />
+        <item
+            android:id="@+id/pasta"
+            android:icon="@drawable/ic_local_dining_black_24dp"
+            android:title="LE PASTE" />
+        <item
+            android:id="@+id/segundo"
+            android:icon="@drawable/ic_local_dining_black_24dp"
+            android:title="IL SECONDI" />
+        <item
+            android:id="@+id/pizza"
+            android:icon="@drawable/ic_local_dining_black_24dp"
+            android:title="LE PIZZE" />
+        <item
+            android:id="@+id/bebidas"
+            android:icon="@drawable/ic_local_dining_black_24dp"
+            android:title="BEBIDAS" />
+        <item
+            android:id="@+id/sugerencias"
+            android:icon="@drawable/ic_local_dining_black_24dp"
+            android:title="SUGERENCIAS" />
+    </group>
+
+</menu>

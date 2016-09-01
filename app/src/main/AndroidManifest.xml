@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="redleon.net.comanda" >
+    package="redleon.net.comanda">
 
     <uses-permission android:name="android.permission.INTERNET" />
 
@@ -9,14 +9,13 @@
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
+        android:theme="@style/AppTheme">
         <activity
             android:name=".activities.TablesActivity"
-            android:label="@string/title_activity_tables" >
-        </activity>
+            android:label="@string/title_activity_tables" />
         <activity
             android:name=".activities.ServicesActivity"
-            android:label="@string/title_activity_service" >
+            android:label="@string/title_activity_service">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activities.TablesActivity" />
@@ -26,42 +25,28 @@
             android:label="PreferencesActivity" />
         <activity
             android:name=".activities.MenuActivity"
-            android:label="@string/title_activity_menu" >
-
-
-        </activity>
+            android:label="@string/title_activity_menu" />
         <activity
             android:name=".activities.DishActivity"
-            android:label="@string/title_activity_dish" >
-
-        </activity>
+            android:label="@string/title_activity_dish" />
         <activity
             android:name=".activities.ComandHistoryActivity"
-            android:label="@string/title_activity_comand_history" >
-
-        </activity>
+            android:label="@string/title_activity_comand_history" />
         <activity
             android:name=".activities.MakersActivity"
-            android:label="@string/title_activity_makers" >
-        </activity>
+            android:label="@string/title_activity_makers" />
         <activity
             android:name=".activities.MakersDetailActivity"
-            android:label="@string/title_activity_makers_detail" >
-
-        </activity>
+            android:label="@string/title_activity_makers_detail" />
         <activity
             android:name=".activities.PaymentActivity"
-            android:label="Pagos" >
-
-        </activity>
+            android:label="Pagos" />
         <activity
             android:name=".activities.SubMenuActivity"
-            android:label="Platillos" >
-
-        </activity>
+            android:label="Platillos" />
         <activity
             android:name=".activities.InitialActivity"
-            android:label="@string/title_activity_initial" >
+            android:label="@string/title_activity_initial">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -70,16 +55,19 @@
         </activity>
         <activity
             android:name=".activities.TablesReasignActivity"
-            android:label="@string/title_activity_tables_reasign" >
+            android:label="@string/title_activity_tables_reasign">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activities.TablesActivity" />
         </activity>
         <activity
             android:name=".activities.MakersActivityOld"
-            android:label="@string/title_activity_makers_activity_old" >
-           
-        </activity>
+            android:label="@string/title_activity_makers_activity_old" />
+        <activity
+            android:name=".activities.MaterialMenuActivity"
+            android:label="@string/title_activity_material_mesas"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".activities.MaterialTablesActivity"></activity>
     </application>
 
 </manifest>

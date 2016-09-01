@@ -1,6 +1,7 @@
 package redleon.net.comanda.adapters;
 
 import android.content.Context;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -50,6 +51,8 @@ public class MenuListAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView,
                         ViewGroup parent) {
+
+
         LinearLayout itemView;
         if (convertView == null) {
             itemView = (LinearLayout) mLayoutInflater.inflate(

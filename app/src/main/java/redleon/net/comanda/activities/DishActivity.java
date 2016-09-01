@@ -1,6 +1,7 @@
 package redleon.net.comanda.activities;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.DialogFragment;
@@ -23,7 +24,6 @@ import com.google.gson.Gson;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
-import org.apache.http.Header;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -32,6 +32,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import cz.msebera.android.httpclient.Header;
 import redleon.net.comanda.R;
 import redleon.net.comanda.adapters.DishSizeSpinerAdapter;
 import redleon.net.comanda.adapters.ExtraArrayAdapter;
@@ -92,9 +93,17 @@ public class DishActivity extends ActionBarActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         //getActionBar().setDisplayHomeAsUpEnabled(false);
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+        final ProgressDialog progressBar;
+        progressBar = new ProgressDialog(this);
+        progressBar.setCancelable(false);
+        progressBar.setMessage("Consultado información...");
+        progressBar.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        progressBar.setIndeterminate(true);
+        progressBar.show();
         HttpClient.get("/extras_for_select.json", Network.makeAuthParams(me), new JsonHttpResponseHandler() {
-            @Override
+            //@Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                progressBar.dismiss();
                 // Pull out the first event on the public timeline
 
                 try {
@@ -114,8 +123,9 @@ public class DishActivity extends ActionBarActivity {
                     e.printStackTrace();
                 }
             }
-            @Override
+          //  @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject jsonObject){
+                progressBar.dismiss();
                 Toast.makeText(me, "Ocurrio un error inesperado:"+throwable.getMessage(), Toast.LENGTH_LONG).show();
 
             }
@@ -123,9 +133,12 @@ public class DishActivity extends ActionBarActivity {
 
         },getBaseContext());
 
+
+        progressBar.show();
         HttpClient.get("/dishes/get_sizes/"+getDishId()+".json", Network.makeAuthParams(me), new JsonHttpResponseHandler() {
-            @Override
+          //  @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                progressBar.dismiss();
                 // Pull out the first event on the public timeline
 
                 try {
@@ -152,8 +165,9 @@ public class DishActivity extends ActionBarActivity {
                     e.printStackTrace();
                 }
             }
-            @Override
+           // @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject jsonObject){
+                progressBar.dismiss();
                 Toast.makeText(me, "Ocurrio un error inesperado:"+throwable.getMessage(), Toast.LENGTH_LONG).show();
 
             }
@@ -249,10 +263,18 @@ public class DishActivity extends ActionBarActivity {
         params.put("data", data);
         params.put("prioridad",chkprio.isChecked());
         params.put("quantity",(String) quantity_spinner.getSelectedItem());
-
+        final ProgressDialog progressBar;
+        progressBar = new ProgressDialog(this);
+        progressBar.setCancelable(false);
+        progressBar.setMessage("Consultado información...");
+        progressBar.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        progressBar.setIndeterminate(true);
+        progressBar.show();
         HttpClient.post("/add_dish_to_order/"+getDishId().toString(), params, new JsonHttpResponseHandler() {
-            @Override
+            //@Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                progressBar.dismiss();
+
                 // Pull out the first event on the public timeline
 
                 try {
@@ -269,8 +291,9 @@ public class DishActivity extends ActionBarActivity {
                 }
                 Toast.makeText(me, "El platillo se agregó correctamente.",Toast.LENGTH_SHORT).show();
             }
-            @Override
+            //@Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject jsonObject){
+                progressBar.dismiss();
                 Toast.makeText(me, "Ocurrio un error inesperado:"+throwable.getMessage(), Toast.LENGTH_LONG).show();
 
             }

@@ -19,7 +19,6 @@ import android.widget.Toast;
 
 import com.loopj.android.http.JsonHttpResponseHandler;
 
-import org.apache.http.Header;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -50,10 +49,10 @@ public class ComandHistoryActivity extends SwipeListViewActivity implements Swip
         mListView = (ListView) findViewById(android.R.id.list);
         swipeLayout = (SwipeRefreshLayout) this.findViewById(R.id.commands_history_swipe_container);
         swipeLayout.setOnRefreshListener(this);
-        swipeLayout.setColorScheme(android.R.color.holo_blue_bright,
+        swipeLayout.setColorSchemeColors(android.R.color.holo_blue_bright,
                 android.R.color.holo_green_light,
-                android.R.color.holo_orange_light,
-                android.R.color.holo_red_light);
+                        android.R.color.holo_orange_light,
+                                android.R.color.holo_red_light);
 
         Intent intent = getIntent();
         setServiceId(intent.getIntExtra(SERVICE_ID, 0));

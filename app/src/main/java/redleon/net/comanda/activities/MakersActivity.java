@@ -12,7 +12,6 @@ import android.widget.ListView;
 
 import com.loopj.android.http.JsonHttpResponseHandler;
 
-import org.apache.http.Header;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -49,10 +48,10 @@ public class MakersActivity extends ActionBarActivity implements AdapterView.OnI
         listView.setOnItemClickListener(this);
         swipeLayout = (SwipeRefreshLayout) findViewById(R.id.fragment_makers_swipe_container);
         swipeLayout.setOnRefreshListener(this);
-        swipeLayout.setColorScheme(android.R.color.holo_blue_bright,
-                android.R.color.holo_green_light,
-                android.R.color.holo_orange_light,
-                android.R.color.holo_red_light);
+        swipeLayout.setColorScheme(getResources().getColor(android.R.color.holo_blue_bright),
+                getResources().getColor(android.R.color.holo_green_light),
+                        getResources().getColor(android.R.color.holo_orange_light),
+                                getResources().getColor(android.R.color.holo_red_light));
 
         if (getPlaceKey().equals("COC")) {
             setTitle("Cocina");

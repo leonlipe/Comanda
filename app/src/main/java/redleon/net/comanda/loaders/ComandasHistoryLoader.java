@@ -1,5 +1,6 @@
 package redleon.net.comanda.loaders;
 
+import android.app.ProgressDialog;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.preference.PreferenceManager;
@@ -7,10 +8,9 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.DefaultHttpClient;
+import com.loopj.android.http.*;
+import cz.msebera.android.httpclient.Header;
+
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -19,6 +19,9 @@ import java.io.Reader;
 import java.net.URL;
 import java.util.ArrayList;
 
+import cz.msebera.android.httpclient.HttpEntity;
+import cz.msebera.android.httpclient.HttpResponse;
+import cz.msebera.android.httpclient.impl.client.DefaultHttpClient;
 import redleon.net.comanda.adapters.ComandasListAdapter;
 import redleon.net.comanda.adapters.ComandsHistoryAdapter;
 import redleon.net.comanda.model.ComandasResult;
@@ -34,6 +37,7 @@ import redleon.net.comanda.utils.Network;
  */
 public class ComandasHistoryLoader extends
         AsyncTask<URL, Integer, ArrayList<OrderDishesData>> {
+    private ProgressDialog progressBar;
     private boolean hadError = false;
     private String errorMsg = "";
     private Integer serviceId;
@@ -96,8 +100,17 @@ public class ComandasHistoryLoader extends
 
         return resultados;
     }
-
+    @Override
+    protected void onPreExecute(){
+        progressBar = new ProgressDialog(mAdapter.getmContext());
+        progressBar.setCancelable(false);
+        progressBar.setMessage("Consultado información...");
+        progressBar.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        progressBar.setIndeterminate(true);
+        progressBar.show();
+    }
     protected void onPostExecute(ArrayList<OrderDishesData> entries) {
+        progressBar.dismiss();
         if (hadError){
             Toast.makeText(mAdapter.getmContext(), "Ocurrio un error inesperado, tal vez no hay conexion con el servidor. ", Toast.LENGTH_LONG).show();
         }else {

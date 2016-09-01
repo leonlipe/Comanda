@@ -11,8 +11,8 @@ import android.widget.Toast;
 
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
-
-import org.apache.http.Header;
+import com.loopj.android.http.*;
+import cz.msebera.android.httpclient.Header;
 import org.json.JSONObject;
 
 import java.util.ArrayList;

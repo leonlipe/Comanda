@@ -43,7 +43,8 @@
     <string name="dialog_set_table">Seleccionar mesa</string>
     <string name="chkprio">Alta prioridad</string>
 
-
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
     <!-- Arrays -->
     <string-array name="payment_method_array">
         <item>Tarjeta bancaria</item>
@@ -56,4 +57,5 @@
     <string name="title_activity_initial">Comandera</string>
     <string name="title_activity_tables_reasign">Reasignar Mesa</string>
     <string name="title_activity_makers_activity_old">MakersActivityOld</string>
+    <string name="title_activity_material_mesas">MaterialMesasActivity</string>
 </resources>

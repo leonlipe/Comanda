@@ -76,7 +76,7 @@ public class InvoicesFragment extends ListFragment implements SwipeRefreshLayout
         View view = inflater.inflate(R.layout.fragment_invoices, container, false);
         swipeLayout = (SwipeRefreshLayout) view.findViewById(R.id.fragment_invoices_swipe_container);
         swipeLayout.setOnRefreshListener(this);
-        swipeLayout.setColorScheme(android.R.color.holo_blue_bright,
+        swipeLayout.setColorSchemeColors(android.R.color.holo_blue_bright,
                 android.R.color.holo_green_light,
                 android.R.color.holo_orange_light,
                 android.R.color.holo_red_light);

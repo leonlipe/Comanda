@@ -1,5 +1,6 @@
 package redleon.net.comanda.activities;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -16,7 +17,7 @@ import com.google.gson.Gson;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
-import org.apache.http.Header;
+import cz.msebera.android.httpclient.Header;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -148,10 +149,17 @@ public class PaymentActivity extends ActionBarActivity {
         RequestParams params = Network.makeAuthParams(this);
         params.put("data",new Gson().toJson(new PaymentData("",getPaymentMethod())) );
         params.put("ids", new Gson().toJson(getIdsArray()));
-
+        final ProgressDialog progressBar;
+        progressBar = new ProgressDialog(this);
+        progressBar.setCancelable(false);
+        progressBar.setMessage("Consultado información...");
+        progressBar.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        progressBar.setIndeterminate(true);
+        progressBar.show();
         HttpClient.post("/services/do_payment_together/" + getServiceId(), params, new JsonHttpResponseHandler() {
-            @Override
+            //@Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                progressBar.dismiss();
 
                 try {
                     String sResponse = response.getString("status");
@@ -172,8 +180,9 @@ public class PaymentActivity extends ActionBarActivity {
                 me.finish();
             }
 
-            @Override
+          //  @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject jsonObject) {
+                progressBar.dismiss();
                 Toast.makeText(me, "Ocurrio un error inesperado:" + throwable.getMessage(), Toast.LENGTH_LONG).show();
 
             }

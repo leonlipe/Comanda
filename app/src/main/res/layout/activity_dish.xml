@@ -70,7 +70,7 @@
 
     <Button
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="200dp"
         android:text="@string/dish_button_add_dish"
         android:id="@+id/dish_buton_add_dish"
         android:clickable="true"

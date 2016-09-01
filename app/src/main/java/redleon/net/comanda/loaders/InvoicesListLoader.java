@@ -1,5 +1,6 @@
 package redleon.net.comanda.loaders;
 
+import android.app.ProgressDialog;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.preference.PreferenceManager;
@@ -7,11 +8,10 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.DefaultHttpClient;
-
+import cz.msebera.android.httpclient.HttpEntity;
+import cz.msebera.android.httpclient.HttpResponse;
+import cz.msebera.android.httpclient.client.methods.HttpGet;
+import cz.msebera.android.httpclient.impl.client.DefaultHttpClient;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -30,6 +30,7 @@ import redleon.net.comanda.utils.Network;
  */
 public class InvoicesListLoader extends
         AsyncTask<URL, Integer, ArrayList<Invoice>> {
+    private ProgressDialog progressBar;
     private boolean hadError = false;
     private String errorMsg = "";
     private Integer serviceId;
@@ -95,8 +96,17 @@ public class InvoicesListLoader extends
 
         return resultados;
     }
-
+    @Override
+    protected void onPreExecute(){
+        progressBar = new ProgressDialog(mAdapter.getmContext());
+        progressBar.setCancelable(false);
+        progressBar.setMessage("Consultado información...");
+        progressBar.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        progressBar.setIndeterminate(true);
+        progressBar.show();
+    }
     protected void onPostExecute(ArrayList<Invoice> entries) {
+        progressBar.dismiss();
         if (hadError){
             Toast.makeText(mAdapter.getmContext(), "Ocurrio un error inesperado, tal vez no hay conexion con el servidor. ", Toast.LENGTH_LONG).show();
         }else {

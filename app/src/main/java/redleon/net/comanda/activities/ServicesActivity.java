@@ -1,6 +1,7 @@
 package redleon.net.comanda.activities;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.support.v7.app.ActionBar;
 import android.content.Intent;
 import android.support.v4.view.ViewPager;
@@ -13,7 +14,7 @@ import android.widget.Toast;
 
 import com.loopj.android.http.JsonHttpResponseHandler;
 
-import org.apache.http.Header;
+import cz.msebera.android.httpclient.Header;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -96,9 +97,17 @@ public class ServicesActivity extends ActionBarActivity implements ActionBar.Tab
         }
 
         if (id == R.id.action_close_service) {
+            final ProgressDialog progressBar;
+            progressBar = new ProgressDialog(this);
+            progressBar.setCancelable(false);
+            progressBar.setMessage("Consultado información...");
+            progressBar.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            progressBar.setIndeterminate(true);
+            progressBar.show();
             HttpClient.post("/services/close/" + getServiceId(), Network.makeAuthParams(me), new JsonHttpResponseHandler() {
-                @Override
+                //@Override
                 public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                    progressBar.dismiss();
                     // Pull out the first event on the public timeline
 
                     try {
@@ -124,8 +133,9 @@ public class ServicesActivity extends ActionBarActivity implements ActionBar.Tab
                         e.printStackTrace();
                     }
                 }
-                @Override
+                //@Override
                 public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject jsonObject){
+                    progressBar.dismiss();
                     Toast.makeText(me, "Ocurrio un error inesperado:"+throwable.getMessage(), Toast.LENGTH_LONG).show();
 
                 }
@@ -138,9 +148,17 @@ public class ServicesActivity extends ActionBarActivity implements ActionBar.Tab
 
         if (id == R.id.action_add_person) {
         //    View view =  mViewPager.findViewWithTag(makeFragmentName(R.id.pager, 0));
+            final ProgressDialog progressBar;
+            progressBar = new ProgressDialog(this);
+            progressBar.setCancelable(false);
+            progressBar.setMessage("Consultado información...");
+            progressBar.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            progressBar.setIndeterminate(true);
+            progressBar.show();
             HttpClient.post("/services/add_diner/" + getServiceId(), Network.makeAuthParams(me), new JsonHttpResponseHandler() {
-                @Override
+               // @Override
                 public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                    progressBar.dismiss();
                     // Pull out the first event on the public timeline
 
                     try {
@@ -167,8 +185,9 @@ public class ServicesActivity extends ActionBarActivity implements ActionBar.Tab
                         e.printStackTrace();
                     }
                 }
-                @Override
+              //  @Override
                 public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject jsonObject){
+                    progressBar.dismiss();
                     Toast.makeText(me, "Ocurrio un error inesperado:"+throwable.getMessage(), Toast.LENGTH_LONG).show();
 
                 }
@@ -178,9 +197,17 @@ public class ServicesActivity extends ActionBarActivity implements ActionBar.Tab
             return true;
         }
         if (id == R.id.action_send_all) {
+            final ProgressDialog progressBar;
+            progressBar = new ProgressDialog(this);
+            progressBar.setCancelable(false);
+            progressBar.setMessage("Consultado información...");
+            progressBar.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            progressBar.setIndeterminate(true);
+            progressBar.show();
             HttpClient.post("/commands/sendthem/" + getServiceId(), Network.makeAuthParams(me), new JsonHttpResponseHandler() {
-                @Override
+               // @Override
                 public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                    progressBar.dismiss();
                     // Pull out the first event on the public timeline
 
                     try {
@@ -207,8 +234,9 @@ public class ServicesActivity extends ActionBarActivity implements ActionBar.Tab
                         e.printStackTrace();
                     }
                 }
-                @Override
+              //  @Override
                 public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject jsonObject){
+                    progressBar.dismiss();
                     Toast.makeText(me, "Ocurrio un error inesperado:"+throwable.getMessage(), Toast.LENGTH_LONG).show();
 
                 }
