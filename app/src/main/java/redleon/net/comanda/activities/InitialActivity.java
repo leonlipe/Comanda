@@ -78,7 +78,7 @@ public class InitialActivity extends ActionBarActivity {
         progressBar.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         progressBar.setIndeterminate(true);
         progressBar.setCancelable(true);
-       // progressBar.show();
+        progressBar.show();
         HttpClient.get("/login_mobile.json", Network.makeAuthParams(mySelf), new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
@@ -98,6 +98,8 @@ public class InitialActivity extends ActionBarActivity {
                 } catch (JSONException e) {
                     e.printStackTrace();
                     progressBar.dismiss();
+                    Toast.makeText(mySelf, "Ocurrio un error inesperado", Toast.LENGTH_LONG).show();
+
                 } catch (Exception e) {
                     progressBar.dismiss();
                     e.printStackTrace();
@@ -115,6 +117,12 @@ public class InitialActivity extends ActionBarActivity {
 
             }
 
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject responseObject){
+                progressBar.dismiss();
+                Toast.makeText(mySelf, "Ocurrio un error inesperado: " + throwable.getMessage(), Toast.LENGTH_LONG).show();
+
+            }
 
         }, getBaseContext());
 

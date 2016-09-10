@@ -113,7 +113,7 @@ public class MakersDetailListAdapter extends BaseAdapter {
                         }
                     }
 
-                   // @Override
+                    @Override
                     public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject jsonObject) {
                         progressBar.dismiss();
                         Toast.makeText(itemView.getContext(), "Ocurrio un error inesperado:" + throwable.getMessage(), Toast.LENGTH_LONG).show();

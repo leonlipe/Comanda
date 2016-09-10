@@ -180,7 +180,7 @@ public class PaymentActivity extends ActionBarActivity {
                 me.finish();
             }
 
-          //  @Override
+            @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject jsonObject) {
                 progressBar.dismiss();
                 Toast.makeText(me, "Ocurrio un error inesperado:" + throwable.getMessage(), Toast.LENGTH_LONG).show();

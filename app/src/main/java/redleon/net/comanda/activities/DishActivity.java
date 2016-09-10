@@ -123,12 +123,13 @@ public class DishActivity extends ActionBarActivity {
                     e.printStackTrace();
                 }
             }
-          //  @Override
+            @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject jsonObject){
                 progressBar.dismiss();
                 Toast.makeText(me, "Ocurrio un error inesperado:"+throwable.getMessage(), Toast.LENGTH_LONG).show();
 
             }
+
 
 
         },getBaseContext());
@@ -165,7 +166,7 @@ public class DishActivity extends ActionBarActivity {
                     e.printStackTrace();
                 }
             }
-           // @Override
+            @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject jsonObject){
                 progressBar.dismiss();
                 Toast.makeText(me, "Ocurrio un error inesperado:"+throwable.getMessage(), Toast.LENGTH_LONG).show();
@@ -291,7 +292,7 @@ public class DishActivity extends ActionBarActivity {
                 }
                 Toast.makeText(me, "El platillo se agregó correctamente.",Toast.LENGTH_SHORT).show();
             }
-            //@Override
+            @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject jsonObject){
                 progressBar.dismiss();
                 Toast.makeText(me, "Ocurrio un error inesperado:"+throwable.getMessage(), Toast.LENGTH_LONG).show();

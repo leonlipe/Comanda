@@ -110,7 +110,7 @@ public class MakersDetailActivity extends ActionBarActivity implements AdapterVi
                         e.printStackTrace();
                     }
                 }
-                //@Override
+                @Override
                 public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject jsonObject){
                     progressBar.dismiss();
                     Toast.makeText(me, "Ocurrio un error inesperado:"+throwable.getMessage(), Toast.LENGTH_LONG).show();
@@ -163,7 +163,7 @@ public class MakersDetailActivity extends ActionBarActivity implements AdapterVi
                     e.printStackTrace();
                 }
             }
-           // @Override
+            @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject jsonObject){
                 progressBar.dismiss();
                 Toast.makeText(me, "Ocurrio un error inesperado:"+throwable.getMessage(), Toast.LENGTH_LONG).show();
