@@ -40,7 +40,7 @@ public class MakersActivityOld extends ActionBarActivity implements AdapterView.
         listView.setOnItemClickListener(this);
         swipeLayout = (SwipeRefreshLayout) findViewById(R.id.fragment_makers_swipe_container);
         swipeLayout.setOnRefreshListener(this);
-        swipeLayout.setColorScheme(android.R.color.holo_blue_bright,
+        swipeLayout.setColorSchemeColors(android.R.color.holo_blue_bright,
                 android.R.color.holo_green_light,
                 android.R.color.holo_orange_light,
                 android.R.color.holo_red_light);

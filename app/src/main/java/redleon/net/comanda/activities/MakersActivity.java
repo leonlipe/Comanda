@@ -9,19 +9,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
-
-import com.loopj.android.http.JsonHttpResponseHandler;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import redleon.net.comanda.R;
 import redleon.net.comanda.adapters.MakersListAdapter;
 import redleon.net.comanda.loaders.MakersViewLoaders;
 import redleon.net.comanda.model.MakersCommandItem;
-import redleon.net.comanda.model.TablesResult;
-import redleon.net.comanda.network.HttpClient;
+
 
 public class MakersActivity extends ActionBarActivity implements AdapterView.OnItemClickListener,  SwipeRefreshLayout.OnRefreshListener  {
     ListView listView;
@@ -48,10 +40,10 @@ public class MakersActivity extends ActionBarActivity implements AdapterView.OnI
         listView.setOnItemClickListener(this);
         swipeLayout = (SwipeRefreshLayout) findViewById(R.id.fragment_makers_swipe_container);
         swipeLayout.setOnRefreshListener(this);
-        swipeLayout.setColorScheme(getResources().getColor(android.R.color.holo_blue_bright),
-                getResources().getColor(android.R.color.holo_green_light),
-                        getResources().getColor(android.R.color.holo_orange_light),
-                                getResources().getColor(android.R.color.holo_red_light));
+        swipeLayout.setColorSchemeColors(android.R.color.holo_blue_bright,
+                android.R.color.holo_green_light,
+                       android.R.color.holo_orange_light,
+                                android.R.color.holo_red_light);
 
         if (getPlaceKey().equals("COC")) {
             setTitle("Cocina");
