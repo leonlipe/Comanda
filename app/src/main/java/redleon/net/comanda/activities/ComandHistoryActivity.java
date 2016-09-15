@@ -169,4 +169,18 @@ public class ComandHistoryActivity extends SwipeListViewActivity implements Swip
 
     }
 
-}
+    @Override
+    public void onPause() {
+        super.onPause();  // Always call the superclass method first
+
+    }
+    @Override
+    protected void onStop() {
+        super.onStop();  // Always call the superclass method first
+    }
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();  // Always call the superclass method first
+    }
+
+    }

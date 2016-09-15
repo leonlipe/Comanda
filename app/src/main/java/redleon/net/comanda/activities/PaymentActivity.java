@@ -31,16 +31,18 @@ import redleon.net.comanda.utils.Network;
 public class PaymentActivity extends ActionBarActivity {
     public final static String DINERS_ARRAY = "net.redleon.DINERS_ARRAY";
     public final static String GRAN_TOTAL = "net.redleon.GRAN_TOTAL";
-        public final static String SERVICE_ID = "net.redleon.SERVICE_ID";
+    public final static String SERVICE_ID = "net.redleon.SERVICE_ID";
 
     private ArrayList<Integer> idsArray;
  //   private BigDecimal granTotal;
     private Integer serviceId;
     private String paymentMethod;
+    private ProgressDialog progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        progressBar = new ProgressDialog(this);
         setContentView(R.layout.activity_payment);
         Intent intent = getIntent();
         setIdsArray(intent.getIntegerArrayListExtra(DINERS_ARRAY));
@@ -149,8 +151,7 @@ public class PaymentActivity extends ActionBarActivity {
         RequestParams params = Network.makeAuthParams(this);
         params.put("data",new Gson().toJson(new PaymentData("",getPaymentMethod())) );
         params.put("ids", new Gson().toJson(getIdsArray()));
-        final ProgressDialog progressBar;
-        progressBar = new ProgressDialog(this);
+
         progressBar.setCancelable(false);
         progressBar.setMessage("Consultado información...");
         progressBar.setProgressStyle(ProgressDialog.STYLE_SPINNER);
@@ -197,5 +198,22 @@ public class PaymentActivity extends ActionBarActivity {
 
     public void setServiceId(Integer serviceId) {
         this.serviceId = serviceId;
+    }
+
+
+    @Override
+    public void onPause() {
+        super.onPause();  // Always call the superclass method first
+        progressBar.dismiss();
+    }
+    @Override
+    protected void onStop() {
+        super.onStop();  // Always call the superclass method first
+        progressBar.dismiss();
+    }
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();  // Always call the superclass method first
+        progressBar.dismiss();
     }
 }

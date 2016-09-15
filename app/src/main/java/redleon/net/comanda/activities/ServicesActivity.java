@@ -41,11 +41,13 @@ public class ServicesActivity extends ActionBarActivity implements ActionBar.Tab
     private String barTitle;
     // Tab title
     private String [] tabs = { "Menu", "Comandas", "Pagos", "Facturas" };
+    private ProgressDialog progressBar;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        progressBar = new ProgressDialog(this);
         setContentView(R.layout.activity_service);
         Intent intent = getIntent();
         setServiceId(intent.getIntExtra(TablesActivity.EXTRA_MESSAGE, 0));
@@ -97,8 +99,7 @@ public class ServicesActivity extends ActionBarActivity implements ActionBar.Tab
         }
 
         if (id == R.id.action_close_service) {
-            final ProgressDialog progressBar;
-            progressBar = new ProgressDialog(this);
+
             progressBar.setCancelable(false);
             progressBar.setMessage("Consultado información...");
             progressBar.setProgressStyle(ProgressDialog.STYLE_SPINNER);
@@ -148,8 +149,7 @@ public class ServicesActivity extends ActionBarActivity implements ActionBar.Tab
 
         if (id == R.id.action_add_person) {
         //    View view =  mViewPager.findViewWithTag(makeFragmentName(R.id.pager, 0));
-            final ProgressDialog progressBar;
-            progressBar = new ProgressDialog(this);
+
             progressBar.setCancelable(false);
             progressBar.setMessage("Consultado información...");
             progressBar.setProgressStyle(ProgressDialog.STYLE_SPINNER);
@@ -197,8 +197,7 @@ public class ServicesActivity extends ActionBarActivity implements ActionBar.Tab
             return true;
         }
         if (id == R.id.action_send_all) {
-            final ProgressDialog progressBar;
-            progressBar = new ProgressDialog(this);
+
             progressBar.setCancelable(false);
             progressBar.setMessage("Consultado información...");
             progressBar.setProgressStyle(ProgressDialog.STYLE_SPINNER);
@@ -335,5 +334,21 @@ public class ServicesActivity extends ActionBarActivity implements ActionBar.Tab
             cf.onRefresh();
         if (pf != null)
             pf.onRefresh();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();  // Always call the superclass method first
+        progressBar.dismiss();
+    }
+    @Override
+    protected void onStop() {
+        super.onStop();  // Always call the superclass method first
+        progressBar.dismiss();
+    }
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();  // Always call the superclass method first
+        progressBar.dismiss();
     }
 }

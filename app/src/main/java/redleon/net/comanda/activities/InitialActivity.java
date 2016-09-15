@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.loopj.android.http.JsonHttpResponseHandler;
@@ -28,11 +29,13 @@ public class InitialActivity extends ActionBarActivity {
     public static final String PLACE_PIZZERIA = "PIZ";
     public static final String PLACE_MESAS = "MES";
     public static final String PLACE_BARRA = "BAA";
+    private ProgressDialog progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_initial);
+        progressBar = new ProgressDialog(this);
 
         goToActivity();
     }
@@ -71,8 +74,7 @@ public class InitialActivity extends ActionBarActivity {
         final SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
         final Boolean shall_pass = true;
         // Login client
-        final ProgressDialog progressBar;
-        progressBar = new ProgressDialog(this);
+
         progressBar.setCancelable(false);
         progressBar.setMessage("Autenticando...");
         progressBar.setProgressStyle(ProgressDialog.STYLE_SPINNER);
@@ -150,4 +152,21 @@ public class InitialActivity extends ActionBarActivity {
             startActivity(intent);
         }
     }
+
+    @Override
+    public void onPause() {
+        super.onPause();  // Always call the superclass method first
+        progressBar.dismiss();
+    }
+    @Override
+    protected void onStop() {
+        super.onStop();  // Always call the superclass method first
+        progressBar.dismiss();
+    }
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();  // Always call the superclass method first
+        progressBar.dismiss();
+    }
+
 }

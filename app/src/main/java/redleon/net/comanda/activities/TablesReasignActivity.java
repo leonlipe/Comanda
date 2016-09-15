@@ -40,10 +40,12 @@ public class TablesReasignActivity extends ActionBarActivity implements AdapterV
     TablesListAdapter adapter;
     private SwipeRefreshLayout swipeLayout;
     private ArrayList<Table> mTables = new ArrayList<Table>();
+    private ProgressDialog progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        progressBar = new ProgressDialog(this);
         final TablesReasignActivity me = this;
 
         try {
@@ -63,8 +65,7 @@ public class TablesReasignActivity extends ActionBarActivity implements AdapterV
                     android.R.color.holo_orange_light,
                     android.R.color.holo_red_light);
 
-            final ProgressDialog progressBar;
-            progressBar = new ProgressDialog(this);
+
             progressBar.setCancelable(false);
             progressBar.setMessage("Consultado información...");
             progressBar.setProgressStyle(ProgressDialog.STYLE_SPINNER);
@@ -183,8 +184,7 @@ public class TablesReasignActivity extends ActionBarActivity implements AdapterV
         final TablesReasignActivity me = this;
         RequestParams params = Network.makeAuthParams(this);
         params.put("table_id", table.getId());
-        final ProgressDialog progressBar;
-        progressBar = new ProgressDialog(this);
+
         progressBar.setCancelable(false);
         progressBar.setMessage("Consultado información...");
         progressBar.setProgressStyle(ProgressDialog.STYLE_SPINNER);
@@ -245,5 +245,21 @@ public class TablesReasignActivity extends ActionBarActivity implements AdapterV
         System.out.println(">>>>>>>>>>>>>>>>>>OnResume");
 
 
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();  // Always call the superclass method first
+        progressBar.dismiss();
+    }
+    @Override
+    protected void onStop() {
+        super.onStop();  // Always call the superclass method first
+        progressBar.dismiss();
+    }
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();  // Always call the superclass method first
+        progressBar.dismiss();
     }
 }

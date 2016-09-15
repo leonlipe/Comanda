@@ -59,10 +59,13 @@ public class DishActivity extends ActionBarActivity {
     private ArrayList<Extra> mExtras = new ArrayList<Extra>();
     private ArrayList<Extra> extrasForDish = new ArrayList<Extra>();
     private BaseAdapter extrasForDishAdapter;
+    private ProgressDialog progressBar = null;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        progressBar = new ProgressDialog(this);
         setContentView(R.layout.activity_dish);
         Intent intent = getIntent();
         setDishId(intent.getIntExtra(DISH_ID, 0));
@@ -93,8 +96,7 @@ public class DishActivity extends ActionBarActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         //getActionBar().setDisplayHomeAsUpEnabled(false);
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-        final ProgressDialog progressBar;
-        progressBar = new ProgressDialog(this);
+
         progressBar.setCancelable(false);
         progressBar.setMessage("Consultado información...");
         progressBar.setProgressStyle(ProgressDialog.STYLE_SPINNER);
@@ -264,8 +266,7 @@ public class DishActivity extends ActionBarActivity {
         params.put("data", data);
         params.put("prioridad",chkprio.isChecked());
         params.put("quantity",(String) quantity_spinner.getSelectedItem());
-        final ProgressDialog progressBar;
-        progressBar = new ProgressDialog(this);
+
         progressBar.setCancelable(false);
         progressBar.setMessage("Consultado información...");
         progressBar.setProgressStyle(ProgressDialog.STYLE_SPINNER);
@@ -389,5 +390,22 @@ public class DishActivity extends ActionBarActivity {
 
         }
     }
+
+    @Override
+    public void onPause() {
+        super.onPause();  // Always call the superclass method first
+        progressBar.dismiss();
+    }
+    @Override
+    protected void onStop() {
+        super.onStop();  // Always call the superclass method first
+        progressBar.dismiss();
+    }
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();  // Always call the superclass method first
+        progressBar.dismiss();
+    }
+
 
 }

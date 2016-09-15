@@ -32,11 +32,12 @@ public class MakersDetailActivity extends ActionBarActivity implements AdapterVi
     ListView listView;
     private SwipeRefreshLayout swipeLayout;
     MakersDetailListAdapter makersDetailListAdapter;
-
+    private ProgressDialog progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        progressBar = new ProgressDialog(this);
         setContentView(R.layout.activity_makers_detail);
 
         Intent intent = getIntent();
@@ -85,8 +86,8 @@ public class MakersDetailActivity extends ActionBarActivity implements AdapterVi
         if (id == R.id.action_dispatch_command) {
             RequestParams params = Network.makeAuthParams(this);
             params.put("command_id", getCommandId());
-            final ProgressDialog progressBar;
-            progressBar = new ProgressDialog(this);
+
+
             progressBar.setCancelable(false);
             progressBar.setMessage("Consultado información...");
             progressBar.setProgressStyle(ProgressDialog.STYLE_SPINNER);
@@ -138,8 +139,7 @@ public class MakersDetailActivity extends ActionBarActivity implements AdapterVi
         final MakersDetailActivity me = this;
         RequestParams params = Network.makeAuthParams(this);
         params.put("command_id", getCommandId());
-        final ProgressDialog progressBar;
-        progressBar = new ProgressDialog(this);
+
         progressBar.setCancelable(false);
         progressBar.setMessage("Consultado información...");
         progressBar.setProgressStyle(ProgressDialog.STYLE_SPINNER);
@@ -202,5 +202,21 @@ public class MakersDetailActivity extends ActionBarActivity implements AdapterVi
         makersDetailLoader.execute();
         swipeLayout.setRefreshing(false);
 
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();  // Always call the superclass method first
+        progressBar.dismiss();
+    }
+    @Override
+    protected void onStop() {
+        super.onStop();  // Always call the superclass method first
+        progressBar.dismiss();
+    }
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();  // Always call the superclass method first
+        progressBar.dismiss();
     }
 }

@@ -43,10 +43,12 @@ public class TablesActivity extends ActionBarActivity implements AdapterView.OnI
     private ListView listView;
     TablesListAdapter adapter;
     private SwipeRefreshLayout swipeLayout;
+    private ProgressDialog progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        progressBar = new ProgressDialog(this);
         final TablesActivity mySelf = this;
 
         try {
@@ -250,8 +252,7 @@ public class TablesActivity extends ActionBarActivity implements AdapterView.OnI
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         final TablesActivity mySelf = this;
         final TablesResult tablesResult = (TablesResult) parent.getItemAtPosition(position);
-        final ProgressDialog progressBar;
-        progressBar = new ProgressDialog(this);
+
         progressBar.setCancelable(false);
         progressBar.setMessage("Consultado información...");
         progressBar.setProgressStyle(ProgressDialog.STYLE_SPINNER);
@@ -327,5 +328,21 @@ public class TablesActivity extends ActionBarActivity implements AdapterView.OnI
         System.out.println(">>>>>>>>>>>>>>>>>>OnResume");
 
 
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();  // Always call the superclass method first
+        progressBar.dismiss();
+    }
+    @Override
+    protected void onStop() {
+        super.onStop();  // Always call the superclass method first
+        progressBar.dismiss();
+    }
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();  // Always call the superclass method first
+        progressBar.dismiss();
     }
 }
