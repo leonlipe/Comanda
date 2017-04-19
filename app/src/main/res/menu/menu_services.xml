@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="redleon.net.comanda.activities.ServicesActivity">
 
-    <item android:id="@+id/action_add_person"
+   <!-- <item android:id="@+id/action_add_person"
         android:icon="@drawable/ic_fa_user"
         android:title="@string/action_add_person"
         app:showAsAction="ifRoom" />
@@ -16,7 +16,7 @@
     <item android:id="@+id/action_close_service"
         android:icon="@drawable/ic_action_cancel"
         android:title="@string/action_close_service"
-        app:showAsAction="ifRoom" />
+        app:showAsAction="ifRoom" />-->
 
 
 

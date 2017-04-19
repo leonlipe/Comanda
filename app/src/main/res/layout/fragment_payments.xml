@@ -15,7 +15,7 @@
         android:layout_width="match_parent"
         android:layout_height="0px"
         android:drawSelectorOnTop="false"
-        android:layout_weight="3"
+        android:layout_weight="2.5"
 
         />
 
@@ -31,16 +31,17 @@
     android:layout_width="match_parent"
     android:layout_height="0px"
     android:gravity="right"
-    android:layout_weight="0.5"
+    android:layout_weight="0.6"
     android:text="$0.00"/>
 
     <Button
     android:layout_width="match_parent"
     android:layout_height="0px"
     android:layout_gravity="center"
-    android:layout_weight="0.5"
+    android:layout_weight="0.4"
     android:text="Pagar"
-    android:id="@+id/btn_pay"/>
+    android:id="@+id/btn_pay"
+    android:drawableTop="@drawable/ic_fa_dollar"/>
 
     </LinearLayout>
 

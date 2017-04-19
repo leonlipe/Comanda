@@ -16,14 +16,14 @@
         <TextView android:text="Gran total" android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/lbl_gran_total"
-            android:textSize="30sp"
+            android:textSize="50sp"
             android:textStyle="bold"
             />
 
         <TextView android:text="Gran total" android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/gran_total_text"
-        android:textSize="35sp"
+        android:textSize="45sp"
         />
 
         <Spinner
@@ -50,6 +50,7 @@
         android:focusable="true"
         android:onClick="doPayment"
         android:layout_height="match_parent"
-            android:layout_weight="0.7"/>
+        android:layout_weight="0.7"
+        android:drawableLeft="@drawable/ic_fa_dollar"/>
 
 </LinearLayout>

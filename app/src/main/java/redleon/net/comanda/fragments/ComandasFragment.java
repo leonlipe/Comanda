@@ -8,12 +8,15 @@ import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.ListFragment;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
 import com.loopj.android.http.JsonHttpResponseHandler;
 
 import cz.msebera.android.httpclient.Header;
@@ -21,14 +24,18 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+
 import redleon.net.comanda.R;
 import redleon.net.comanda.activities.ComandHistoryActivity;
 import redleon.net.comanda.activities.MenuActivity;
+import redleon.net.comanda.activities.PaymentActivity;
 import redleon.net.comanda.activities.ServicesActivity;
 import redleon.net.comanda.adapters.ComandasListAdapter;
 import redleon.net.comanda.loaders.ComandasListLoader;
 import redleon.net.comanda.model.ComandasResult;
 import redleon.net.comanda.model.DinersResult;
+import redleon.net.comanda.model.PaymentsResult;
 import redleon.net.comanda.network.HttpClient;
 import redleon.net.comanda.utils.Network;
 
@@ -86,6 +93,8 @@ public class ComandasFragment extends ListFragment implements SwipeRefreshLayout
         comandasListLoader.setServiceId(serviceId);
         comandasListLoader.execute();
 
+
+
     }
 
     @Override
@@ -93,6 +102,8 @@ public class ComandasFragment extends ListFragment implements SwipeRefreshLayout
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_comandas, container, false);
+
+
         swipeLayout = (SwipeRefreshLayout) view.findViewById(R.id.fragment_comandas_swipe_container);
         swipeLayout.setOnRefreshListener(this);
         swipeLayout.setColorSchemeColors(android.R.color.holo_blue_bright,
@@ -222,6 +233,8 @@ public class ComandasFragment extends ListFragment implements SwipeRefreshLayout
 
 
     }
+
+
 
 
 }

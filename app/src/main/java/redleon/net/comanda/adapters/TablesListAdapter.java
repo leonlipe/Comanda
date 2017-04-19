@@ -66,6 +66,8 @@ public class TablesListAdapter extends BaseAdapter {
         ImageView imageIcon = (ImageView) itemView.findViewById(R.id.imageIcon);
 
         String title = mEntries.get(position).getDescription();
+        String resumen = " - Preparando: " + mEntries.get(position).getSent() + " Preparados: " + mEntries.get(position).getPrepared();
+
         titleText.setText(title);
         String description =
                 mEntries.get(position).getStatus_desc();
@@ -76,7 +78,7 @@ public class TablesListAdapter extends BaseAdapter {
             imageIcon.setImageResource(R.drawable.dish_and_fork_ok);
 
         }
-        descriptionText.setText(description);
+        descriptionText.setText(description+resumen);
 
         return itemView;
     }

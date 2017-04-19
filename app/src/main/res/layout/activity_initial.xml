@@ -16,7 +16,8 @@
         android:enabled="true"
         android:focusable="true"
         android:onClick="login"
-        android:layout_weight="50"/>
+        android:layout_weight="50"
+        android:drawableLeft="@drawable/ic_fa_sign_in"/>
 
 
 </LinearLayout>

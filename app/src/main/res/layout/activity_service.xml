@@ -1,13 +1,58 @@
 
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp">
     <android.support.v4.view.ViewPager
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/pager"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" >
-
-
+        android:layout_height="0px"
+        android:layout_weight="3">
     </android.support.v4.view.ViewPager>
 
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="0px"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:layout_weight="0.5"
+        >
+
+    <Button
+        android:layout_weight="1"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:text="Agregar persona"
+        android:id="@+id/btn_add_person"
+        android:drawableLeft="@drawable/ic_fa_userd"
+        />
+
+        <Button
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:text="Enviar comandas"
+            android:id="@+id/btn_send"
+            android:drawableLeft="@drawable/ic_fa_send"
+            />
+
+    <Button
+        android:layout_weight="1"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:text="Cerrar servicio"
+        android:id="@+id/btn_close"
+        android:drawableLeft="@drawable/ic_fa_sign_out"
+        />
 
 
+    </LinearLayout>
 
+</LinearLayout>
