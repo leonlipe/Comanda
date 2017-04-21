@@ -10,6 +10,7 @@
     <string name="action_send_all">Enviar todas las comandas</string>
     <string name="action_add_person">Agregar una persona</string>
     <string name="action_close_service">Cerrar servicio</string>
+    <string name="action_serve_dish">Servir platillos</string>
     <string name="title_activity_service">Servicios</string>
     <string name="dish_notes">Notas</string>
     <string name="dish_size">Tamaño</string>
@@ -58,4 +59,5 @@
     <string name="title_activity_tables_reasign">Reasignar Mesa</string>
     <string name="title_activity_makers_activity_old">MakersActivityOld</string>
     <string name="title_activity_material_mesas">MaterialMesasActivity</string>
+    <string name="title_activity_server_dishes">ServerDishesActivity</string>
 </resources>

@@ -19,5 +19,9 @@
         app:showAsAction="ifRoom" />-->
 
 
+   <item android:id="@+id/action_serve_dishes"
+       android:icon="@drawable/ic_fa_reorder"
+       android:title="@string/action_serve_dish"
+       app:showAsAction="ifRoom" />
 
 </menu>

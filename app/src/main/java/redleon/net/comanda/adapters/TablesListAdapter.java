@@ -66,7 +66,7 @@ public class TablesListAdapter extends BaseAdapter {
         ImageView imageIcon = (ImageView) itemView.findViewById(R.id.imageIcon);
 
         String title = mEntries.get(position).getDescription();
-        String resumen = " - Preparando: " + mEntries.get(position).getSent() + " Preparados: " + mEntries.get(position).getPrepared();
+        String resumen = " - Preparando: " + mEntries.get(position).getSent() + " Preparados: " + mEntries.get(position).getPrepared() + " Servidos: " + mEntries.get(position).getServed();
 
         titleText.setText(title);
         String description =

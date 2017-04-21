@@ -67,7 +67,11 @@
             android:name=".activities.MaterialMenuActivity"
             android:label="@string/title_activity_material_mesas"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".activities.MaterialTablesActivity"></activity>
+        <activity android:name=".activities.MaterialTablesActivity" />
+        <activity
+            android:name=".activities.ServerDishesActivity"
+            android:label="@string/title_activity_server_dishes">
+        </activity>
     </application>
 
 </manifest>

@@ -123,6 +123,14 @@ public class ServicesActivity extends AppCompatActivity implements ActionBar.Tab
             return true;
         }
 
+        if (id == R.id.action_serve_dishes) {
+
+            Intent intent = new Intent(this, ServerDishesActivity.class);
+            intent.putExtra(ServerDishesActivity.SERVICE_ID, getServiceId());
+            startActivity(intent);
+            return true;
+        }
+
        /* if (id == R.id.action_close_service) {
 
             closeService();
