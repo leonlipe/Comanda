@@ -108,13 +108,23 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" exported="" name="gson-2.2.4" level="project" />
     <orderEntry type="library" exported="" name="design-23.4.0" level="project" />
+    <orderEntry type="library" exported="" name="android-iconify-simplelineicons-2.2.2" level="project" />
     <orderEntry type="library" exported="" name="support-annotations-23.4.0" level="project" />
+    <orderEntry type="library" exported="" name="android-iconify-entypo-2.2.2" level="project" />
+    <orderEntry type="library" exported="" name="android-iconify-2.2.2" level="project" />
+    <orderEntry type="library" exported="" name="android-iconify-material-2.2.2" level="project" />
+    <orderEntry type="library" exported="" name="cardview-v7-23.4.0" level="project" />
+    <orderEntry type="library" exported="" name="android-iconify-fontawesome-2.1.1" level="project" />
+    <orderEntry type="library" exported="" name="android-iconify-material-community-2.2.2" level="project" />
     <orderEntry type="library" exported="" name="animated-vector-drawable-23.4.0" level="project" />
+    <orderEntry type="library" exported="" name="android-iconify-ionicons-2.2.2" level="project" />
+    <orderEntry type="library" exported="" name="android-iconify-weathericons-2.2.2" level="project" />
     <orderEntry type="library" exported="" name="support-v4-23.4.0" level="project" />
     <orderEntry type="library" exported="" name="recyclerview-v7-23.4.0" level="project" />
     <orderEntry type="library" exported="" name="httpclient-4.3.6" level="project" />
-    <orderEntry type="library" exported="" name="cardview-v7-23.0.1" level="project" />
     <orderEntry type="library" exported="" name="support-vector-drawable-23.4.0" level="project" />
+    <orderEntry type="library" exported="" name="android-iconify-typicons-2.2.2" level="project" />
+    <orderEntry type="library" exported="" name="android-iconify-meteocons-2.2.2" level="project" />
     <orderEntry type="library" exported="" name="android-async-http-1.4.9" level="project" />
     <orderEntry type="library" exported="" name="appcompat-v7-23.4.0" level="project" />
   </component>

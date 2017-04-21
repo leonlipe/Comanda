@@ -2,16 +2,18 @@ package redleon.net.comanda.activities;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.os.Handler;
 import android.support.v7.app.ActionBar;
 import android.content.Intent;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.loopj.android.http.JsonHttpResponseHandler;
@@ -44,6 +46,25 @@ public class ServicesActivity extends AppCompatActivity implements ActionBar.Tab
     // Tab title
     private String [] tabs = { "Menu", "Comandas", "Pagos", "Facturas" };
     private ProgressDialog progressBar;
+
+    private TextView txtViewCount;
+
+    private  int count = 0;
+    long startTime = 0;
+
+
+
+    //runs without a timer by reposting this handler at the end of the runnable
+    Handler timerHandler = new Handler();
+    Runnable timerRunnable = new Runnable() {
+
+        @Override
+        public void run() {
+            updateServedDishes();
+
+            timerHandler.postDelayed(this, 10000);
+        }
+    };
 
 
     @Override
@@ -99,14 +120,48 @@ public class ServicesActivity extends AppCompatActivity implements ActionBar.Tab
             actionBar.addTab(actionBar.newTab().setText(tab_name).setTabListener(this));
         }
 
-
+        timerHandler.postDelayed(timerRunnable, 0);
     }
 
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_services, menu);
+//        menu.findItem(R.id.action_serve_dishes).setIcon(
+//                new IconDrawable(this, FontAwesomeIcons.fa_coffee)
+//                        .colorRes(R.color.ab_icon)
+//                        .actionBarSize());
+
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_services, menu);
+        final Activity me = this;
+        final View notificaitons = menu.findItem(R.id.action_serve_dishes).getActionView();
+
+        txtViewCount = (TextView) notificaitons.findViewById(R.id.txtCount);
+        updateHotCount(count++);
+        txtViewCount.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(me, ServerDishesActivity.class);
+                intent.putExtra(ServerDishesActivity.SERVICE_ID, getServiceId());
+                startActivity(intent);
+               // return true;
+            }
+        });
+//        txtViewCount.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                updateHotCount(count++);
+//            }
+//        });
+//        notificaitons.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                //    TODO
+//            }
+//        });
+
+
         return true;
     }
 
@@ -421,5 +476,60 @@ public class ServicesActivity extends AppCompatActivity implements ActionBar.Tab
         },getBaseContext());
     }
 
+    public void updateHotCount(final int new_hot_number) {
+        count = new_hot_number;
+        if (count < 0) return;
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                if (count == 0)
+                    txtViewCount.setVisibility(View.GONE);
+                else {
+                    txtViewCount.setVisibility(View.VISIBLE);
+                    txtViewCount.setText(Integer.toString(count));
+                    // supportInvalidateOptionsMenu();
+                }
+            }
+        });
+    }
+
+    public void updateServedDishes(){
+        final Activity me = this;
+        HttpClient.get("/services/get_done_order_dishes_count/" + serviceId, Network.makeAuthParams(me), new JsonHttpResponseHandler() {
+            // @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                progressBar.dismiss();
+                // Pull out the first event on the public timeline
+
+                try {
+
+                    String sResponse = response.getString("status");
+                    // Do something with the response
+                    //System.out.println(response.getJSONObject("service").getInt("id"));
+                    if (sResponse.equals("ok")) {
+                        // Update count
+
+                        updateHotCount(Integer.valueOf(response.getString("order_dishes_count")));
+                    }else{
+                        Toast.makeText(me,
+                                sResponse,
+                                Toast.LENGTH_SHORT).show();
+                    }
+
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject jsonObject){
+                progressBar.dismiss();
+                Toast.makeText(me, "Ocurrio un error inesperado:"+throwable.getMessage(), Toast.LENGTH_LONG).show();
+
+            }
+
+
+        },me.getBaseContext());
+    }
 
 }
