@@ -8,6 +8,7 @@ public class JsonMakersCommandItemResult {
     private MakersCommandItem[] comandas;
     private Place place;
     private String status;
+    private String started;
 
     public MakersCommandItem[] getComandas() {
         return comandas;
@@ -31,5 +32,13 @@ public class JsonMakersCommandItemResult {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public String getStarted() {
+        return started;
+    }
+
+    public void setStarted(String started) {
+        this.started = started;
     }
 }

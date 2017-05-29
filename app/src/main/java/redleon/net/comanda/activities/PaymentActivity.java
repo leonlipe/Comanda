@@ -49,26 +49,26 @@ public class PaymentActivity extends ActionBarActivity {
       //  setGranTotal(new BigDecimal(intent.getStringExtra(GRAN_TOTAL)));
         setServiceId(intent.getIntExtra(SERVICE_ID,0));
 
-        Spinner spinner = (Spinner) findViewById(R.id.payment_method_spin);
+        //Spinner spinner = (Spinner) findViewById(R.id.payment_method_spin);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                 R.array.payment_method_array, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(adapter);
+        //spinner.setAdapter(adapter);
 
         TextView granTotalText = (TextView) findViewById(R.id.gran_total_text);
         granTotalText.setText(intent.getStringExtra(GRAN_TOTAL));
-        Spinner payment_method = (Spinner) findViewById(R.id.payment_method_spin);
-        payment_method.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                setPaymentMethod(parent.getItemAtPosition(position).toString());
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
+//        Spinner payment_method = (Spinner) findViewById(R.id.payment_method_spin);
+//        payment_method.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+//            @Override
+//            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+//                setPaymentMethod(parent.getItemAtPosition(position).toString());
+//            }
+//
+//            @Override
+//            public void onNothingSelected(AdapterView<?> parent) {
+//
+//            }
+//        });
     }
 
     @Override

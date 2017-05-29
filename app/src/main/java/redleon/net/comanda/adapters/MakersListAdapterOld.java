@@ -61,7 +61,7 @@ public class MakersListAdapterOld extends BaseAdapter {
         TextView name_waitres_text = (TextView) itemView.findViewById(R.id.command_waitres);
         TextView comand_table_text = (TextView) itemView.findViewById(R.id.command_table);
 
-        String command_number = "Comanda no "+mEntries.get(position).getId().toString();
+        String command_number = "Comanda no "+mEntries.get(position).getId().toString() + " del " +mEntries.get(position).getStarted();
         String name_waitres = mEntries.get(position).getName();
 
 

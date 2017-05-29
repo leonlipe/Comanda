@@ -9,6 +9,7 @@ public class MakersCommandItem {
     private String name;
     private Integer status;
     private String table;
+    private String started;
     private Boolean priority;
 
     public Integer getId() {
@@ -49,5 +50,13 @@ public class MakersCommandItem {
 
     public void setPriority(Boolean priority) {
         this.priority = priority;
+    }
+
+    public String getStarted() {
+        return started;
+    }
+
+    public void setStarted(String started) {
+        this.started = started;
     }
 }
